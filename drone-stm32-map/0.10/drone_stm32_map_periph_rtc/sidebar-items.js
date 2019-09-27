@@ -1,0 +1,1 @@
+initSidebarItems({"macro":[["periph_rtc","Extracts RTC register tokens."]],"struct":[["RtcPeriph","RTC peripheral."]]});

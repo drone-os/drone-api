@@ -1,0 +1,433 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `periph_gpio_a` macro in crate `drone_stm32_map_periph_gpio`."><meta name="keywords" content="rust, rustlang, rust-lang, periph_gpio_a"><title>drone_stm32_map_periph_gpio::periph_gpio_a - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc macro"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../drone_stm32_map_periph_gpio/index.html'><div class='logo-container'><img src='../rust-logo.png' alt='logo'></div></a><div class="sidebar-elems"><p class='location'><a href='index.html'>drone_stm32_map_periph_gpio</a></p><script>window.sidebarCurrent = {name: 'periph_gpio_a', ty: 'macro', relpath: ''};</script><script defer src="sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/drone_stm32_map_periph_gpio/lib.rs.html#453-880' title='goto source code'>[src]</a></span><span class='in-band'>Macro <a href='index.html'>drone_stm32_map_periph_gpio</a>::<wbr><a class="macro" href=''>periph_gpio_a</a></span></h1><div class="docblock type-decl hidden-by-usual-hider"><div class="example-wrap"><pre class="rust macro">
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">periph_gpio_a</span> {
+    <span class="ident">periph</span>::<span class="macro">map</span><span class="macro">!</span> {
+            <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">port_macro_doc</span>]</span>
+            <span class="kw">pub</span> <span class="kw">macro</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">port_macro</span>;
+
+            <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">port_ty_doc</span>]</span>
+            <span class="kw">pub</span> <span class="kw">struct</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">port_ty</span>;
+
+            <span class="kw">impl</span> <span class="ident">GpioPortMap</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">port_ty</span> {}
+
+            <span class="ident">drone_stm32_map_pieces</span>::<span class="ident">reg</span>;
+            <span class="kw">crate</span>;
+
+            <span class="ident">RCC</span> {
+                <span class="ident">BUSENR</span> {
+                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">busenr</span> <span class="ident">Shared</span>;
+                    <span class="ident">GPIOEN</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">gpioen</span> }
+                }
+                <span class="ident">BUSRSTR</span> {
+                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">busrstr</span> <span class="ident">Shared</span>;
+                    <span class="ident">GPIORST</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">gpiorst</span> }
+                }
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x1&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x2&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x3&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x6&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r7&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r9&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s7&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s9&quot;</span>
+                ))]</span>
+                <span class="ident">BUSSMENR</span> {
+                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bussmenr</span> <span class="ident">Shared</span>;
+                    <span class="ident">GPIOSMEN</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">gpiosmen</span> }
+                }
+            }
+
+            <span class="ident">GPIO</span> {
+                <span class="macro-nonterminal">$</span><span class="macro-nonterminal">gpio</span>;
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x1&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x2&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x3&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x6&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r7&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r9&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s7&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s9&quot;</span>
+                ))]</span>
+                <span class="ident">AFRL</span> {
+                    <span class="ident">AFRL</span>;
+                    <span class="ident">AFRL0</span> { <span class="ident">AFRL0</span> }
+                    <span class="ident">AFRL1</span> { <span class="ident">AFRL1</span> }
+                    <span class="ident">AFRL2</span> { <span class="ident">AFRL2</span> }
+                    <span class="ident">AFRL3</span> { <span class="ident">AFRL3</span> }
+                    <span class="ident">AFRL4</span> { <span class="ident">AFRL4</span> }
+                    <span class="ident">AFRL5</span> { <span class="ident">AFRL5</span> }
+                    <span class="ident">AFRL6</span> { <span class="ident">AFRL6</span> }
+                    <span class="ident">AFRL7</span> { <span class="ident">AFRL7</span> }
+                }
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x1&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x2&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x3&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x6&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r7&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r9&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s7&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s9&quot;</span>
+                ))]</span>
+                <span class="ident">AFRH</span> {
+                    <span class="ident">AFRH</span>;
+                    <span class="ident">AFRH8</span> { <span class="ident">AFRH8</span> }
+                    <span class="ident">AFRH9</span> { <span class="ident">AFRH9</span> }
+                    <span class="ident">AFRH10</span> { <span class="ident">AFRH10</span> }
+                    <span class="ident">AFRH11</span> { <span class="ident">AFRH11</span> }
+                    <span class="ident">AFRH12</span> { <span class="ident">AFRH12</span> }
+                    <span class="ident">AFRH13</span> { <span class="ident">AFRH13</span> }
+                    <span class="ident">AFRH14</span> { <span class="ident">AFRH14</span> }
+                    <span class="ident">AFRH15</span> { <span class="ident">AFRH15</span> }
+                }
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x6&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r7&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r9&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s7&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s9&quot;</span>
+                ))]</span>
+                <span class="ident">ASCR</span> {
+                    $(
+                        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ascr</span> <span class="prelude-ty">Option</span>;
+                        <span class="ident">ASC0</span> { <span class="ident">ASC0</span> }
+                        <span class="ident">ASC1</span> { <span class="ident">ASC1</span> }
+                        <span class="ident">ASC2</span> { <span class="ident">ASC2</span> }
+                        <span class="ident">ASC3</span> { <span class="ident">ASC3</span> }
+                        <span class="ident">ASC4</span> { <span class="ident">ASC4</span> }
+                        <span class="ident">ASC5</span> { <span class="ident">ASC5</span> }
+                        <span class="ident">ASC6</span> { <span class="ident">ASC6</span> }
+                        <span class="ident">ASC7</span> { <span class="ident">ASC7</span> }
+                        <span class="ident">ASC8</span> { <span class="ident">ASC8</span> }
+                        <span class="ident">ASC9</span> { <span class="ident">ASC9</span> }
+                        <span class="ident">ASC10</span> { <span class="ident">ASC10</span> }
+                        <span class="ident">ASC11</span> { <span class="ident">ASC11</span> }
+                        <span class="ident">ASC12</span> { <span class="ident">ASC12</span> }
+                        <span class="ident">ASC13</span> { <span class="ident">ASC13</span> }
+                        <span class="ident">ASC14</span> { <span class="ident">ASC14</span> }
+                        <span class="ident">ASC15</span> { <span class="ident">ASC15</span> }
+                    )<span class="op">*</span>
+                }
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32f100&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32f101&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32f102&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32f103&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32f107&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x6&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r7&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r9&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s7&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s9&quot;</span>
+                ))]</span>
+                <span class="ident">BRR</span> {
+                    <span class="ident">BRR</span>;
+                    <span class="ident">BR0</span> { <span class="ident">BR0</span> }
+                    <span class="ident">BR1</span> { <span class="ident">BR1</span> }
+                    <span class="ident">BR2</span> { <span class="ident">BR2</span> }
+                    <span class="ident">BR3</span> { <span class="ident">BR3</span> }
+                    <span class="ident">BR4</span> { <span class="ident">BR4</span> }
+                    <span class="ident">BR5</span> { <span class="ident">BR5</span> }
+                    <span class="ident">BR6</span> { <span class="ident">BR6</span> }
+                    <span class="ident">BR7</span> { <span class="ident">BR7</span> }
+                    <span class="ident">BR8</span> { <span class="ident">BR8</span> }
+                    <span class="ident">BR9</span> { <span class="ident">BR9</span> }
+                    <span class="ident">BR10</span> { <span class="ident">BR10</span> }
+                    <span class="ident">BR11</span> { <span class="ident">BR11</span> }
+                    <span class="ident">BR12</span> { <span class="ident">BR12</span> }
+                    <span class="ident">BR13</span> { <span class="ident">BR13</span> }
+                    <span class="ident">BR14</span> { <span class="ident">BR14</span> }
+                    <span class="ident">BR15</span> { <span class="ident">BR15</span> }
+                }
+                <span class="ident">BSRR</span> {
+                    <span class="ident">BSRR</span>;
+                    <span class="ident">BR0</span> { <span class="ident">BR0</span> }
+                    <span class="ident">BR1</span> { <span class="ident">BR1</span> }
+                    <span class="ident">BR2</span> { <span class="ident">BR2</span> }
+                    <span class="ident">BR3</span> { <span class="ident">BR3</span> }
+                    <span class="ident">BR4</span> { <span class="ident">BR4</span> }
+                    <span class="ident">BR5</span> { <span class="ident">BR5</span> }
+                    <span class="ident">BR6</span> { <span class="ident">BR6</span> }
+                    <span class="ident">BR7</span> { <span class="ident">BR7</span> }
+                    <span class="ident">BR8</span> { <span class="ident">BR8</span> }
+                    <span class="ident">BR9</span> { <span class="ident">BR9</span> }
+                    <span class="ident">BR10</span> { <span class="ident">BR10</span> }
+                    <span class="ident">BR11</span> { <span class="ident">BR11</span> }
+                    <span class="ident">BR12</span> { <span class="ident">BR12</span> }
+                    <span class="ident">BR13</span> { <span class="ident">BR13</span> }
+                    <span class="ident">BR14</span> { <span class="ident">BR14</span> }
+                    <span class="ident">BR15</span> { <span class="ident">BR15</span> }
+                    <span class="ident">BS0</span> { <span class="ident">BS0</span> }
+                    <span class="ident">BS1</span> { <span class="ident">BS1</span> }
+                    <span class="ident">BS2</span> { <span class="ident">BS2</span> }
+                    <span class="ident">BS3</span> { <span class="ident">BS3</span> }
+                    <span class="ident">BS4</span> { <span class="ident">BS4</span> }
+                    <span class="ident">BS5</span> { <span class="ident">BS5</span> }
+                    <span class="ident">BS6</span> { <span class="ident">BS6</span> }
+                    <span class="ident">BS7</span> { <span class="ident">BS7</span> }
+                    <span class="ident">BS8</span> { <span class="ident">BS8</span> }
+                    <span class="ident">BS9</span> { <span class="ident">BS9</span> }
+                    <span class="ident">BS10</span> { <span class="ident">BS10</span> }
+                    <span class="ident">BS11</span> { <span class="ident">BS11</span> }
+                    <span class="ident">BS12</span> { <span class="ident">BS12</span> }
+                    <span class="ident">BS13</span> { <span class="ident">BS13</span> }
+                    <span class="ident">BS14</span> { <span class="ident">BS14</span> }
+                    <span class="ident">BS15</span> { <span class="ident">BS15</span> }
+                }
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32f100&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32f101&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32f102&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32f103&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32f107&quot;</span>
+                ))]</span>
+                <span class="ident">CRL</span> {
+                    <span class="ident">CRL</span>;
+                    <span class="ident">CNF0</span> { <span class="ident">CNF0</span> }
+                    <span class="ident">CNF1</span> { <span class="ident">CNF1</span> }
+                    <span class="ident">CNF2</span> { <span class="ident">CNF2</span> }
+                    <span class="ident">CNF3</span> { <span class="ident">CNF3</span> }
+                    <span class="ident">CNF4</span> { <span class="ident">CNF4</span> }
+                    <span class="ident">CNF5</span> { <span class="ident">CNF5</span> }
+                    <span class="ident">CNF6</span> { <span class="ident">CNF6</span> }
+                    <span class="ident">CNF7</span> { <span class="ident">CNF7</span> }
+                    <span class="ident">MODE0</span> { <span class="ident">MODE0</span> }
+                    <span class="ident">MODE1</span> { <span class="ident">MODE1</span> }
+                    <span class="ident">MODE2</span> { <span class="ident">MODE2</span> }
+                    <span class="ident">MODE3</span> { <span class="ident">MODE3</span> }
+                    <span class="ident">MODE4</span> { <span class="ident">MODE4</span> }
+                    <span class="ident">MODE5</span> { <span class="ident">MODE5</span> }
+                    <span class="ident">MODE6</span> { <span class="ident">MODE6</span> }
+                    <span class="ident">MODE7</span> { <span class="ident">MODE7</span> }
+                }
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32f100&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32f101&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32f102&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32f103&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32f107&quot;</span>
+                ))]</span>
+                <span class="ident">CRH</span> {
+                    <span class="ident">CRH</span>;
+                    <span class="ident">CNF8</span> { <span class="ident">CNF8</span> }
+                    <span class="ident">CNF9</span> { <span class="ident">CNF9</span> }
+                    <span class="ident">CNF10</span> { <span class="ident">CNF10</span> }
+                    <span class="ident">CNF11</span> { <span class="ident">CNF11</span> }
+                    <span class="ident">CNF12</span> { <span class="ident">CNF12</span> }
+                    <span class="ident">CNF13</span> { <span class="ident">CNF13</span> }
+                    <span class="ident">CNF14</span> { <span class="ident">CNF14</span> }
+                    <span class="ident">CNF15</span> { <span class="ident">CNF15</span> }
+                    <span class="ident">MODE8</span> { <span class="ident">MODE8</span> }
+                    <span class="ident">MODE9</span> { <span class="ident">MODE9</span> }
+                    <span class="ident">MODE10</span> { <span class="ident">MODE10</span> }
+                    <span class="ident">MODE11</span> { <span class="ident">MODE11</span> }
+                    <span class="ident">MODE12</span> { <span class="ident">MODE12</span> }
+                    <span class="ident">MODE13</span> { <span class="ident">MODE13</span> }
+                    <span class="ident">MODE14</span> { <span class="ident">MODE14</span> }
+                    <span class="ident">MODE15</span> { <span class="ident">MODE15</span> }
+                }
+                <span class="ident">IDR</span> {
+                    <span class="ident">IDR</span>;
+                    <span class="ident">IDR0</span> { <span class="ident">IDR0</span> }
+                    <span class="ident">IDR1</span> { <span class="ident">IDR1</span> }
+                    <span class="ident">IDR2</span> { <span class="ident">IDR2</span> }
+                    <span class="ident">IDR3</span> { <span class="ident">IDR3</span> }
+                    <span class="ident">IDR4</span> { <span class="ident">IDR4</span> }
+                    <span class="ident">IDR5</span> { <span class="ident">IDR5</span> }
+                    <span class="ident">IDR6</span> { <span class="ident">IDR6</span> }
+                    <span class="ident">IDR7</span> { <span class="ident">IDR7</span> }
+                    <span class="ident">IDR8</span> { <span class="ident">IDR8</span> }
+                    <span class="ident">IDR9</span> { <span class="ident">IDR9</span> }
+                    <span class="ident">IDR10</span> { <span class="ident">IDR10</span> }
+                    <span class="ident">IDR11</span> { <span class="ident">IDR11</span> }
+                    <span class="ident">IDR12</span> { <span class="ident">IDR12</span> }
+                    <span class="ident">IDR13</span> { <span class="ident">IDR13</span> }
+                    <span class="ident">IDR14</span> { <span class="ident">IDR14</span> }
+                    <span class="ident">IDR15</span> { <span class="ident">IDR15</span> }
+                }
+                <span class="ident">LCKR</span> {
+                    <span class="ident">LCKR</span>;
+                    <span class="ident">LCK0</span> { <span class="ident">LCK0</span> }
+                    <span class="ident">LCK1</span> { <span class="ident">LCK1</span> }
+                    <span class="ident">LCK2</span> { <span class="ident">LCK2</span> }
+                    <span class="ident">LCK3</span> { <span class="ident">LCK3</span> }
+                    <span class="ident">LCK4</span> { <span class="ident">LCK4</span> }
+                    <span class="ident">LCK5</span> { <span class="ident">LCK5</span> }
+                    <span class="ident">LCK6</span> { <span class="ident">LCK6</span> }
+                    <span class="ident">LCK7</span> { <span class="ident">LCK7</span> }
+                    <span class="ident">LCK8</span> { <span class="ident">LCK8</span> }
+                    <span class="ident">LCK9</span> { <span class="ident">LCK9</span> }
+                    <span class="ident">LCK10</span> { <span class="ident">LCK10</span> }
+                    <span class="ident">LCK11</span> { <span class="ident">LCK11</span> }
+                    <span class="ident">LCK12</span> { <span class="ident">LCK12</span> }
+                    <span class="ident">LCK13</span> { <span class="ident">LCK13</span> }
+                    <span class="ident">LCK14</span> { <span class="ident">LCK14</span> }
+                    <span class="ident">LCK15</span> { <span class="ident">LCK15</span> }
+                    <span class="ident">LCKK</span> { <span class="ident">LCKK</span> }
+                }
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x1&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x2&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x3&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x6&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r7&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r9&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s7&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s9&quot;</span>
+                ))]</span>
+                <span class="ident">MODER</span> {
+                    <span class="ident">MODER</span>;
+                    <span class="ident">MODER0</span> { <span class="ident">MODER0</span> }
+                    <span class="ident">MODER1</span> { <span class="ident">MODER1</span> }
+                    <span class="ident">MODER2</span> { <span class="ident">MODER2</span> }
+                    <span class="ident">MODER3</span> { <span class="ident">MODER3</span> }
+                    <span class="ident">MODER4</span> { <span class="ident">MODER4</span> }
+                    <span class="ident">MODER5</span> { <span class="ident">MODER5</span> }
+                    <span class="ident">MODER6</span> { <span class="ident">MODER6</span> }
+                    <span class="ident">MODER7</span> { <span class="ident">MODER7</span> }
+                    <span class="ident">MODER8</span> { <span class="ident">MODER8</span> }
+                    <span class="ident">MODER9</span> { <span class="ident">MODER9</span> }
+                    <span class="ident">MODER10</span> { <span class="ident">MODER10</span> }
+                    <span class="ident">MODER11</span> { <span class="ident">MODER11</span> }
+                    <span class="ident">MODER12</span> { <span class="ident">MODER12</span> }
+                    <span class="ident">MODER13</span> { <span class="ident">MODER13</span> }
+                    <span class="ident">MODER14</span> { <span class="ident">MODER14</span> }
+                    <span class="ident">MODER15</span> { <span class="ident">MODER15</span> }
+                }
+                <span class="ident">ODR</span> {
+                    <span class="ident">ODR</span>;
+                    <span class="ident">ODR0</span> { <span class="ident">ODR0</span> }
+                    <span class="ident">ODR1</span> { <span class="ident">ODR1</span> }
+                    <span class="ident">ODR2</span> { <span class="ident">ODR2</span> }
+                    <span class="ident">ODR3</span> { <span class="ident">ODR3</span> }
+                    <span class="ident">ODR4</span> { <span class="ident">ODR4</span> }
+                    <span class="ident">ODR5</span> { <span class="ident">ODR5</span> }
+                    <span class="ident">ODR6</span> { <span class="ident">ODR6</span> }
+                    <span class="ident">ODR7</span> { <span class="ident">ODR7</span> }
+                    <span class="ident">ODR8</span> { <span class="ident">ODR8</span> }
+                    <span class="ident">ODR9</span> { <span class="ident">ODR9</span> }
+                    <span class="ident">ODR10</span> { <span class="ident">ODR10</span> }
+                    <span class="ident">ODR11</span> { <span class="ident">ODR11</span> }
+                    <span class="ident">ODR12</span> { <span class="ident">ODR12</span> }
+                    <span class="ident">ODR13</span> { <span class="ident">ODR13</span> }
+                    <span class="ident">ODR14</span> { <span class="ident">ODR14</span> }
+                    <span class="ident">ODR15</span> { <span class="ident">ODR15</span> }
+                }
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x1&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x2&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x3&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x6&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r7&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r9&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s7&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s9&quot;</span>
+                ))]</span>
+                <span class="ident">OSPEEDR</span> {
+                    <span class="ident">OSPEEDR</span>;
+                    <span class="ident">OSPEEDR0</span> { <span class="ident">OSPEEDR0</span> }
+                    <span class="ident">OSPEEDR1</span> { <span class="ident">OSPEEDR1</span> }
+                    <span class="ident">OSPEEDR2</span> { <span class="ident">OSPEEDR2</span> }
+                    <span class="ident">OSPEEDR3</span> { <span class="ident">OSPEEDR3</span> }
+                    <span class="ident">OSPEEDR4</span> { <span class="ident">OSPEEDR4</span> }
+                    <span class="ident">OSPEEDR5</span> { <span class="ident">OSPEEDR5</span> }
+                    <span class="ident">OSPEEDR6</span> { <span class="ident">OSPEEDR6</span> }
+                    <span class="ident">OSPEEDR7</span> { <span class="ident">OSPEEDR7</span> }
+                    <span class="ident">OSPEEDR8</span> { <span class="ident">OSPEEDR8</span> }
+                    <span class="ident">OSPEEDR9</span> { <span class="ident">OSPEEDR9</span> }
+                    <span class="ident">OSPEEDR10</span> { <span class="ident">OSPEEDR10</span> }
+                    <span class="ident">OSPEEDR11</span> { <span class="ident">OSPEEDR11</span> }
+                    <span class="ident">OSPEEDR12</span> { <span class="ident">OSPEEDR12</span> }
+                    <span class="ident">OSPEEDR13</span> { <span class="ident">OSPEEDR13</span> }
+                    <span class="ident">OSPEEDR14</span> { <span class="ident">OSPEEDR14</span> }
+                    <span class="ident">OSPEEDR15</span> { <span class="ident">OSPEEDR15</span> }
+                }
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x1&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x2&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x3&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x6&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r7&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r9&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s7&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s9&quot;</span>
+                ))]</span>
+                <span class="ident">OTYPER</span> {
+                    <span class="ident">OTYPER</span>;
+                    <span class="ident">OT0</span> { <span class="ident">OT0</span> }
+                    <span class="ident">OT1</span> { <span class="ident">OT1</span> }
+                    <span class="ident">OT2</span> { <span class="ident">OT2</span> }
+                    <span class="ident">OT3</span> { <span class="ident">OT3</span> }
+                    <span class="ident">OT4</span> { <span class="ident">OT4</span> }
+                    <span class="ident">OT5</span> { <span class="ident">OT5</span> }
+                    <span class="ident">OT6</span> { <span class="ident">OT6</span> }
+                    <span class="ident">OT7</span> { <span class="ident">OT7</span> }
+                    <span class="ident">OT8</span> { <span class="ident">OT8</span> }
+                    <span class="ident">OT9</span> { <span class="ident">OT9</span> }
+                    <span class="ident">OT10</span> { <span class="ident">OT10</span> }
+                    <span class="ident">OT11</span> { <span class="ident">OT11</span> }
+                    <span class="ident">OT12</span> { <span class="ident">OT12</span> }
+                    <span class="ident">OT13</span> { <span class="ident">OT13</span> }
+                    <span class="ident">OT14</span> { <span class="ident">OT14</span> }
+                    <span class="ident">OT15</span> { <span class="ident">OT15</span> }
+                }
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x1&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x2&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x3&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x6&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r7&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4r9&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s5&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s7&quot;</span>,
+                    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4s9&quot;</span>
+                ))]</span>
+                <span class="ident">PUPDR</span> {
+                    <span class="ident">PUPDR</span>;
+                    <span class="ident">PUPDR0</span> { <span class="ident">PUPDR0</span> }
+                    <span class="ident">PUPDR1</span> { <span class="ident">PUPDR1</span> }
+                    <span class="ident">PUPDR2</span> { <span class="ident">PUPDR2</span> }
+                    <span class="ident">PUPDR3</span> { <span class="ident">PUPDR3</span> }
+                    <span class="ident">PUPDR4</span> { <span class="ident">PUPDR4</span> }
+                    <span class="ident">PUPDR5</span> { <span class="ident">PUPDR5</span> }
+                    <span class="ident">PUPDR6</span> { <span class="ident">PUPDR6</span> }
+                    <span class="ident">PUPDR7</span> { <span class="ident">PUPDR7</span> }
+                    <span class="ident">PUPDR8</span> { <span class="ident">PUPDR8</span> }
+                    <span class="ident">PUPDR9</span> { <span class="ident">PUPDR9</span> }
+                    <span class="ident">PUPDR10</span> { <span class="ident">PUPDR10</span> }
+                    <span class="ident">PUPDR11</span> { <span class="ident">PUPDR11</span> }
+                    <span class="ident">PUPDR12</span> { <span class="ident">PUPDR12</span> }
+                    <span class="ident">PUPDR13</span> { <span class="ident">PUPDR13</span> }
+                    <span class="ident">PUPDR14</span> { <span class="ident">PUPDR14</span> }
+                    <span class="ident">PUPDR15</span> { <span class="ident">PUPDR15</span> }
+                }
+            }
+        } <span class="op">=</span><span class="op">&gt;</span> { ... };
+}</pre></div>
+</div><div class='docblock'><p>Extracts GPIO port A register tokens.</p>
+</div></section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../";window.currentCrate = "drone_stm32_map_periph_gpio";</script><script src="../aliases.js"></script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>

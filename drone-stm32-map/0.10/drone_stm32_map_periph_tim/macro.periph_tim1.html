@@ -1,0 +1,278 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `periph_tim1` macro in crate `drone_stm32_map_periph_tim`."><meta name="keywords" content="rust, rustlang, rust-lang, periph_tim1"><title>drone_stm32_map_periph_tim::periph_tim1 - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc macro"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../drone_stm32_map_periph_tim/index.html'><div class='logo-container'><img src='../rust-logo.png' alt='logo'></div></a><div class="sidebar-elems"><p class='location'><a href='index.html'>drone_stm32_map_periph_tim</a></p><script>window.sidebarCurrent = {name: 'periph_tim1', ty: 'macro', relpath: ''};</script><script defer src="sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/drone_stm32_map_periph_tim/advanced.rs.html#289-561' title='goto source code'>[src]</a></span><span class='in-band'>Macro <a href='index.html'>drone_stm32_map_periph_tim</a>::<wbr><a class="macro" href=''>periph_tim1</a></span></h1><div class="docblock type-decl hidden-by-usual-hider"><div class="example-wrap"><pre class="rust macro">
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">periph_tim1</span> {
+    <span class="ident">periph</span>::<span class="macro">map</span><span class="macro">!</span> {
+            <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tim_macro_doc</span>]</span>
+            <span class="kw">pub</span> <span class="kw">macro</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tim_macro</span>;
+
+            <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tim_ty_doc</span>]</span>
+            <span class="kw">pub</span> <span class="kw">struct</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tim_ty</span>;
+
+            <span class="kw">impl</span> <span class="ident">AdvancedTimMap</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tim_ty</span> {}
+
+            <span class="ident">drone_stm32_map_pieces</span>::<span class="ident">reg</span>;
+            <span class="kw">crate</span>::<span class="ident">advanced</span>;
+
+            <span class="ident">RCC</span> {
+                <span class="ident">BUSENR</span> {
+                    <span class="ident">APB2ENR</span> <span class="ident">Shared</span>;
+                    <span class="ident">TIMEN</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">timen</span> }
+                }
+                <span class="ident">BUSRSTR</span> {
+                    <span class="ident">APB2RSTR</span> <span class="ident">Shared</span>;
+                    <span class="ident">TIMRST</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">timrst</span> }
+                }
+                <span class="ident">BUSSMENR</span> {
+                    <span class="ident">APB2SMENR</span> <span class="ident">Shared</span>;
+                    <span class="ident">TIMSMEN</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">timsmen</span> }
+                }
+            }
+            <span class="ident">TIM</span> {
+                <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tim</span>;
+                <span class="ident">CR1</span> {
+                    <span class="ident">CR1</span>;
+                    <span class="ident">ARPE</span> { <span class="ident">ARPE</span> }
+                    <span class="ident">CEN</span> { <span class="ident">CEN</span> }
+                    <span class="ident">CKD</span> { <span class="ident">CKD</span> }
+                    <span class="ident">CMS</span> { <span class="ident">CMS</span> }
+                    <span class="ident">DIR</span> { <span class="ident">DIR</span> }
+                    <span class="ident">OPM</span> { <span class="ident">OPM</span> }
+                    <span class="ident">UDIS</span> { <span class="ident">UDIS</span> }
+                    <span class="ident">URS</span> { <span class="ident">URS</span> }
+                }
+                <span class="ident">CR2</span> {
+                    <span class="ident">CR2</span>;
+                    <span class="ident">CCDS</span> { <span class="ident">CCDS</span> }
+                    <span class="ident">CCPC</span> { <span class="ident">CCPC</span> }
+                    <span class="ident">CCUS</span> { <span class="ident">CCUS</span> }
+                    <span class="ident">MMS</span> { <span class="ident">MMS</span> }
+                    <span class="ident">OIS1N</span> { <span class="ident">OIS1N</span> }
+                    <span class="ident">OIS1</span> { <span class="ident">OIS1</span> }
+                    <span class="ident">OIS2N</span> { <span class="ident">OIS2N</span> }
+                    <span class="ident">OIS2</span> { <span class="ident">OIS2</span> }
+                    <span class="ident">OIS3N</span> { <span class="ident">OIS3N</span> }
+                    <span class="ident">OIS3</span> { <span class="ident">OIS3</span> }
+                    <span class="ident">OIS4</span> { <span class="ident">OIS4</span> }
+                    <span class="ident">TI1S</span> { <span class="ident">TI1S</span> }
+                }
+                <span class="ident">SMCR</span> {
+                    <span class="ident">SMCR</span>;
+                    <span class="ident">ECE</span> { <span class="ident">ECE</span> }
+                    <span class="ident">ETF</span> { <span class="ident">ETF</span> }
+                    <span class="ident">ETP</span> { <span class="ident">ETP</span> }
+                    <span class="ident">ETPS</span> { <span class="ident">ETPS</span> }
+                    <span class="ident">MSM</span> { <span class="ident">MSM</span> }
+                    <span class="ident">SMS</span> { <span class="ident">SMS</span> }
+                    <span class="ident">TS</span> { <span class="ident">TS</span> }
+                }
+                <span class="ident">DIER</span> {
+                    <span class="ident">DIER</span>;
+                    <span class="ident">BIE</span> { <span class="ident">BIE</span> }
+                    <span class="ident">CC1DE</span> { <span class="ident">CC1DE</span> }
+                    <span class="ident">CC1IE</span> { <span class="ident">CC1IE</span> }
+                    <span class="ident">CC2DE</span> { <span class="ident">CC2DE</span> }
+                    <span class="ident">CC2IE</span> { <span class="ident">CC2IE</span> }
+                    <span class="ident">CC3DE</span> { <span class="ident">CC3DE</span> }
+                    <span class="ident">CC3IE</span> { <span class="ident">CC3IE</span> }
+                    <span class="ident">CC4DE</span> { <span class="ident">CC4DE</span> }
+                    <span class="ident">CC4IE</span> { <span class="ident">CC4IE</span> }
+                    <span class="ident">COMDE</span> { <span class="ident">COMDE</span> }
+                    <span class="ident">COMIE</span> { <span class="ident">COMIE</span> }
+                    <span class="ident">TDE</span> { <span class="ident">TDE</span> }
+                    <span class="ident">TIE</span> { <span class="ident">TIE</span> }
+                    <span class="ident">UDE</span> { <span class="ident">UDE</span> }
+                    <span class="ident">UIE</span> { <span class="ident">UIE</span> }
+                }
+                <span class="ident">SR</span> {
+                    <span class="ident">SR</span>;
+                    <span class="ident">BIF</span> { <span class="ident">BIF</span> }
+                    <span class="ident">CC1IF</span> { <span class="ident">CC1IF</span> }
+                    <span class="ident">CC1OF</span> { <span class="ident">CC1OF</span> }
+                    <span class="ident">CC2IF</span> { <span class="ident">CC2IF</span> }
+                    <span class="ident">CC2OF</span> { <span class="ident">CC2OF</span> }
+                    <span class="ident">CC3IF</span> { <span class="ident">CC3IF</span> }
+                    <span class="ident">CC3OF</span> { <span class="ident">CC3OF</span> }
+                    <span class="ident">CC4IF</span> { <span class="ident">CC4IF</span> }
+                    <span class="ident">CC4OF</span> { <span class="ident">CC4OF</span> }
+                    <span class="ident">COMIF</span> { <span class="ident">COMIF</span> }
+                    <span class="ident">TIF</span> { <span class="ident">TIF</span> }
+                    <span class="ident">UIF</span> { <span class="ident">UIF</span> }
+                }
+                <span class="ident">EGR</span> {
+                    <span class="ident">EGR</span>;
+                    <span class="ident">BG</span> { <span class="ident">BG</span> }
+                    <span class="ident">CC1G</span> { <span class="ident">CC1G</span> }
+                    <span class="ident">CC2G</span> { <span class="ident">CC2G</span> }
+                    <span class="ident">CC3G</span> { <span class="ident">CC3G</span> }
+                    <span class="ident">CC4G</span> { <span class="ident">CC4G</span> }
+                    <span class="ident">COMG</span> { <span class="ident">COMG</span> }
+                    <span class="ident">TG</span> { <span class="ident">TG</span> }
+                    <span class="ident">UG</span> { <span class="ident">UG</span> }
+                }
+                <span class="ident">CCMR1_Output</span> {
+                    <span class="ident">CCMR1_Output</span>;
+                    <span class="ident">CC1S</span> { <span class="ident">CC1S</span> }
+                    <span class="ident">CC2S</span> { <span class="ident">CC2S</span> }
+                    <span class="ident">OC1CE</span> { <span class="ident">OC1CE</span> }
+                    <span class="ident">OC1FE</span> { <span class="ident">OC1FE</span> }
+                    <span class="ident">OC1M</span> { <span class="ident">OC1M</span> }
+                    <span class="ident">OC1PE</span> { <span class="ident">OC1PE</span> }
+                    <span class="ident">OC2CE</span> { <span class="ident">OC2CE</span> }
+                    <span class="ident">OC2FE</span> { <span class="ident">OC2FE</span> }
+                    <span class="ident">OC2M</span> { <span class="ident">OC2M</span> }
+                    <span class="ident">OC2PE</span> { <span class="ident">OC2PE</span> }
+                }
+                <span class="ident">CCMR1_Input</span> {
+                    <span class="ident">CCMR1_Input</span>;
+                    <span class="ident">CC1S</span> { <span class="ident">CC1S</span> }
+                    <span class="ident">CC2S</span> { <span class="ident">CC2S</span> }
+                    <span class="ident">IC1F</span> { <span class="ident">IC1F</span> }
+                    <span class="ident">IC1PSC</span> { <span class="ident">IC1PSC</span> }
+                    <span class="ident">IC2F</span> { <span class="ident">IC2F</span> }
+                    <span class="ident">IC2PSC</span> { <span class="ident">IC2PSC</span> }
+                }
+                <span class="ident">CCMR2_Output</span> {
+                    <span class="ident">CCMR2_Output</span>;
+                    <span class="ident">CC3S</span> { <span class="ident">CC3S</span> }
+                    <span class="ident">CC4S</span> { <span class="ident">CC4S</span> }
+                    <span class="ident">OC3CE</span> { <span class="ident">OC3CE</span> }
+                    <span class="ident">OC3FE</span> { <span class="ident">OC3FE</span> }
+                    <span class="ident">OC3M</span> { <span class="ident">OC3M</span> }
+                    <span class="ident">OC3PE</span> { <span class="ident">OC3PE</span> }
+                    <span class="ident">OC4CE</span> { <span class="ident">OC4CE</span> }
+                    <span class="ident">OC4FE</span> { <span class="ident">OC4FE</span> }
+                    <span class="ident">OC4M</span> { <span class="ident">OC4M</span> }
+                    <span class="ident">OC4PE</span> { <span class="ident">OC4PE</span> }
+                }
+                <span class="ident">CCMR2_Input</span> {
+                    <span class="ident">CCMR2_Input</span>;
+                    <span class="ident">CC3S</span> { <span class="ident">CC3S</span> }
+                    <span class="ident">CC4S</span> { <span class="ident">CC4S</span> }
+                    <span class="ident">IC3F</span> { <span class="ident">IC3F</span> }
+                    <span class="ident">IC3PSC</span> { <span class="ident">IC3PSC</span> }
+                    <span class="ident">IC4F</span> { <span class="ident">IC4F</span> }
+                    <span class="ident">IC4PSC</span> { <span class="ident">IC4PSC</span> }
+                }
+                <span class="ident">CCER</span> {
+                    <span class="ident">CCER</span>;
+                    <span class="ident">CC1E</span> { <span class="ident">CC1E</span> }
+                    <span class="ident">CC1NE</span> { <span class="ident">CC1NE</span> }
+                    <span class="ident">CC1NP</span> { <span class="ident">CC1NP</span> }
+                    <span class="ident">CC1P</span> { <span class="ident">CC1P</span> }
+                    <span class="ident">CC2E</span> { <span class="ident">CC2E</span> }
+                    <span class="ident">CC2NE</span> { <span class="ident">CC2NE</span> }
+                    <span class="ident">CC2NP</span> { <span class="ident">CC2NP</span> }
+                    <span class="ident">CC2P</span> { <span class="ident">CC2P</span> }
+                    <span class="ident">CC3E</span> { <span class="ident">CC3E</span> }
+                    <span class="ident">CC3NE</span> { <span class="ident">CC3NE</span> }
+                    <span class="ident">CC3NP</span> { <span class="ident">CC3NP</span> }
+                    <span class="ident">CC3P</span> { <span class="ident">CC3P</span> }
+                    <span class="ident">CC4E</span> { <span class="ident">CC4E</span> }
+                    <span class="ident">CC4P</span> { <span class="ident">CC4P</span> }
+                }
+                <span class="ident">CNT</span> {
+                    <span class="ident">CNT</span>;
+                    <span class="ident">CNT</span> { <span class="ident">CNT</span> }
+                }
+                <span class="ident">PSC</span> {
+                    <span class="ident">PSC</span>;
+                    <span class="ident">PSC</span> { <span class="ident">PSC</span> }
+                }
+                <span class="ident">ARR</span> {
+                    <span class="ident">ARR</span>;
+                    <span class="ident">ARR</span> { <span class="ident">ARR</span> }
+                }
+                <span class="ident">RCR</span> {
+                    <span class="ident">RCR</span>;
+                    <span class="ident">REP</span> { <span class="ident">REP</span> }
+                }
+                <span class="ident">CCR1</span> {
+                    <span class="ident">CCR1</span>;
+                    <span class="ident">CCR1</span> { <span class="ident">CCR1</span> }
+                }
+                <span class="ident">CCR2</span> {
+                    <span class="ident">CCR2</span>;
+                    <span class="ident">CCR2</span> { <span class="ident">CCR2</span> }
+                }
+                <span class="ident">CCR3</span> {
+                    <span class="ident">CCR3</span>;
+                    <span class="ident">CCR3</span> { <span class="ident">CCR3</span> }
+                }
+                <span class="ident">CCR4</span> {
+                    <span class="ident">CCR4</span>;
+                    <span class="ident">CCR4</span> { <span class="ident">CCR4</span> }
+                }
+                <span class="ident">BDTR</span> {
+                    <span class="ident">BDTR</span>;
+                    <span class="ident">AOE</span> { <span class="ident">AOE</span> }
+                    <span class="ident">BKE</span> { <span class="ident">BKE</span> }
+                    <span class="ident">BKP</span> { <span class="ident">BKP</span> }
+                    <span class="ident">DTG</span> { <span class="ident">DTG</span> }
+                    <span class="ident">LOCK</span> { <span class="ident">LOCK</span> }
+                    <span class="ident">MOE</span> { <span class="ident">MOE</span> }
+                    <span class="ident">OSSI</span> { <span class="ident">OSSI</span> }
+                    <span class="ident">OSSR</span> { <span class="ident">OSSR</span> }
+                }
+                <span class="ident">DCR</span> {
+                    <span class="ident">DCR</span>;
+                    <span class="ident">DBA</span> { <span class="ident">DBA</span> }
+                    <span class="ident">DBL</span> { <span class="ident">DBL</span> }
+                }
+                <span class="ident">DMAR</span> {
+                    <span class="ident">DMAR</span>;
+                    <span class="ident">DMAB</span> { <span class="ident">DMAB</span> }
+                }
+                <span class="ident">OR1</span> {
+                    <span class="ident">OR1</span>;
+                    <span class="ident">ETR_ADC1_RMP</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">etr_adc1_rmp</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">TI1_RMP</span> { <span class="ident">TI1_RMP</span> }
+                }
+                <span class="ident">CCMR3_Output</span> {
+                    <span class="ident">CCMR3_Output</span>;
+                    <span class="ident">OC5CE</span> { <span class="ident">OC5CE</span> }
+                    <span class="ident">OC5FE</span> { <span class="ident">OC5FE</span> }
+                    <span class="ident">OC5M_bit3</span> { <span class="ident">OC5M_bit3</span> }
+                    <span class="ident">OC5M</span> { <span class="ident">OC5M</span> }
+                    <span class="ident">OC5PE</span> { <span class="ident">OC5PE</span> }
+                    <span class="ident">OC6CE</span> { <span class="ident">OC6CE</span> }
+                    <span class="ident">OC6FE</span> { <span class="ident">OC6FE</span> }
+                    <span class="ident">OC6M_bit3</span> { <span class="ident">OC6M_bit3</span> }
+                    <span class="ident">OC6M</span> { <span class="ident">OC6M</span> }
+                    <span class="ident">OC6PE</span> { <span class="ident">OC6PE</span> }
+                }
+                <span class="ident">CCR5</span> {
+                    <span class="ident">CCR5</span>;
+                    <span class="ident">CCR5</span> { <span class="ident">CCR5</span> }
+                    <span class="ident">GC5C1</span> { <span class="ident">GC5C1</span> }
+                    <span class="ident">GC5C2</span> { <span class="ident">GC5C2</span> }
+                    <span class="ident">GC5C3</span> { <span class="ident">GC5C3</span> }
+                }
+                <span class="ident">CCR6</span> {
+                    <span class="ident">CCR6</span>;
+                    <span class="ident">CCR6</span> { <span class="ident">CCR6</span> }
+                }
+                <span class="ident">OR2</span> {
+                    <span class="ident">OR2</span>;
+                    <span class="ident">BKCMP1E</span> { <span class="ident">BKCMP1E</span> }
+                    <span class="ident">BKCMP1P</span> { <span class="ident">BKCMP1P</span> }
+                    <span class="ident">BKCMP2E</span> { <span class="ident">BKCMP2E</span> }
+                    <span class="ident">BKCMP2P</span> { <span class="ident">BKCMP2P</span> }
+                    <span class="ident">BKDFBKE</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bkdfbke</span> }
+                    <span class="ident">BKINE</span> { <span class="ident">BKINE</span> }
+                    <span class="ident">BKINP</span> { <span class="ident">BKINP</span> }
+                    <span class="ident">ETRSEL</span> { <span class="ident">ETRSEL</span> }
+                }
+                <span class="ident">OR3</span> {
+                    <span class="ident">OR3</span>;
+                    <span class="ident">BK2CMP1E</span> { <span class="ident">BK2CMP1E</span> }
+                    <span class="ident">BK2CMP1P</span> { <span class="ident">BK2CMP1P</span> }
+                    <span class="ident">BK2CMP2E</span> { <span class="ident">BK2CMP2E</span> }
+                    <span class="ident">BK2CMP2P</span> { <span class="ident">BK2CMP2P</span> }
+                    <span class="ident">BK2DFBKE</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bk2dfbke</span> }
+                    <span class="ident">BK2INE</span> { <span class="ident">BK2INE</span> }
+                    <span class="ident">BK2INP</span> { <span class="ident">BK2INP</span> }
+                }
+            }
+        } <span class="op">=</span><span class="op">&gt;</span> { ... };
+}</pre></div>
+</div><div class='docblock'><p>Extracts TIM1 register tokens.</p>
+</div></section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../";window.currentCrate = "drone_stm32_map_periph_tim";</script><script src="../aliases.js"></script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>

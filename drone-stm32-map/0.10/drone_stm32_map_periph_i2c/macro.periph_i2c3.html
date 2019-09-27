@@ -1,0 +1,148 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `periph_i2c3` macro in crate `drone_stm32_map_periph_i2c`."><meta name="keywords" content="rust, rustlang, rust-lang, periph_i2c3"><title>drone_stm32_map_periph_i2c::periph_i2c3 - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc macro"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../drone_stm32_map_periph_i2c/index.html'><div class='logo-container'><img src='../rust-logo.png' alt='logo'></div></a><div class="sidebar-elems"><p class='location'><a href='index.html'>drone_stm32_map_periph_i2c</a></p><script>window.sidebarCurrent = {name: 'periph_i2c3', ty: 'macro', relpath: ''};</script><script defer src="sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/drone_stm32_map_periph_i2c/lib.rs.html#168-310' title='goto source code'>[src]</a></span><span class='in-band'>Macro <a href='index.html'>drone_stm32_map_periph_i2c</a>::<wbr><a class="macro" href=''>periph_i2c3</a></span></h1><div class="docblock type-decl hidden-by-usual-hider"><div class="example-wrap"><pre class="rust macro">
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">periph_i2c3</span> {
+    <span class="ident">periph</span>::<span class="macro">map</span><span class="macro">!</span> {
+            <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">i2c_macro_doc</span>]</span>
+            <span class="kw">pub</span> <span class="kw">macro</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">i2c_macro</span>;
+
+            <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">i2c_ty_doc</span>]</span>
+            <span class="kw">pub</span> <span class="kw">struct</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">i2c_ty</span>;
+
+            <span class="kw">impl</span> <span class="ident">I2CMap</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">i2c_ty</span> {}
+
+            <span class="ident">drone_stm32_map_pieces</span>::<span class="ident">reg</span>;
+            <span class="kw">crate</span>;
+
+            <span class="ident">RCC</span> {
+                <span class="ident">BUSENR</span> {
+                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">busenr</span> <span class="ident">Shared</span>;
+                    <span class="ident">I2CEN</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">i2cen</span> }
+                }
+                <span class="ident">BUSRSTR</span> {
+                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">busrstr</span> <span class="ident">Shared</span>;
+                    <span class="ident">I2CRST</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">i2crst</span> }
+                }
+                <span class="ident">BUSSMENR</span> {
+                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bussmenr</span> <span class="ident">Shared</span>;
+                    <span class="ident">I2CSMEN</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">i2csmen</span> }
+                }
+                <span class="ident">CCIPR</span> {
+                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ccipr</span> <span class="ident">Shared</span>;
+                    <span class="ident">I2CSEL</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">i2csel</span> }
+                }
+            }
+            <span class="ident">I2C</span> {
+                <span class="macro-nonterminal">$</span><span class="macro-nonterminal">i2c</span>;
+                <span class="ident">CR1</span> {
+                    <span class="ident">CR1</span>;
+                    <span class="ident">ADDRIE</span> { <span class="ident">ADDRIE</span> }
+                    <span class="ident">ALERTEN</span> { <span class="ident">ALERTEN</span> }
+                    <span class="ident">ANFOFF</span> { <span class="ident">ANFOFF</span> }
+                    <span class="ident">DNF</span> { <span class="ident">DNF</span> }
+                    <span class="ident">ERRIE</span> { <span class="ident">ERRIE</span> }
+                    <span class="ident">GCEN</span> { <span class="ident">GCEN</span> }
+                    <span class="ident">NACKIE</span> { <span class="ident">NACKIE</span> }
+                    <span class="ident">NOSTRETCH</span> { <span class="ident">NOSTRETCH</span> }
+                    <span class="ident">PECEN</span> { <span class="ident">PECEN</span> }
+                    <span class="ident">PE</span> { <span class="ident">PE</span> }
+                    <span class="ident">RXDMAEN</span> { <span class="ident">RXDMAEN</span> }
+                    <span class="ident">RXIE</span> { <span class="ident">RXIE</span> }
+                    <span class="ident">SBC</span> { <span class="ident">SBC</span> }
+                    <span class="ident">SMBDEN</span> { <span class="ident">SMBDEN</span> }
+                    <span class="ident">SMBHEN</span> { <span class="ident">SMBHEN</span> }
+                    <span class="ident">STOPIE</span> { <span class="ident">STOPIE</span> }
+                    <span class="ident">TCIE</span> { <span class="ident">TCIE</span> }
+                    <span class="ident">TXDMAEN</span> { <span class="ident">TXDMAEN</span> }
+                    <span class="ident">TXIE</span> { <span class="ident">TXIE</span> }
+                    <span class="ident">WUPEN</span> { <span class="ident">WUPEN</span> }
+                }
+                <span class="ident">CR2</span> {
+                    <span class="ident">CR2</span>;
+                    <span class="ident">ADD10</span> { <span class="ident">ADD10</span> }
+                    <span class="ident">AUTOEND</span> { <span class="ident">AUTOEND</span> }
+                    <span class="ident">HEAD10R</span> { <span class="ident">HEAD10R</span> }
+                    <span class="ident">NACK</span> { <span class="ident">NACK</span> }
+                    <span class="ident">NBYTES</span> { <span class="ident">NBYTES</span> }
+                    <span class="ident">PECBYTE</span> { <span class="ident">PECBYTE</span> }
+                    <span class="ident">RD_WRN</span> { <span class="ident">RD_WRN</span> }
+                    <span class="ident">RELOAD</span> { <span class="ident">RELOAD</span> }
+                    <span class="ident">SADD</span> { <span class="ident">SADD</span> }
+                    <span class="ident">START</span> { <span class="ident">START</span> }
+                    <span class="ident">STOP</span> { <span class="ident">STOP</span> }
+                }
+                <span class="ident">OAR1</span> {
+                    <span class="ident">OAR1</span>;
+                    <span class="ident">OA1EN</span> { <span class="ident">OA1EN</span> }
+                    <span class="ident">OA1MODE</span> { <span class="ident">OA1MODE</span> }
+                    <span class="ident">OA1</span> { <span class="ident">OA1</span> }
+                }
+                <span class="ident">OAR2</span> {
+                    <span class="ident">OAR2</span>;
+                    <span class="ident">OA2EN</span> { <span class="ident">OA2EN</span> }
+                    <span class="ident">OA2MSK</span> { <span class="ident">OA2MSK</span> }
+                    <span class="ident">OA2</span> { <span class="ident">OA2</span> }
+                }
+                <span class="ident">TIMINGR</span> {
+                    <span class="ident">TIMINGR</span>;
+                    <span class="ident">PRESC</span> { <span class="ident">PRESC</span> }
+                    <span class="ident">SCLDEL</span> { <span class="ident">SCLDEL</span> }
+                    <span class="ident">SCLH</span> { <span class="ident">SCLH</span> }
+                    <span class="ident">SCLL</span> { <span class="ident">SCLL</span> }
+                    <span class="ident">SDADEL</span> { <span class="ident">SDADEL</span> }
+                }
+                <span class="ident">TIMEOUTR</span> {
+                    <span class="ident">TIMEOUTR</span>;
+                    <span class="ident">TEXTEN</span> { <span class="ident">TEXTEN</span> }
+                    <span class="ident">TIDLE</span> { <span class="ident">TIDLE</span> }
+                    <span class="ident">TIMEOUTA</span> { <span class="ident">TIMEOUTA</span> }
+                    <span class="ident">TIMEOUTB</span> { <span class="ident">TIMEOUTB</span> }
+                    <span class="ident">TIMOUTEN</span> { <span class="ident">TIMOUTEN</span> }
+                }
+                <span class="ident">ISR</span> {
+                    <span class="ident">ISR</span>;
+                    <span class="ident">ADDCODE</span> { <span class="ident">ADDCODE</span> }
+                    <span class="ident">ADDR</span> { <span class="ident">ADDR</span> }
+                    <span class="ident">ALERT</span> { <span class="ident">ALERT</span> }
+                    <span class="ident">ARLO</span> { <span class="ident">ARLO</span> }
+                    <span class="ident">BERR</span> { <span class="ident">BERR</span> }
+                    <span class="ident">BUSY</span> { <span class="ident">BUSY</span> }
+                    <span class="ident">DIR</span> { <span class="ident">DIR</span> }
+                    <span class="ident">NACKF</span> { <span class="ident">NACKF</span> }
+                    <span class="ident">OVR</span> { <span class="ident">OVR</span> }
+                    <span class="ident">PECERR</span> { <span class="ident">PECERR</span> }
+                    <span class="ident">RXNE</span> { <span class="ident">RXNE</span> }
+                    <span class="ident">STOPF</span> { <span class="ident">STOPF</span> }
+                    <span class="ident">TCR</span> { <span class="ident">TCR</span> }
+                    <span class="ident">TC</span> { <span class="ident">TC</span> }
+                    <span class="ident">TIMEOUT</span> { <span class="ident">TIMEOUT</span> }
+                    <span class="ident">TXE</span> { <span class="ident">TXE</span> }
+                    <span class="ident">TXIS</span> { <span class="ident">TXIS</span> }
+                }
+                <span class="ident">ICR</span> {
+                    <span class="ident">ICR</span>;
+                    <span class="ident">ADDRCF</span> { <span class="ident">ADDRCF</span> }
+                    <span class="ident">ALERTCF</span> { <span class="ident">ALERTCF</span> }
+                    <span class="ident">ARLOCF</span> { <span class="ident">ARLOCF</span> }
+                    <span class="ident">BERRCF</span> { <span class="ident">BERRCF</span> }
+                    <span class="ident">NACKCF</span> { <span class="ident">NACKCF</span> }
+                    <span class="ident">OVRCF</span> { <span class="ident">OVRCF</span> }
+                    <span class="ident">PECCF</span> { <span class="ident">PECCF</span> }
+                    <span class="ident">STOPCF</span> { <span class="ident">STOPCF</span> }
+                    <span class="ident">TIMOUTCF</span> { <span class="ident">TIMOUTCF</span> }
+                }
+                <span class="ident">PECR</span> {
+                    <span class="ident">PECR</span>;
+                    <span class="ident">PEC</span> { <span class="ident">PEC</span> }
+                }
+                <span class="ident">RXDR</span> {
+                    <span class="ident">RXDR</span>;
+                    <span class="ident">RXDATA</span> { <span class="ident">RXDATA</span> }
+                }
+                <span class="ident">TXDR</span> {
+                    <span class="ident">TXDR</span>;
+                    <span class="ident">TXDATA</span> { <span class="ident">TXDATA</span> }
+                }
+            }
+        } <span class="op">=</span><span class="op">&gt;</span> { ... };
+}</pre></div>
+</div><div class='docblock'><p>Extracts I2C3 register tokens.</p>
+</div></section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../";window.currentCrate = "drone_stm32_map_periph_i2c";</script><script src="../aliases.js"></script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>

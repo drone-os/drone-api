@@ -1,0 +1,9 @@
+(function() {var implementors = {};
+implementors["drone_cortex_m"] = [{text:"impl&lt;_T:&nbsp;<a class=\"trait\" href=\"drone_cortex_m/reg/prelude/trait.RegTag.html\" title=\"trait drone_cortex_m::reg::prelude::RegTag\">RegTag</a>&gt; <a class=\"trait\" href=\"drone_cortex_m/reg/marker/trait.RoReg.html\" title=\"trait drone_cortex_m::reg::marker::RoReg\">RoReg</a>&lt;_T&gt; for <a class=\"struct\" href=\"drone_cortex_m/map/reg/mpu/struct.Type.html\" title=\"struct drone_cortex_m::map::reg::mpu::Type\">Reg</a>&lt;_T&gt;",synthetic:false,types:["drone_cortex_m::map::reg::inner::mpu::mpu_type::Reg"]},{text:"impl&lt;_T:&nbsp;<a class=\"trait\" href=\"drone_cortex_m/reg/prelude/trait.RegTag.html\" title=\"trait drone_cortex_m::reg::prelude::RegTag\">RegTag</a>&gt; <a class=\"trait\" href=\"drone_cortex_m/reg/marker/trait.RoReg.html\" title=\"trait drone_cortex_m::reg::marker::RoReg\">RoReg</a>&lt;_T&gt; for <a class=\"struct\" href=\"drone_cortex_m/map/reg/scb/struct.Cpuid.html\" title=\"struct drone_cortex_m::map::reg::scb::Cpuid\">Reg</a>&lt;_T&gt;",synthetic:false,types:["drone_cortex_m::map::reg::inner::scb::scb_cpuid::Reg"]},{text:"impl&lt;_T:&nbsp;<a class=\"trait\" href=\"drone_cortex_m/reg/prelude/trait.RegTag.html\" title=\"trait drone_cortex_m::reg::prelude::RegTag\">RegTag</a>&gt; <a class=\"trait\" href=\"drone_cortex_m/reg/marker/trait.RoReg.html\" title=\"trait drone_cortex_m::reg::marker::RoReg\">RoReg</a>&lt;_T&gt; for <a class=\"struct\" href=\"drone_cortex_m/map/reg/stk/struct.Calib.html\" title=\"struct drone_cortex_m::map::reg::stk::Calib\">Reg</a>&lt;_T&gt;",synthetic:false,types:["drone_cortex_m::map::reg::inner::stk::stk_calib::Reg"]},];
+
+            if (window.register_implementors) {
+                window.register_implementors(implementors);
+            } else {
+                window.pending_implementors = implementors;
+            }
+        })()

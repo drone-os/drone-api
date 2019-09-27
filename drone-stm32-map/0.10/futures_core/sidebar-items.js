@@ -1,0 +1,1 @@
+initSidebarItems({"macro":[["ready","Extracts the successful type of a `Poll<T>`."]],"mod":[["future","Futures."],["never","Definition of the `Never` type, a stand-in for the `!` type until it becomes stable."],["stream","Asynchronous streams."],["task","Task notification."]]});

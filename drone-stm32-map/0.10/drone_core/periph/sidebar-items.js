@@ -1,0 +1,1 @@
+initSidebarItems({"macro":[["map","Implements the generic peripheral."],["singular","Defines a singular peripheral."]]});

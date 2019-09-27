@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Hold","ITM lock access register."],["Reg","ITM lock access register."],["Unlock","Write `0xC5ACCE55` to unlock Write Access to the other ITM registers."],["Val","ITM lock access register."]]});

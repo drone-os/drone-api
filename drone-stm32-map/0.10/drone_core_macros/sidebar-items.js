@@ -1,0 +1,1 @@
+initSidebarItems({"derive":[["Bitfield",""]],"macro":[["bmp_uart_baudrate",""],["config_override",""],["heap",""],["periph",""],["periph_map",""],["periph_singular",""],["reg",""],["reg_tokens",""],["simple_token",""],["thr",""],["unsafe_simple_tokens",""],["unsafe_static_tokens",""]]});

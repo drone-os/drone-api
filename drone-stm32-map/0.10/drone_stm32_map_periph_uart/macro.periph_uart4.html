@@ -1,0 +1,207 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `periph_uart4` macro in crate `drone_stm32_map_periph_uart`."><meta name="keywords" content="rust, rustlang, rust-lang, periph_uart4"><title>drone_stm32_map_periph_uart::periph_uart4 - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc macro"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../drone_stm32_map_periph_uart/index.html'><div class='logo-container'><img src='../rust-logo.png' alt='logo'></div></a><div class="sidebar-elems"><p class='location'><a href='index.html'>drone_stm32_map_periph_uart</a></p><script>window.sidebarCurrent = {name: 'periph_uart4', ty: 'macro', relpath: ''};</script><script defer src="sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/drone_stm32_map_periph_uart/lib.rs.html#258-459' title='goto source code'>[src]</a></span><span class='in-band'>Macro <a href='index.html'>drone_stm32_map_periph_uart</a>::<wbr><a class="macro" href=''>periph_uart4</a></span></h1><div class="docblock type-decl hidden-by-usual-hider"><div class="example-wrap"><pre class="rust macro">
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">periph_uart4</span> {
+    <span class="ident">periph</span>::<span class="macro">map</span><span class="macro">!</span> {
+            <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">uart_macro_doc</span>]</span>
+            <span class="kw">pub</span> <span class="kw">macro</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">uart_macro</span>;
+
+            <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">uart_ty_doc</span>]</span>
+            <span class="kw">pub</span> <span class="kw">struct</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">uart_ty</span>;
+
+            <span class="kw">impl</span> <span class="ident">UartMap</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">uart_ty</span> {}
+
+            <span class="ident">drone_stm32_map_pieces</span>::<span class="ident">reg</span>;
+            <span class="kw">crate</span>;
+
+            <span class="ident">RCC</span> {
+                <span class="ident">BUSENR</span> {
+                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">busenr</span> <span class="ident">Shared</span>;
+                    <span class="ident">UARTEN</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarten</span> }
+                }
+                <span class="ident">BUSRSTR</span> {
+                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">busrstr</span> <span class="ident">Shared</span>;
+                    <span class="ident">UARTRST</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">uartrst</span> }
+                }
+                <span class="ident">BUSSMENR</span> {
+                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bussmenr</span> <span class="ident">Shared</span>;
+                    <span class="ident">UARTSMEN</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">uartsmen</span> }
+                }
+                <span class="ident">CCIPR</span> {
+                    <span class="ident">CCIPR</span> <span class="ident">Shared</span>;
+                    <span class="ident">UARTSEL</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">uartsel</span> }
+                }
+            }
+            <span class="ident">UART</span> {
+                <span class="macro-nonterminal">$</span><span class="macro-nonterminal">uart</span>;
+                <span class="ident">CR1</span> {
+                    <span class="ident">CR1</span>;
+                    <span class="ident">CMIE</span> { <span class="ident">CMIE</span> }
+                    <span class="ident">DEAT0</span> { <span class="ident">DEAT0</span> }
+                    <span class="ident">DEAT1</span> { <span class="ident">DEAT1</span> }
+                    <span class="ident">DEAT2</span> { <span class="ident">DEAT2</span> }
+                    <span class="ident">DEAT3</span> { <span class="ident">DEAT3</span> }
+                    <span class="ident">DEAT4</span> { <span class="ident">DEAT4</span> }
+                    <span class="ident">DEDT0</span> { <span class="ident">DEDT0</span> }
+                    <span class="ident">DEDT1</span> { <span class="ident">DEDT1</span> }
+                    <span class="ident">DEDT2</span> { <span class="ident">DEDT2</span> }
+                    <span class="ident">DEDT3</span> { <span class="ident">DEDT3</span> }
+                    <span class="ident">DEDT4</span> { <span class="ident">DEDT4</span> }
+                    <span class="ident">EOBIE</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">eobie</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">IDLEIE</span> { <span class="ident">IDLEIE</span> }
+                    <span class="ident">M0</span> { <span class="ident">M0</span> }
+                    <span class="ident">M1</span> { <span class="ident">M1</span> }
+                    <span class="ident">MME</span> { <span class="ident">MME</span> }
+                    <span class="ident">OVER8</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">over8</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">PCE</span> { <span class="ident">PCE</span> }
+                    <span class="ident">PEIE</span> { <span class="ident">PEIE</span> }
+                    <span class="ident">PS</span> { <span class="ident">PS</span> }
+                    <span class="ident">RE</span> { <span class="ident">RE</span> }
+                    <span class="ident">RTOIE</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rtoie</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">RXNEIE</span> { <span class="ident">RXNEIE</span> }
+                    <span class="ident">TCIE</span> { <span class="ident">TCIE</span> }
+                    <span class="ident">TE</span> { <span class="ident">TE</span> }
+                    <span class="ident">TXEIE</span> { <span class="ident">TXEIE</span> }
+                    <span class="ident">UESM</span> { <span class="ident">UESM</span> }
+                    <span class="ident">UE</span> { <span class="ident">UE</span> }
+                    <span class="ident">WAKE</span> { <span class="ident">WAKE</span> }
+                }
+                <span class="ident">CR2</span> {
+                    <span class="ident">CR2</span>;
+                    <span class="ident">ABREN</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">abren</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">ABRMOD0</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">abrmod0</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">ABRMOD1</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">abrmod1</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">ADD0_3</span> { <span class="ident">ADD0_3</span> }
+                    <span class="ident">ADD4_7</span> { <span class="ident">ADD4_7</span> }
+                    <span class="ident">ADDM7</span> { <span class="ident">ADDM7</span> }
+                    <span class="ident">CLKEN</span> { <span class="ident">CLKEN</span> }
+                    <span class="ident">CPHA</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">cpha</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">CPOL</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">cpol</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">LBCL</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">lbcl</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">LBDIE</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">lbdie</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">LBDL</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">lbdl</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">LINEN</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">linen</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">MSBFIRST</span> { <span class="ident">MSBFIRST</span> }
+                    <span class="ident">RTOEN</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rtoen</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">RXINV</span> { <span class="ident">RXINV</span> }
+                    <span class="ident">STOP</span> { <span class="ident">STOP</span> }
+                    <span class="ident">SWAP</span> { <span class="ident">SWAP</span> }
+                    <span class="ident">TAINV</span> { <span class="ident">TAINV</span> }
+                    <span class="ident">TXINV</span> { <span class="ident">TXINV</span> }
+                }
+                <span class="ident">CR3</span> {
+                    <span class="ident">CR3</span>;
+                    <span class="ident">CTSE</span> { <span class="ident">CTSE</span> }
+                    <span class="ident">CTSIE</span> { <span class="ident">CTSIE</span> }
+                    <span class="ident">DDRE</span> { <span class="ident">DDRE</span> }
+                    <span class="ident">DEM</span> { <span class="ident">DEM</span> }
+                    <span class="ident">DEP</span> { <span class="ident">DEP</span> }
+                    <span class="ident">DMAR</span> { <span class="ident">DMAR</span> }
+                    <span class="ident">DMAT</span> { <span class="ident">DMAT</span> }
+                    <span class="ident">EIE</span> { <span class="ident">EIE</span> }
+                    <span class="ident">HDSEL</span> { <span class="ident">HDSEL</span> }
+                    <span class="ident">IREN</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">iren</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">IRLP</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">irlp</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">NACK</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">nack</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">ONEBIT</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">onebit</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">OVRDIS</span> { <span class="ident">OVRDIS</span> }
+                    <span class="ident">RTSE</span> { <span class="ident">RTSE</span> }
+                    <span class="ident">SCARCNT</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">scarcnt</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">SCEN</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">scen</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
+                        <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x1&quot;</span>,
+                        <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x2&quot;</span>,
+                    ))]</span>
+                    <span class="ident">TCBGTIE</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tcbgtie</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
+                        <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x1&quot;</span>,
+                        <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x2&quot;</span>,
+                    ))]</span>
+                    <span class="ident">UCESM</span> { <span class="ident">UCESM</span> }
+                    <span class="ident">WUFIE</span> { <span class="ident">WUFIE</span> }
+                    <span class="ident">WUS</span> { <span class="ident">WUS</span> }
+                }
+                <span class="ident">BRR</span> {
+                    <span class="ident">BRR</span>;
+                    <span class="ident">BRR</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">brr</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">DIV_Fraction</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">div_fraction</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">DIV_Mantissa</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">div_mantissa</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                }
+                <span class="ident">GTPR</span> {
+                    $(
+                        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">gtpr</span> <span class="prelude-ty">Option</span>;
+                        <span class="ident">GT</span> { <span class="ident">GT</span> }
+                        <span class="ident">PSC</span> { <span class="ident">PSC</span> }
+                    )<span class="op">*</span>
+                }
+                <span class="ident">RTOR</span> {
+                    $(
+                        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">rtor</span> <span class="prelude-ty">Option</span>;
+                        <span class="ident">BLEN</span> { <span class="ident">BLEN</span> }
+                        <span class="ident">RTO</span> { <span class="ident">RTO</span> }
+                    )<span class="op">*</span>
+                }
+                <span class="ident">RQR</span> {
+                    <span class="ident">RQR</span>;
+                    <span class="ident">ABRRQ</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">abrrq</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">MMRQ</span> { <span class="ident">MMRQ</span> }
+                    <span class="ident">RXFRQ</span> { <span class="ident">RXFRQ</span> }
+                    <span class="ident">SBKRQ</span> { <span class="ident">SBKRQ</span> }
+                    <span class="ident">TXFRQ</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">txfrq</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                }
+                <span class="ident">ISR</span> {
+                    <span class="ident">ISR</span>;
+                    <span class="ident">REACK</span> { <span class="ident">REACK</span> }
+                    <span class="ident">TEACK</span> { <span class="ident">TEACK</span> }
+                    <span class="ident">WUF</span> { <span class="ident">WUF</span> }
+                    <span class="ident">RWU</span> { <span class="ident">RWU</span> }
+                    <span class="ident">SBKF</span> { <span class="ident">SBKF</span> }
+                    <span class="ident">CMF</span> { <span class="ident">CMF</span> }
+                    <span class="ident">BUSY</span> { <span class="ident">BUSY</span> }
+                    <span class="ident">ABRF</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">abrf</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">ABRE</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">abre</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">EOBF</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">eobf</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">RTOF</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rtof</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">CTS</span> { <span class="ident">CTS</span> }
+                    <span class="ident">CTSIF</span> { <span class="ident">CTSIF</span> }
+                    <span class="ident">LBDF</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">lbdf</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">TXE</span> { <span class="ident">TXE</span> }
+                    <span class="ident">TC</span> { <span class="ident">TC</span> }
+                    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
+                        <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x1&quot;</span>,
+                        <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;stm32l4x2&quot;</span>,
+                    ))]</span>
+                    <span class="ident">TCBGT</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tcbgt</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">RXNE</span> { <span class="ident">RXNE</span> }
+                    <span class="ident">IDLE</span> { <span class="ident">IDLE</span> }
+                    <span class="ident">ORE</span> { <span class="ident">ORE</span> }
+                    <span class="ident">NF</span> { <span class="ident">NF</span> }
+                    <span class="ident">FE</span> { <span class="ident">FE</span> }
+                    <span class="ident">PE</span> { <span class="ident">PE</span> }
+                }
+                <span class="ident">ICR</span> {
+                    <span class="ident">ICR</span>;
+                    <span class="ident">WUCF</span> { <span class="ident">WUCF</span> }
+                    <span class="ident">CMCF</span> { <span class="ident">CMCF</span> }
+                    <span class="ident">EOBCF</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">eobcf</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">RTOCF</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rtocf</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">CTSCF</span> { <span class="ident">CTSCF</span> }
+                    <span class="ident">LBDCF</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">lbdcf</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">TCCF</span> { <span class="ident">TCCF</span> }
+                    <span class="ident">IDLECF</span> { <span class="ident">IDLECF</span> }
+                    <span class="ident">ORECF</span> { <span class="ident">ORECF</span> }
+                    <span class="ident">NCF</span> { <span class="ident">NCF</span> }
+                    <span class="ident">FECF</span> { <span class="ident">FECF</span> }
+                    <span class="ident">PECF</span> { <span class="ident">PECF</span> }
+                }
+                <span class="ident">RDR</span> {
+                    <span class="ident">RDR</span>;
+                    <span class="ident">RDR</span> { <span class="ident">RDR</span> }
+                }
+                <span class="ident">TDR</span> {
+                    <span class="ident">TDR</span>;
+                    <span class="ident">TDR</span> { <span class="ident">TDR</span> }
+                }
+            }
+        } <span class="op">=</span><span class="op">&gt;</span> { ... };
+}</pre></div>
+</div><div class='docblock'><p>Extracts UART4 register tokens.</p>
+</div></section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../";window.currentCrate = "drone_stm32_map_periph_uart";</script><script src="../aliases.js"></script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>
