@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Pool","The set of free memory blocks."]],"trait":[["Allocator","Allocator for a generic memory pools layout."]]});
