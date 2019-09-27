@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["noop_waker","Create a new [`Waker`] which does nothing when `wake()` is called on it."]],"struct":[["AtomicWaker","A synchronization primitive for task wakeup."]],"trait":[["LocalSpawnExt","Extension trait for `LocalSpawn`."],["SpawnExt","Extension trait for `Spawn`."]]});
