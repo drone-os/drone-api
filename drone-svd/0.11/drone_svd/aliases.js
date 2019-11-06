@@ -1,0 +1,14 @@
+var ALIASES = {};
+ALIASES["anyhow"] = {};
+ALIASES["bitflags"] = {};
+ALIASES["cfg_if"] = {};
+ALIASES["drone_svd"] = {};
+ALIASES["log"] = {};
+ALIASES["proc_macro2"] = {};
+ALIASES["quote"] = {};
+ALIASES["serde"] = {};
+ALIASES["serde_derive"] = {};
+ALIASES["serde_xml_rs"] = {};
+ALIASES["syn"] = {};
+ALIASES["unicode_xid"] = {};
+ALIASES["xml"] = {};
