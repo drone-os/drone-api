@@ -1,0 +1,99 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `sv` mod in crate `drone_cortex_m`."><meta name="keywords" content="rust, rustlang, rust-lang, sv"><title>drone_cortex_m::sv - Rust</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../drone_cortex_m/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a><p class='location'>Module sv</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'><a href='../index.html'>drone_cortex_m</a></p><script>window.sidebarCurrent = {name: 'sv', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../../src/drone_cortex_m/sv/mod.rs.html#1-199' title='goto source code'>[src]</a></span><span class='in-band'>Module <a href='../index.html'>drone_cortex_m</a>::<wbr><a class="mod" href=''>sv</a></span></h1><div class='docblock'><p>The Supervisor module.</p>
+<p>Supervisor is an abstraction for the <code>SVC</code> assembly instruction, which means
+<strong>S</strong>uper<strong>V</strong>isor <strong>C</strong>all, and the <code>SV_CALL</code> exception.</p>
+<h1 id="usage" class="section-header"><a href="#usage">Usage</a></h1>
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">drone_cortex_m</span>::{<span class="ident">sv</span>, <span class="ident">thr</span>};
+
+<span class="macro">sv</span><span class="macro">!</span> {
+    <span class="doccomment">/// The supervisor.</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Sv</span>;
+
+    <span class="doccomment">/// Array of services.</span>
+    <span class="kw">static</span> <span class="ident">SERVICES</span>;
+
+    <span class="comment">// The list of attached services goes here.</span>
+    <span class="comment">// SwitchContextService;</span>
+    <span class="comment">// SwitchBackService;</span>
+}
+
+<span class="ident">thr</span>::<span class="macro">vtable</span><span class="macro">!</span> {
+    <span class="kw">use</span> <span class="ident">Thr</span>;
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Vtable</span>;
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Handlers</span>;
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Thrs</span>;
+    <span class="kw">static</span> <span class="ident">THREADS</span>;
+
+    <span class="comment">// Define an external function handler for the SV_CALL exception.</span>
+    <span class="kw">fn</span> <span class="ident">SV_CALL</span>;
+}
+
+<span class="macro">thr</span><span class="macro">!</span> {
+    <span class="kw">use</span> <span class="ident">THREADS</span>;
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Thr</span> {}
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ThrLocal</span> {}
+}
+
+<span class="attribute">#[<span class="ident">no_mangle</span>]</span>
+<span class="kw">pub</span> <span class="kw">static</span> <span class="ident">VTABLE</span>: <span class="ident">Vtable</span> <span class="op">=</span> <span class="ident">Vtable</span>::<span class="ident">new</span>(<span class="ident">Handlers</span> {
+    <span class="ident">reset</span>,
+    <span class="comment">// Attach the SV_CALL handler for the supervisor `Sv`.</span>
+    <span class="ident">sv_call</span>: <span class="ident">drone_cortex_m</span>::<span class="ident">sv</span>::<span class="ident">sv_handler</span>::<span class="op">&lt;</span><span class="ident">Sv</span><span class="op">&gt;</span>,
+});
+
+<span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">reset</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="op">!</span> {
+    <span class="kw">loop</span> {}
+}</pre></div>
+<h1 id="predefined-services" class="section-header"><a href="#predefined-services">Predefined Services</a></h1>
+<p>If <a href="sv::SwitchContextService"><code>SwitchContextService</code></a> and
+<a href="sv::SwitchBackService"><code>SwitchBackService</code></a> are defined for the supervisor,
+<a href="sv::Switch::switch_context"><code>switch_context</code></a> and
+<a href="sv::Switch::switch_back"><code>switch_back</code></a> functions become available to
+switch the program stack.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">drone_cortex_m</span>::<span class="ident">sv</span>::{<span class="ident">Switch</span>, <span class="ident">SwitchBackService</span>, <span class="ident">SwitchContextService</span>};
+
+<span class="kw">use</span> <span class="ident">drone_cortex_m</span>::<span class="ident">sv</span>;
+
+<span class="macro">sv</span><span class="macro">!</span> {
+    <span class="doccomment">/// The supervisor.</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Sv</span>;
+
+    <span class="doccomment">/// Array of services.</span>
+    <span class="kw">static</span> <span class="ident">SERVICES</span>;
+
+    <span class="ident">SwitchContextService</span>;
+    <span class="ident">SwitchBackService</span>;
+}
+
+<span class="kw">unsafe</span> {
+    <span class="comment">// Allocate the stack.</span>
+    <span class="kw">let</span> <span class="ident">stack</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>::<span class="ident">new_uninit_slice</span>(<span class="number">0x800</span>).<span class="ident">assume_init</span>();
+    <span class="comment">// `stack_ptr` will store the current stack pointer.</span>
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">stack_ptr</span> <span class="op">=</span> <span class="ident">stack</span>.<span class="ident">as_ptr</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>::<span class="ident">new</span>(<span class="number">0</span>);
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">data_ptr</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">data</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">u32</span>;
+    <span class="ident">Sv</span>::<span class="ident">switch_context</span>(<span class="ident">data_ptr</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">stack_ptr</span>);
+    <span class="comment">// -------------------</span>
+    <span class="comment">// Using the new stack.</span>
+    <span class="comment">// -------------------</span>
+    <span class="ident">Sv</span>::<span class="ident">switch_back</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">data_ptr</span>);
+}</pre></div>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table><tr class='module-item'><td><a class="struct" href="struct.SwitchBackService.html" title='drone_cortex_m::sv::SwitchBackService struct'>SwitchBackService</a></td><td class='docblock-short'><p>A service to switch back from a process stack.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.SwitchContextService.html" title='drone_cortex_m::sv::SwitchContextService struct'>SwitchContextService</a></td><td class='docblock-short'><p>A service to switch to a process stack.</p>
+</td></tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table><tr class='module-item'><td><a class="trait" href="trait.Supervisor.html" title='drone_cortex_m::sv::Supervisor trait'>Supervisor</a></td><td class='docblock-short'><p>Generic supervisor.</p>
+</td></tr><tr class='module-item'><td><a class="trait" href="trait.SvCall.html" title='drone_cortex_m::sv::SvCall trait'>SvCall</a></td><td class='docblock-short'><p>A supervisor call.</p>
+</td></tr><tr class='module-item'><td><a class="trait" href="trait.SvService.html" title='drone_cortex_m::sv::SvService trait'>SvService</a></td><td class='docblock-short'><p>Generic supervisor service.</p>
+</td></tr><tr class='module-item'><td><a class="trait" href="trait.Switch.html" title='drone_cortex_m::sv::Switch trait'>Switch</a></td><td class='docblock-short'><p>Extends <a href="../../drone_cortex_m/sv/trait.Supervisor.html"><code>Supervisor</code></a> types with
+<a href="../../drone_cortex_m/sv/trait.Switch.html#tymethod.switch_context"><code>switch_context</code></a> and
+<a href="../../drone_cortex_m/sv/trait.Switch.html#tymethod.switch_back"><code>switch_back</code></a> methods.</p>
+</td></tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table><tr class='module-item'><td><a class="fn" href="fn.service_handler.html" title='drone_cortex_m::sv::service_handler fn'>service_handler</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td><td class='docblock-short'><p>This function is called by <a href="../../drone_cortex_m/sv/fn.sv_handler.html" title="`sv_handler`"><code>sv_handler</code></a> for the supervisor service
+<code>T</code>. Parameter <code>T</code> is based on the number <code>num</code> in the <code>SVC num</code>
+instruction.</p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.sv_call.html" title='drone_cortex_m::sv::sv_call fn'>sv_call</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td><td class='docblock-short'><p>Calls <code>SVC num</code> instruction.</p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.sv_handler.html" title='drone_cortex_m::sv::sv_handler fn'>sv_handler</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td><td class='docblock-short'><p><code>SV_CALL</code> exception handler for the supervisor <code>T</code>.</p>
+</td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "drone_cortex_m";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>

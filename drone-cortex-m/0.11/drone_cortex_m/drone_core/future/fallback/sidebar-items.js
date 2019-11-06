@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["asyn","Wrap a generator in a future."]]});

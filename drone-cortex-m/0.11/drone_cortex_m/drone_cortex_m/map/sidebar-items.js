@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["periph","Core ARM Cortex-M peripheral mappings."],["reg","Core ARM Cortex-M register mappings."],["thr","Core ARM Cortex-M exception mappings."]]});

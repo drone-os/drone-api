@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["MAX_CAPACITY","Maximum capacity of the channel."]],"enum":[["SendError","The error type returned from [`Sender::send`]."]],"fn":[["channel","Creates a new pulse channel, returning the sender/receiver halves."]],"struct":[["Receiver","The receiving-half of `pulse::channel`."],["Sender","The sending-half of `pulse::channel`."]]});

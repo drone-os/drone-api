@@ -1,0 +1,189 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `periph` mod in crate `drone_core`."><meta name="keywords" content="rust, rustlang, rust-lang, periph"><title>drone_core::periph - Rust</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../drone_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a><p class='location'>Module periph</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#macros">Macros</a></li></ul></div><p class='location'><a href='../index.html'>drone_core</a></p><script>window.sidebarCurrent = {name: 'periph', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../../src/drone_core/periph.rs.html#1-234' title='goto source code'>[src]</a></span><span class='in-band'>Module <a href='../index.html'>drone_core</a>::<wbr><a class="mod" href=''>periph</a></span></h1><div class='docblock'><p>Peripheral is a group of <a href="reg"><code>memory-mapped registers</code></a> or their fields.</p>
+<h1 id="singular-peripheral" class="section-header"><a href="#singular-peripheral">Singular Peripheral</a></h1>
+<p>Singular peripheral is a unique group of registers or their fields that have
+a common purpose. Here is an example of how to define and use it:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">size_of_val</span>;
+<span class="kw">use</span> <span class="ident">drone_core</span>::<span class="ident">periph</span>;
+
+<span class="ident">periph</span>::<span class="macro">singular</span><span class="macro">!</span> {
+    <span class="doccomment">/// Extracts RTC register tokens.</span>
+    <span class="kw">pub</span> <span class="kw">macro</span> <span class="ident">periph_rtc</span>;
+    <span class="doccomment">/// Real-Time Clock peripheral.</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RtcPeriph</span>;
+
+    <span class="comment">// Path prefix to reach registers.</span>
+    <span class="kw">crate</span>;
+    <span class="comment">// Absolute path to the current module.</span>
+    <span class="kw">crate</span>;
+
+    <span class="comment">// In the register block RCC...</span>
+    <span class="ident">RCC</span> {
+        <span class="comment">// In the register APB1ENR1...</span>
+        <span class="ident">APB1ENR1</span> {
+            <span class="comment">// Map the single field RTCAPBEN. Other fields in this register</span>
+            <span class="comment">// could be used by other peripherals.</span>
+            <span class="ident">RTCAPBEN</span>;
+        }
+    }
+    <span class="comment">// In the register block RTC...</span>
+    <span class="ident">RTC</span> {
+        <span class="comment">// Map the whole registers TR, DR, and CR.</span>
+        <span class="ident">TR</span>;
+        <span class="ident">DR</span>;
+        <span class="ident">CR</span>;
+    }
+}
+
+<span class="comment">// This will expand to the struct and the macro below:</span>
+
+<span class="doccomment">/// Real-Time Clock.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RtcPeriph</span> {
+    <span class="kw">pub</span> <span class="ident">rcc_apb1enr1_rtcapben</span>: <span class="ident">rcc</span>::<span class="ident">apb1enr1</span>::<span class="ident">Rtcapben</span><span class="op">&lt;</span><span class="ident">Srt</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">rtc_tr</span>: <span class="ident">rtc</span>::<span class="ident">Tr</span><span class="op">&lt;</span><span class="ident">Srt</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">rtc_dr</span>: <span class="ident">rtc</span>::<span class="ident">Dr</span><span class="op">&lt;</span><span class="ident">Srt</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">rtc_cr</span>: <span class="ident">rtc</span>::<span class="ident">Cr</span><span class="op">&lt;</span><span class="ident">Srt</span><span class="op">&gt;</span>,
+}
+
+<span class="doccomment">/// Extracts RTC register tokens.</span>
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">periph_rtc</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">reg</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="ident">RtcPeriph</span> {
+            <span class="ident">rcc_apb1enr1_rtcapben</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">reg</span>.<span class="ident">rcc_apb1enr1</span>.<span class="ident">rtcapben</span>,
+            <span class="ident">rtc_tr</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">reg</span>.<span class="ident">rtc_tr</span>,
+            <span class="ident">rtc_dr</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">reg</span>.<span class="ident">rtc_dr</span>,
+            <span class="ident">rtc_cr</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">reg</span>.<span class="ident">rtc_cr</span>,
+        }
+    };
+}
+
+<span class="comment">// Here is how to use it in your `trunk` thread:</span>
+
+<span class="kw">fn</span> <span class="ident">trunk</span>(<span class="ident">reg</span>: <span class="ident">Regs</span>) {
+    <span class="kw">let</span> <span class="ident">rtc</span> <span class="op">=</span> <span class="macro">periph_rtc</span><span class="macro">!</span>(<span class="ident">reg</span>);
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">size_of_val</span>(<span class="kw-2">&amp;</span><span class="ident">rtc</span>), <span class="number">0</span>);
+}
+</pre></div>
+<h1 id="generic-peripheral" class="section-header"><a href="#generic-peripheral">Generic Peripheral</a></h1>
+<p>Often there are multiple peripherals of a single type. For example in
+STM32L4S9 microcontroller there are USART1, USART2, USART3, UART4, UART5,
+and LPUART1. Most of their registers are the same, but also there are some
+differences. USART1, USART2, USART3 support synchronous transmission, and
+LPUART1 can function in low-power modes. However their drivers would have
+many functions in common. For this reason we map those peripheral registers
+together in a generic structure, and also map their differences. Here is an
+example:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">drone_core</span>::{<span class="ident">periph</span>, <span class="ident">reg</span>::<span class="ident">marker</span>::<span class="kw-2">*</span>};
+
+<span class="comment">// Here we define the generic UART peripheral.</span>
+<span class="macro">periph</span><span class="macro">!</span> {
+    <span class="doccomment">/// Generic Universal Asynchronous Receiver/Transmitter peripheral variant.</span>
+    <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">UartMap</span> {
+        <span class="comment">// Concrete UART peripherals will implement this trait. Arbitrary code</span>
+        <span class="comment">// can be placed here.</span>
+    }
+    <span class="comment">// This will be the peripheral struct with public fields corresponding to</span>
+    <span class="comment">// registers and/or register fields. The signature is</span>
+    <span class="comment">// `struct UartPeriph&lt;T: UartMap&gt;`.</span>
+    <span class="doccomment">/// Generic Universal Asynchronous Receiver/Transmitter peripheral.</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UartPeriph</span>;
+
+    <span class="comment">// With RCC namespace...</span>
+    <span class="ident">RCC</span> {
+        <span class="ident">APBENR</span> {
+            <span class="comment">// We need to declare the size of the register and its properties.</span>
+            <span class="comment">// `RwReg` is a marker trait from `drone_core::reg::marker`, and it</span>
+            <span class="comment">// means this is a read-write register. `Shared` is a special</span>
+            <span class="comment">// property, which means the peripheral will not own the whole</span>
+            <span class="comment">// register, but will own only a part of its fields.</span>
+            <span class="number">0x20</span> <span class="ident">RwReg</span> <span class="ident">Shared</span>;
+            <span class="comment">// All peripherals will have UARTEN field. Again, `RwRwRegFieldBit`</span>
+            <span class="comment">// is a marker trait from `drone_core::reg::marker`, and it means</span>
+            <span class="comment">// this is a read-write single-bit field.</span>
+            <span class="ident">UARTEN</span> { <span class="ident">RwRwRegFieldBit</span> }
+            <span class="comment">// This is an optional field. Not all concrete peripherals will have</span>
+            <span class="comment">// it.</span>
+            <span class="ident">UARTRST</span> { <span class="ident">RwRwRegFieldBit</span> <span class="prelude-ty">Option</span> }
+        }
+    }
+    <span class="comment">// Actually there is no UART register block. There are USART1, USART2,</span>
+    <span class="comment">// USART3 and so on. This namespace is virtual; concrete peripherals</span>
+    <span class="comment">// will map actual blocks to this namespace.</span>
+    <span class="ident">UART</span> {
+        <span class="ident">CR1</span> {
+            <span class="number">0x20</span> <span class="ident">RwReg</span>;
+            <span class="ident">CMIE</span> { <span class="ident">RwRwRegFieldBit</span> }
+            <span class="ident">EOBIE</span> { <span class="ident">RwRwRegFieldBit</span> <span class="prelude-ty">Option</span> }
+        }
+        <span class="ident">RTOR</span> {
+            <span class="comment">// This is an optional register.</span>
+            <span class="number">0x20</span> <span class="ident">RwReg</span> <span class="prelude-ty">Option</span>;
+            <span class="ident">BLEN</span> { <span class="ident">RwRwRegFieldBits</span> }
+            <span class="comment">// And this is an optional field of the optional register.</span>
+            <span class="ident">RTO</span> { <span class="ident">RwRwRegFieldBits</span> <span class="prelude-ty">Option</span> }
+        }
+    }
+}
+
+<span class="comment">// Here we define the concrete UART4 peripheral.</span>
+<span class="ident">periph</span>::<span class="macro">map</span><span class="macro">!</span> {
+    <span class="comment">// Extracts UART4 register tokens.</span>
+    <span class="kw">pub</span> <span class="kw">macro</span> <span class="ident">periph_uart4</span>;
+    <span class="comment">// UART4 peripheral variant.</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Uart4</span>;
+
+    <span class="kw">impl</span> <span class="ident">UartMap</span> <span class="kw">for</span> <span class="ident">Uart4</span> {
+        <span class="comment">// If `UartMap` defined some items, they should be implemented here.</span>
+    }
+
+    <span class="comment">// Path prefix to reach registers.</span>
+    <span class="kw">crate</span>;
+    <span class="comment">// Absolute path to the current module.</span>
+    <span class="kw">crate</span>;
+
+    <span class="ident">RCC</span> {
+        <span class="ident">APBENR</span> {
+            <span class="comment">// Here we provide the real name of the register - APB1ENR1. And</span>
+            <span class="comment">// also the special properties like `Shared` or `Option`.</span>
+            <span class="ident">APB1ENR1</span> <span class="ident">Shared</span>;
+            <span class="comment">// Again, we provide the real name of the field.</span>
+            <span class="ident">UARTEN</span> { <span class="ident">UART4EN</span> }
+            <span class="comment">// If the name is the same, we should provide it. Also if an</span>
+            <span class="comment">// optional field present, we should mark it with `Option`.</span>
+            <span class="ident">UARTRST</span> { <span class="ident">UARTRST</span> <span class="prelude-ty">Option</span> }
+        }
+    }
+    <span class="ident">UART</span> {
+        <span class="comment">// The real name of the block of registers.</span>
+        <span class="ident">UART4</span>;
+        <span class="ident">CR1</span> {
+            <span class="ident">CR1</span>;
+            <span class="ident">CMIE</span> { <span class="ident">CMIE</span> }
+            <span class="comment">// If the optional field absent, we should mention it like this.</span>
+            <span class="ident">EOBIE</span> {}
+        }
+        <span class="ident">RTOR</span> {
+            <span class="ident">RTOR</span> <span class="prelude-ty">Option</span>;
+            <span class="ident">BLEN</span> { <span class="ident">BLEN</span> }
+            <span class="ident">RTO</span> {}
+        }
+    }
+}
+
+<span class="comment">// Here is how we define a function generic over all variants of the peripheral.</span>
+<span class="comment">// Optional fields will not be available even if the concrete peripheral has them.</span>
+<span class="kw">fn</span> <span class="ident">basic_fields</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">UartMap</span><span class="op">&gt;</span>(<span class="ident">uart</span>: <span class="ident">UartPeriph</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) {}
+
+<span class="comment">// Here is a generic function over peripherals that have all optional fields.</span>
+<span class="kw">fn</span> <span class="ident">opt_fields</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">uart</span>: <span class="ident">UartPeriph</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>)
+<span class="kw">where</span>
+    <span class="ident">T</span>: <span class="ident">UartMap</span> <span class="op">+</span> <span class="ident">RccApbenrUartrst</span> <span class="op">+</span> <span class="ident">UartCr1Eobie</span> <span class="op">+</span> <span class="ident">UartRtorRto</span>,
+{
+}</pre></div>
+</div><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
+<table><tr class='module-item'><td><a class="macro" href="macro.map.html" title='drone_core::periph::map macro'>map</a></td><td class='docblock-short'><p>Implements the generic peripheral.</p>
+</td></tr><tr class='module-item'><td><a class="macro" href="macro.singular.html" title='drone_core::periph::singular macro'>singular</a></td><td class='docblock-short'><p>Defines a singular peripheral.</p>
+</td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "drone_core";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>

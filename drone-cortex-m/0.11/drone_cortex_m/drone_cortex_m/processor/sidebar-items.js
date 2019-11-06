@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["self_reset","Requests system reset."],["send_event","Send event."],["spin","Spins the `cycles` number of processor cycles in a loop."],["wait_for_event","Wait for event."],["wait_for_int","Wait for interrupt."]]});
