@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["from_generator","Wrap a generator in a future."],["init","Uses the thread-local storage of `T` for the `futures` task system."],["poll_with_context","Polls a future in the current task context."]],"mod":[["fallback","Fallback syntax for `async`/`await` when `libcore-drone` crate is not available."]]});
