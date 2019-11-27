@@ -1,11 +1,15 @@
 var ALIASES = {};
 ALIASES["anyhow"] = {};
-ALIASES["bitflags"] = {};
+ALIASES["backtrace"] = {};
+ALIASES["backtrace_sys"] = {};
 ALIASES["cfg_if"] = {};
 ALIASES["drone_svd"] = {};
+ALIASES["error_chain"] = {};
+ALIASES["libc"] = {};
 ALIASES["log"] = {};
 ALIASES["proc_macro2"] = {};
 ALIASES["quote"] = {};
+ALIASES["rustc_demangle"] = {};
 ALIASES["serde"] = {};
 ALIASES["serde_derive"] = {};
 ALIASES["serde_xml_rs"] = {};

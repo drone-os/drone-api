@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/val/.cargo/registry/src/github.com-1ecc6299db9ec823/xml-rs-0.3.6/src/reader/config.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>config.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../xml/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/val/.cargo/registry/src/github.com-1ecc6299db9ec823/xml-rs-0.8.0/src/reader/config.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>config.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../xml/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -117,9 +117,55 @@
 <span id="117">117</span>
 <span id="118">118</span>
 <span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Contains parser configuration structure.</span>
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Read</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
 
 <span class="kw">use</span> <span class="ident">reader</span>::<span class="ident">EventReader</span>;
 
@@ -173,7 +219,27 @@
     <span class="doccomment">/// Multiple sequential `Characters` events are only possible if either</span>
     <span class="doccomment">/// `cdata_to_characters` or `ignore_comments` are set. Otherwise character</span>
     <span class="doccomment">/// events will always be separated by other events.</span>
-    <span class="kw">pub</span> <span class="ident">coalesce_characters</span>: <span class="ident">bool</span>
+    <span class="kw">pub</span> <span class="ident">coalesce_characters</span>: <span class="ident">bool</span>,
+
+    <span class="doccomment">/// A map of extra entities recognized by the parser. Default is an empty map.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// By default the XML parser recognizes the entities defined in the XML spec. Sometimes,</span>
+    <span class="doccomment">/// however, it is convenient to make the parser recognize additional entities which</span>
+    <span class="doccomment">/// are also not available through the DTD definitions (especially given that at the moment</span>
+    <span class="doccomment">/// DTD parsing is not supported).</span>
+    <span class="kw">pub</span> <span class="ident">extra_entities</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">String</span><span class="op">&gt;</span>,
+
+    <span class="doccomment">/// Whether or not the parser should ignore the end of stream. Default is false.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// By default the parser will either error out when it encounters a premature end of</span>
+    <span class="doccomment">/// stream or complete normally if the end of stream was expected. If you want to continue</span>
+    <span class="doccomment">/// reading from a stream whose input is supplied progressively, you can set this option to true.</span>
+    <span class="doccomment">/// In this case the parser will allow you to invoke the next() method even if a supposed end</span>
+    <span class="doccomment">/// of stream has happened.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Note that support for this functionality is incomplete; for example, the parser will fail if</span>
+    <span class="doccomment">/// the premature end of stream happens inside PCDATA. Therefore, use this option at your own risk.</span>
+    <span class="kw">pub</span> <span class="ident">ignore_end_of_stream</span>: <span class="ident">bool</span>
 }
 
 <span class="kw">impl</span> <span class="ident">ParserConfig</span> {
@@ -195,7 +261,9 @@
             <span class="ident">whitespace_to_characters</span>: <span class="bool-val">false</span>,
             <span class="ident">cdata_to_characters</span>: <span class="bool-val">false</span>,
             <span class="ident">ignore_comments</span>: <span class="bool-val">true</span>,
-            <span class="ident">coalesce_characters</span>: <span class="bool-val">true</span>
+            <span class="ident">coalesce_characters</span>: <span class="bool-val">true</span>,
+            <span class="ident">extra_entities</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
+            <span class="ident">ignore_end_of_stream</span>: <span class="bool-val">false</span>
         }
     }
 
@@ -221,6 +289,27 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_reader</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">source</span>: <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">EventReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
         <span class="ident">EventReader</span>::<span class="ident">new_with_config</span>(<span class="ident">source</span>, <span class="self">self</span>)
     }
+
+    <span class="doccomment">/// Adds a new entity mapping and returns an updated config object.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is a convenience method for adding external entities mappings to the XML parser.</span>
+    <span class="doccomment">/// An example:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```rust</span>
+    <span class="doccomment">/// use xml::reader::ParserConfig;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let mut source: &amp;[u8] = b&quot;...&quot;;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let reader = ParserConfig::new()</span>
+    <span class="doccomment">///     .add_entity(&quot;nbsp&quot;, &quot; &quot;)</span>
+    <span class="doccomment">///     .add_entity(&quot;copy&quot;, &quot;©&quot;)</span>
+    <span class="doccomment">///     .add_entity(&quot;reg&quot;, &quot;®&quot;)</span>
+    <span class="doccomment">///     .create_reader(&amp;mut source);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_entity</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">entity</span>: <span class="ident">S</span>, <span class="ident">value</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ParserConfig</span> {
+        <span class="self">self</span>.<span class="ident">extra_entities</span>.<span class="ident">insert</span>(<span class="ident">entity</span>.<span class="ident">into</span>(), <span class="ident">value</span>.<span class="ident">into</span>());
+        <span class="self">self</span>
+    }
 }
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">ParserConfig</span> {
@@ -235,7 +324,8 @@
     <span class="ident">whitespace_to_characters</span>: <span class="ident">val</span> <span class="ident">bool</span>,
     <span class="ident">cdata_to_characters</span>: <span class="ident">val</span> <span class="ident">bool</span>,
     <span class="ident">ignore_comments</span>: <span class="ident">val</span> <span class="ident">bool</span>,
-    <span class="ident">coalesce_characters</span>: <span class="ident">val</span> <span class="ident">bool</span>
+    <span class="ident">coalesce_characters</span>: <span class="ident">val</span> <span class="ident">bool</span>,
+    <span class="ident">ignore_end_of_stream</span>: <span class="ident">val</span> <span class="ident">bool</span>
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "xml";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>
