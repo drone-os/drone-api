@@ -111,7 +111,7 @@
 <span class="kw">use</span> <span class="ident">quote</span>::<span class="ident">quote</span>;
 <span class="kw">use</span> <span class="ident">syn</span>::{
     <span class="ident">parse</span>::{<span class="ident">Parse</span>, <span class="ident">ParseStream</span>, <span class="prelude-ty">Result</span>},
-    <span class="ident">parse_macro_input</span>, <span class="ident">Attribute</span>, <span class="ident">Ident</span>, <span class="ident">IntSuffix</span>, <span class="ident">LitInt</span>, <span class="ident">Token</span>, <span class="ident">Visibility</span>,
+    <span class="ident">parse_macro_input</span>, <span class="ident">Attribute</span>, <span class="ident">Ident</span>, <span class="ident">LitInt</span>, <span class="ident">Token</span>, <span class="ident">Visibility</span>,
 };
 
 <span class="kw">struct</span> <span class="ident">Sv</span> {
@@ -178,7 +178,7 @@
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">array_tokens</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">service_tokens</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
     <span class="kw">for</span> <span class="ident">Service</span> { <span class="ident">ident</span> } <span class="kw">in</span> <span class="ident">services</span> {
-        <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="ident">LitInt</span>::<span class="ident">new</span>(<span class="ident">service_counter</span> <span class="kw">as</span> <span class="ident">u64</span>, <span class="ident">IntSuffix</span>::<span class="prelude-val">None</span>, <span class="ident">Span</span>::<span class="ident">call_site</span>());
+        <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="ident">LitInt</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">service_counter</span>.<span class="ident">to_string</span>(), <span class="ident">Span</span>::<span class="ident">call_site</span>());
         <span class="ident">service_counter</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
         <span class="ident">array_tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
             #<span class="ident">sv_ident</span>(::<span class="ident">drone_cortex_m</span>::<span class="ident">sv</span>::<span class="ident">service_handler</span>::<span class="op">&lt;</span>#<span class="ident">ident</span><span class="op">&gt;</span>)
