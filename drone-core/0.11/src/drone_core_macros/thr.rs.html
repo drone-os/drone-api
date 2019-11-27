@@ -197,11 +197,9 @@
 <span id="197">197</span>
 <span id="198">198</span>
 <span id="199">199</span>
-<span id="200">200</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">drone_macros_core</span>::<span class="ident">new_ident</span>;
 <span class="kw">use</span> <span class="ident">proc_macro</span>::<span class="ident">TokenStream</span>;
-<span class="kw">use</span> <span class="ident">quote</span>::<span class="ident">quote</span>;
+<span class="kw">use</span> <span class="ident">quote</span>::{<span class="ident">format_ident</span>, <span class="ident">quote</span>};
 <span class="kw">use</span> <span class="ident">syn</span>::{
     <span class="ident">braced</span>,
     <span class="ident">parse</span>::{<span class="ident">Parse</span>, <span class="ident">ParseStream</span>, <span class="prelude-ty">Result</span>},
@@ -299,7 +297,7 @@
         <span class="ident">local_ident</span>,
         <span class="ident">local_fields</span>,
     } <span class="op">=</span> <span class="macro">parse_macro_input</span><span class="macro">!</span>(<span class="ident">input</span> <span class="kw">as</span> <span class="ident">Thr</span>);
-    <span class="kw">let</span> <span class="ident">local</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;Local&quot;</span>);
+    <span class="kw">let</span> <span class="ident">local</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;Local&quot;</span>);
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">thr_tokens</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">thr_ctor_tokens</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">local_tokens</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();

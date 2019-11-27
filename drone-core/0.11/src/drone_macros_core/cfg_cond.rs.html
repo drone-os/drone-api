@@ -230,7 +230,7 @@
     }
 
     <span class="doccomment">/// Returns a `TokenStream` for conditional compilation.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">attrs</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">attrs</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
         <span class="kw">let</span> <span class="self">Self</span> { <span class="ident">clauses</span>, <span class="ident">inverse</span> } <span class="op">=</span> <span class="self">self</span>;
         <span class="kw">let</span> <span class="ident">tokens</span> <span class="op">=</span> <span class="ident">clauses</span>
             .<span class="ident">iter</span>()
@@ -242,11 +242,11 @@
             })
             .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>();
         <span class="kw">if</span> <span class="ident">tokens</span>.<span class="ident">is_empty</span>() {
-            <span class="prelude-val">None</span>
+            <span class="macro">quote</span><span class="macro">!</span>()
         } <span class="kw">else</span> <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">inverse</span> {
-            <span class="prelude-val">Some</span>(<span class="macro">quote</span><span class="macro">!</span>(<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(#(<span class="ident">all</span>(#(#<span class="ident">tokens</span>),<span class="kw-2">*</span>)),<span class="kw-2">*</span>)))]</span>))
+            <span class="macro">quote</span><span class="macro">!</span>(<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(#(<span class="ident">all</span>(#(#<span class="ident">tokens</span>),<span class="kw-2">*</span>)),<span class="kw-2">*</span>)))]</span>)
         } <span class="kw">else</span> {
-            <span class="prelude-val">Some</span>(<span class="macro">quote</span><span class="macro">!</span>(#(<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(#(#<span class="ident">tokens</span>),<span class="kw-2">*</span>))]</span>)<span class="kw-2">*</span>))
+            <span class="macro">quote</span><span class="macro">!</span>(#(<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(#(#<span class="ident">tokens</span>),<span class="kw-2">*</span>))]</span>)<span class="kw-2">*</span>)
         }
     }
 

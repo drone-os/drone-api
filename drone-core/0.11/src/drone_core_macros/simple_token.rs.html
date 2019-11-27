@@ -49,12 +49,10 @@
 <span id="49">49</span>
 <span id="50">50</span>
 <span id="51">51</span>
-<span id="52">52</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">drone_macros_core</span>::<span class="ident">new_ident</span>;
 <span class="kw">use</span> <span class="ident">inflector</span>::<span class="ident">Inflector</span>;
 <span class="kw">use</span> <span class="ident">proc_macro</span>::<span class="ident">TokenStream</span>;
-<span class="kw">use</span> <span class="ident">quote</span>::<span class="ident">quote</span>;
+<span class="kw">use</span> <span class="ident">quote</span>::{<span class="ident">format_ident</span>, <span class="ident">quote</span>};
 <span class="kw">use</span> <span class="ident">syn</span>::{
     <span class="ident">parse</span>::{<span class="ident">Parse</span>, <span class="ident">ParseStream</span>, <span class="prelude-ty">Result</span>},
     <span class="ident">parse_macro_input</span>, <span class="ident">Attribute</span>, <span class="ident">Ident</span>, <span class="ident">Token</span>, <span class="ident">Visibility</span>,
@@ -79,7 +77,7 @@
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">proc_macro</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
     <span class="kw">let</span> <span class="ident">SimpleToken</span> { <span class="ident">attrs</span>, <span class="ident">vis</span>, <span class="ident">ident</span> } <span class="op">=</span> <span class="macro">parse_macro_input</span><span class="macro">!</span>(<span class="ident">input</span> <span class="kw">as</span> <span class="ident">SimpleToken</span>);
-    <span class="kw">let</span> <span class="ident">wrapper</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;__{}_simple_token&quot;</span>, <span class="ident">ident</span>.<span class="ident">to_string</span>().<span class="ident">to_snake_case</span>());
+    <span class="kw">let</span> <span class="ident">wrapper</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;__{}_simple_token&quot;</span>, <span class="ident">ident</span>.<span class="ident">to_string</span>().<span class="ident">to_snake_case</span>());
     <span class="kw">let</span> <span class="ident">expanded</span> <span class="op">=</span> <span class="macro">quote</span><span class="macro">!</span> {
         <span class="kw">mod</span> #<span class="ident">wrapper</span> {
             <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;

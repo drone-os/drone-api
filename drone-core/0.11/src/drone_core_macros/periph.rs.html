@@ -743,10 +743,10 @@
 <span id="743">743</span>
 <span id="744">744</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">drone_macros_core</span>::{<span class="ident">compile_error</span>, <span class="ident">new_ident</span>, <span class="ident">unkeywordize</span>, <span class="ident">CfgCond</span>, <span class="ident">CfgCondExt</span>};
+<span class="kw">use</span> <span class="ident">drone_macros_core</span>::{<span class="ident">compile_error</span>, <span class="ident">unkeywordize</span>, <span class="ident">CfgCond</span>, <span class="ident">CfgCondExt</span>};
 <span class="kw">use</span> <span class="ident">inflector</span>::<span class="ident">Inflector</span>;
 <span class="kw">use</span> <span class="ident">proc_macro</span>::<span class="ident">TokenStream</span>;
-<span class="kw">use</span> <span class="ident">quote</span>::<span class="ident">quote</span>;
+<span class="kw">use</span> <span class="ident">quote</span>::{<span class="ident">format_ident</span>, <span class="ident">quote</span>};
 <span class="kw">use</span> <span class="ident">syn</span>::{
     <span class="ident">braced</span>,
     <span class="ident">parse</span>::{<span class="ident">Parse</span>, <span class="ident">ParseStream</span>, <span class="prelude-ty">Result</span>},
@@ -832,7 +832,7 @@
         <span class="kw">let</span> <span class="ident">ident</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">parse</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">content</span>;
         <span class="macro">braced</span><span class="macro">!</span>(<span class="ident">content</span> <span class="kw">in</span> <span class="ident">input</span>);
-        <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">content</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">LitInt</span><span class="op">&gt;</span>()<span class="question-mark">?</span>.<span class="ident">value</span>() <span class="kw">as</span> <span class="ident">u8</span>;
+        <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">content</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">LitInt</span><span class="op">&gt;</span>()<span class="question-mark">?</span>.<span class="ident">base10_parse</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">traits</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
         <span class="kw">while</span> <span class="op">!</span><span class="ident">content</span>.<span class="ident">peek</span>(<span class="macro">Token</span><span class="macro">!</span>[;]) {
             <span class="ident">traits</span>.<span class="ident">push</span>(<span class="ident">content</span>.<span class="ident">parse</span>()<span class="question-mark">?</span>);
@@ -901,23 +901,23 @@
         } <span class="kw">in</span> <span class="ident">regs</span>
         {
             <span class="kw">let</span> <span class="ident">reg_snk</span> <span class="op">=</span> <span class="ident">reg_ident</span>.<span class="ident">to_string</span>().<span class="ident">to_snake_case</span>();
-            <span class="kw">let</span> <span class="ident">block_reg_snk</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;{}_{}&quot;</span>, <span class="ident">block_snk</span>, <span class="ident">reg_snk</span>);
+            <span class="kw">let</span> <span class="ident">block_reg_snk</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;{}_{}&quot;</span>, <span class="ident">block_snk</span>, <span class="ident">reg_snk</span>);
             <span class="kw">let</span> <span class="ident">reg_psc</span> <span class="op">=</span> <span class="ident">reg_ident</span>.<span class="ident">to_string</span>().<span class="ident">to_pascal_case</span>();
-            <span class="kw">let</span> <span class="ident">val_ty</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;u{}&quot;</span>, <span class="ident">size</span>);
-            <span class="kw">let</span> <span class="ident">reg_trait</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
-            <span class="kw">let</span> <span class="ident">reg_trait_opt</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;{}{}Opt&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
-            <span class="kw">let</span> <span class="ident">reg_trait_ext</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;{}{}Ext&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
-            <span class="kw">let</span> <span class="ident">val</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;{}{}Val&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
-            <span class="kw">let</span> <span class="ident">u_reg</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;U{}{}&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
-            <span class="kw">let</span> <span class="ident">s_reg</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;S{}{}&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
-            <span class="kw">let</span> <span class="ident">c_reg</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;C{}{}&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
-            <span class="kw">let</span> <span class="ident">u_reg_opt</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;U{}{}Opt&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
-            <span class="kw">let</span> <span class="ident">s_reg_opt</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;S{}{}Opt&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
-            <span class="kw">let</span> <span class="ident">c_reg_opt</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;C{}{}Opt&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
-            <span class="kw">let</span> <span class="ident">u_fields</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;U{}{}Fields&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
-            <span class="kw">let</span> <span class="ident">s_fields</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;S{}{}Fields&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
-            <span class="kw">let</span> <span class="ident">c_fields</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;C{}{}Fields&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
-            <span class="kw">let</span> <span class="ident">reg_attrs</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">reg_features</span>.<span class="ident">attrs</span>();
+            <span class="kw">let</span> <span class="ident">val_ty</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;u{}&quot;</span>, <span class="ident">size</span>);
+            <span class="kw">let</span> <span class="ident">reg_trait</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
+            <span class="kw">let</span> <span class="ident">reg_trait_opt</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;{}{}Opt&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
+            <span class="kw">let</span> <span class="ident">reg_trait_ext</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;{}{}Ext&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
+            <span class="kw">let</span> <span class="ident">val</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;{}{}Val&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
+            <span class="kw">let</span> <span class="ident">u_reg</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;U{}{}&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
+            <span class="kw">let</span> <span class="ident">s_reg</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;S{}{}&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
+            <span class="kw">let</span> <span class="ident">c_reg</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;C{}{}&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
+            <span class="kw">let</span> <span class="ident">u_reg_opt</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;U{}{}Opt&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
+            <span class="kw">let</span> <span class="ident">s_reg_opt</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;S{}{}Opt&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
+            <span class="kw">let</span> <span class="ident">c_reg_opt</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;C{}{}Opt&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
+            <span class="kw">let</span> <span class="ident">u_fields</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;U{}{}Fields&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
+            <span class="kw">let</span> <span class="ident">s_fields</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;S{}{}Fields&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
+            <span class="kw">let</span> <span class="ident">c_fields</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;C{}{}Fields&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>);
+            <span class="kw">let</span> <span class="ident">reg_attrs</span> <span class="op">=</span> <span class="ident">reg_features</span>.<span class="ident">attrs</span>();
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">u_traits</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">s_traits</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c_traits</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
@@ -928,9 +928,9 @@
                 } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">ident</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;Option&quot;</span> {
                     <span class="ident">reg_option</span> <span class="op">=</span> <span class="bool-val">true</span>;
                 } <span class="kw">else</span> {
-                    <span class="ident">u_traits</span>.<span class="ident">push</span>(<span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;U{}&quot;</span>, <span class="ident">ident</span>));
-                    <span class="ident">s_traits</span>.<span class="ident">push</span>(<span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;S{}&quot;</span>, <span class="ident">ident</span>));
-                    <span class="ident">c_traits</span>.<span class="ident">push</span>(<span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;C{}&quot;</span>, <span class="ident">ident</span>));
+                    <span class="ident">u_traits</span>.<span class="ident">push</span>(<span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;U{}&quot;</span>, <span class="ident">ident</span>));
+                    <span class="ident">s_traits</span>.<span class="ident">push</span>(<span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;S{}&quot;</span>, <span class="ident">ident</span>));
+                    <span class="ident">c_traits</span>.<span class="ident">push</span>(<span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;C{}&quot;</span>, <span class="ident">ident</span>));
                 }
             }
             <span class="kw">if</span> <span class="ident">reg_shared</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">reg_option</span> {
@@ -951,17 +951,17 @@
             {
                 <span class="kw">let</span> <span class="ident">field_snk</span> <span class="op">=</span> <span class="ident">field_ident</span>.<span class="ident">to_string</span>().<span class="ident">to_snake_case</span>();
                 <span class="kw">let</span> <span class="ident">field_psc</span> <span class="op">=</span> <span class="ident">field_ident</span>.<span class="ident">to_string</span>().<span class="ident">to_pascal_case</span>();
-                <span class="kw">let</span> <span class="ident">field_ident</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">unkeywordize</span>(<span class="ident">field_snk</span>.<span class="ident">clone</span>().<span class="ident">into</span>()));
-                <span class="kw">let</span> <span class="ident">block_reg_field_snk</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;{}_{}_{}&quot;</span>, <span class="ident">block_snk</span>, <span class="ident">reg_snk</span>, <span class="ident">field_snk</span>);
-                <span class="kw">let</span> <span class="ident">field_trait</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;{}{}{}&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>, <span class="ident">field_psc</span>);
-                <span class="kw">let</span> <span class="ident">field_trait_opt</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;{}{}{}Opt&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>, <span class="ident">field_psc</span>);
-                <span class="kw">let</span> <span class="ident">field_trait_ext</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;{}{}{}Ext&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>, <span class="ident">field_psc</span>);
-                <span class="kw">let</span> <span class="ident">u_field</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;U{}{}{}&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>, <span class="ident">field_psc</span>);
-                <span class="kw">let</span> <span class="ident">s_field</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;S{}{}{}&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>, <span class="ident">field_psc</span>);
-                <span class="kw">let</span> <span class="ident">c_field</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;C{}{}{}&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>, <span class="ident">field_psc</span>);
-                <span class="kw">let</span> <span class="ident">u_field_opt</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;U{}{}{}Opt&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>, <span class="ident">field_psc</span>);
-                <span class="kw">let</span> <span class="ident">s_field_opt</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;S{}{}{}Opt&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>, <span class="ident">field_psc</span>);
-                <span class="kw">let</span> <span class="ident">c_field_opt</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;C{}{}{}Opt&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>, <span class="ident">field_psc</span>);
+                <span class="kw">let</span> <span class="ident">field_ident</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">unkeywordize</span>(<span class="kw-2">&amp;</span><span class="ident">field_snk</span>));
+                <span class="kw">let</span> <span class="ident">block_reg_field_snk</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;{}_{}_{}&quot;</span>, <span class="ident">block_snk</span>, <span class="ident">reg_snk</span>, <span class="ident">field_snk</span>);
+                <span class="kw">let</span> <span class="ident">field_trait</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;{}{}{}&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>, <span class="ident">field_psc</span>);
+                <span class="kw">let</span> <span class="ident">field_trait_opt</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;{}{}{}Opt&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>, <span class="ident">field_psc</span>);
+                <span class="kw">let</span> <span class="ident">field_trait_ext</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;{}{}{}Ext&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>, <span class="ident">field_psc</span>);
+                <span class="kw">let</span> <span class="ident">u_field</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;U{}{}{}&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>, <span class="ident">field_psc</span>);
+                <span class="kw">let</span> <span class="ident">s_field</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;S{}{}{}&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>, <span class="ident">field_psc</span>);
+                <span class="kw">let</span> <span class="ident">c_field</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;C{}{}{}&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>, <span class="ident">field_psc</span>);
+                <span class="kw">let</span> <span class="ident">u_field_opt</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;U{}{}{}Opt&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>, <span class="ident">field_psc</span>);
+                <span class="kw">let</span> <span class="ident">s_field_opt</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;S{}{}{}Opt&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>, <span class="ident">field_psc</span>);
+                <span class="kw">let</span> <span class="ident">c_field_opt</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;C{}{}{}Opt&quot;</span>, <span class="ident">block_psc</span>, <span class="ident">reg_psc</span>, <span class="ident">field_psc</span>);
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">u_traits</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">s_traits</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c_traits</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
@@ -970,16 +970,16 @@
                     <span class="kw">if</span> <span class="ident">ident</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;Option&quot;</span> {
                         <span class="ident">field_option</span> <span class="op">=</span> <span class="bool-val">true</span>;
                     } <span class="kw">else</span> {
-                        <span class="ident">u_traits</span>.<span class="ident">push</span>(<span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;U{}&quot;</span>, <span class="ident">ident</span>));
-                        <span class="ident">s_traits</span>.<span class="ident">push</span>(<span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;S{}&quot;</span>, <span class="ident">ident</span>));
-                        <span class="ident">c_traits</span>.<span class="ident">push</span>(<span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;C{}&quot;</span>, <span class="ident">ident</span>));
+                        <span class="ident">u_traits</span>.<span class="ident">push</span>(<span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;U{}&quot;</span>, <span class="ident">ident</span>));
+                        <span class="ident">s_traits</span>.<span class="ident">push</span>(<span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;S{}&quot;</span>, <span class="ident">ident</span>));
+                        <span class="ident">c_traits</span>.<span class="ident">push</span>(<span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;C{}&quot;</span>, <span class="ident">ident</span>));
                     }
                 }
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">features</span> <span class="op">=</span> <span class="ident">CfgCond</span>::<span class="ident">default</span>();
                 <span class="ident">features</span>.<span class="ident">add_clause</span>(<span class="kw-2">&amp;</span><span class="ident">reg_features</span>);
                 <span class="ident">features</span>.<span class="ident">add_clause</span>(<span class="kw-2">&amp;</span><span class="ident">field_features</span>);
-                <span class="kw">let</span> <span class="ident">field_attrs</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">features</span>.<span class="ident">attrs</span>();
-                <span class="kw">let</span> <span class="ident">struct_attrs</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">field_features</span>.<span class="ident">attrs</span>();
+                <span class="kw">let</span> <span class="ident">field_attrs</span> <span class="op">=</span> <span class="ident">features</span>.<span class="ident">attrs</span>();
+                <span class="kw">let</span> <span class="ident">struct_attrs</span> <span class="op">=</span> <span class="ident">field_features</span>.<span class="ident">attrs</span>();
                 <span class="kw">let</span> <span class="ident">field_trait_items</span> <span class="op">=</span> <span class="macro">quote</span><span class="macro">!</span> {
                     <span class="kw">type</span> #<span class="ident">u_field</span>: ::<span class="ident">drone_core</span>::<span class="ident">reg</span>::<span class="ident">field</span>::<span class="ident">RegField</span><span class="op">&lt;</span>
                         ::<span class="ident">drone_core</span>::<span class="ident">reg</span>::<span class="ident">tag</span>::<span class="ident">Urt</span>,
@@ -1011,11 +1011,11 @@
                         <span class="ident">reg_bounds</span>.<span class="ident">push</span>((<span class="ident">features</span>, <span class="macro">quote</span><span class="macro">!</span>(<span class="self">Self</span>: #<span class="ident">field_trait_opt</span>)));
                         <span class="ident">periph_fields</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
                             <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
-                            #(#<span class="ident">field_attrs</span>)<span class="op">*</span>
+                            #<span class="ident">field_attrs</span>
                             <span class="kw">pub</span> #<span class="ident">block_reg_field_snk</span>: <span class="ident">T</span>::#<span class="ident">s_field_opt</span>,
                         });
                         <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                            #(#<span class="ident">field_attrs</span>)<span class="op">*</span>
+                            #<span class="ident">field_attrs</span>
                             <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                             <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">field_trait_opt</span> {
                                 <span class="kw">type</span> #<span class="ident">u_field_opt</span>: <span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>;
@@ -1024,14 +1024,14 @@
                             }
                         });
                         <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                            #(#<span class="ident">field_attrs</span>)<span class="op">*</span>
+                            #<span class="ident">field_attrs</span>
                             <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                             <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">field_trait_ext</span>: #<span class="ident">reg_trait</span> {
-                                #(#<span class="ident">field_trait_items</span>)<span class="op">*</span>
+                                #<span class="ident">field_trait_items</span>
                             }
                         });
                         <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                            #(#<span class="ident">field_attrs</span>)<span class="op">*</span>
+                            #<span class="ident">field_attrs</span>
                             <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                             <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">field_trait</span>
                             <span class="kw">where</span>
@@ -1050,7 +1050,7 @@
                         <span class="kw">if</span> <span class="ident">reg_option</span> {
                             <span class="ident">reg_bounds</span>.<span class="ident">push</span>((<span class="ident">features</span>, <span class="macro">quote</span><span class="macro">!</span>(<span class="self">Self</span>: #<span class="ident">field_trait_opt</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>)));
                             <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                                #(#<span class="ident">field_attrs</span>)<span class="op">*</span>
+                                #<span class="ident">field_attrs</span>
                                 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                                 <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">field_trait_opt</span><span class="op">&lt;</span><span class="ident">T</span>: #<span class="ident">reg_trait</span><span class="op">&gt;</span>: #<span class="ident">reg_trait_ext</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
                                     <span class="kw">type</span> #<span class="ident">u_field_opt</span>: <span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>;
@@ -1059,14 +1059,14 @@
                                 }
                             });
                             <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                                #(#<span class="ident">field_attrs</span>)<span class="op">*</span>
+                                #<span class="ident">field_attrs</span>
                                 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                                 <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">field_trait_ext</span><span class="op">&lt;</span><span class="ident">T</span>: #<span class="ident">reg_trait</span><span class="op">&gt;</span>: #<span class="ident">reg_trait_ext</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-                                    #(#<span class="ident">field_trait_items</span>)<span class="op">*</span>
+                                    #<span class="ident">field_trait_items</span>
                                 }
                             });
                             <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                                #(#<span class="ident">field_attrs</span>)<span class="op">*</span>
+                                #<span class="ident">field_attrs</span>
                                 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                                 <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">field_trait</span>
                                 <span class="kw">where</span>
@@ -1084,7 +1084,7 @@
                         } <span class="kw">else</span> {
                             <span class="ident">reg_bounds</span>.<span class="ident">push</span>((<span class="ident">features</span>, <span class="macro">quote</span><span class="macro">!</span>(<span class="self">Self</span>: #<span class="ident">field_trait_opt</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>)));
                             <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                                #(#<span class="ident">field_attrs</span>)<span class="op">*</span>
+                                #<span class="ident">field_attrs</span>
                                 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                                 <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">field_trait_opt</span><span class="op">&lt;</span><span class="ident">T</span>: #<span class="ident">trait_ident</span><span class="op">&gt;</span>: #<span class="ident">reg_trait</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
                                     <span class="kw">type</span> #<span class="ident">u_field_opt</span>: <span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>;
@@ -1093,14 +1093,14 @@
                                 }
                             });
                             <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                                #(#<span class="ident">field_attrs</span>)<span class="op">*</span>
+                                #<span class="ident">field_attrs</span>
                                 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                                 <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">field_trait_ext</span><span class="op">&lt;</span><span class="ident">T</span>: #<span class="ident">trait_ident</span><span class="op">&gt;</span>: #<span class="ident">reg_trait</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-                                    #(#<span class="ident">field_trait_items</span>)<span class="op">*</span>
+                                    #<span class="ident">field_trait_items</span>
                                 }
                             });
                             <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                                #(#<span class="ident">field_attrs</span>)<span class="op">*</span>
+                                #<span class="ident">field_attrs</span>
                                 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                                 <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">field_trait</span>
                                 <span class="kw">where</span>
@@ -1118,27 +1118,27 @@
                             });
                         }
                         <span class="ident">u_fields_tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                            #(#<span class="ident">struct_attrs</span>)<span class="op">*</span>
+                            #<span class="ident">struct_attrs</span>
                             <span class="kw">pub</span> #<span class="ident">field_ident</span>: <span class="ident">T</span>::#<span class="ident">u_field_opt</span>,
                         });
                         <span class="ident">s_fields_tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                            #(#<span class="ident">struct_attrs</span>)<span class="op">*</span>
+                            #<span class="ident">struct_attrs</span>
                             <span class="kw">pub</span> #<span class="ident">field_ident</span>: <span class="ident">T</span>::#<span class="ident">s_field_opt</span>,
                         });
                         <span class="ident">c_fields_tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                            #(#<span class="ident">struct_attrs</span>)<span class="op">*</span>
+                            #<span class="ident">struct_attrs</span>
                             <span class="kw">pub</span> #<span class="ident">field_ident</span>: <span class="ident">T</span>::#<span class="ident">c_field_opt</span>,
                         });
                         <span class="ident">u_methods</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                            #(#<span class="ident">struct_attrs</span>)<span class="op">*</span>
+                            #<span class="ident">struct_attrs</span>
                             <span class="kw">fn</span> #<span class="ident">field_ident</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">T</span>::#<span class="ident">u_field_opt</span>;
                         });
                         <span class="ident">s_methods</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                            #(#<span class="ident">struct_attrs</span>)<span class="op">*</span>
+                            #<span class="ident">struct_attrs</span>
                             <span class="kw">fn</span> #<span class="ident">field_ident</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">T</span>::#<span class="ident">s_field_opt</span>;
                         });
                         <span class="ident">c_methods</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                            #(#<span class="ident">struct_attrs</span>)<span class="op">*</span>
+                            #<span class="ident">struct_attrs</span>
                             <span class="kw">fn</span> #<span class="ident">field_ident</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">T</span>::#<span class="ident">c_field_opt</span>;
                         });
                     }
@@ -1146,58 +1146,58 @@
                     <span class="ident">reg_bounds</span>.<span class="ident">push</span>((<span class="ident">features</span>, <span class="macro">quote</span><span class="macro">!</span>(<span class="self">Self</span>: #<span class="ident">field_trait</span>)));
                     <span class="ident">periph_fields</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
                         <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
-                        #(#<span class="ident">field_attrs</span>)<span class="op">*</span>
+                        #<span class="ident">field_attrs</span>
                         <span class="kw">pub</span> #<span class="ident">block_reg_field_snk</span>: <span class="ident">T</span>::#<span class="ident">s_field</span>,
                     });
                     <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                        #(#<span class="ident">field_attrs</span>)<span class="op">*</span>
+                        #<span class="ident">field_attrs</span>
                         <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                         <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">field_trait</span>: #<span class="ident">reg_trait</span> {
-                            #(#<span class="ident">field_trait_items</span>)<span class="op">*</span>
+                            #<span class="ident">field_trait_items</span>
                         }
                     });
                 } <span class="kw">else</span> {
                     <span class="kw">if</span> <span class="ident">reg_option</span> {
                         <span class="ident">reg_bounds</span>.<span class="ident">push</span>((<span class="ident">features</span>, <span class="macro">quote</span><span class="macro">!</span>(<span class="self">Self</span>: #<span class="ident">field_trait</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>)));
                         <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                            #(#<span class="ident">field_attrs</span>)<span class="op">*</span>
+                            #<span class="ident">field_attrs</span>
                             <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                             <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">field_trait</span><span class="op">&lt;</span><span class="ident">T</span>: #<span class="ident">reg_trait</span><span class="op">&gt;</span>: #<span class="ident">reg_trait_ext</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-                                #(#<span class="ident">field_trait_items</span>)<span class="op">*</span>
+                                #<span class="ident">field_trait_items</span>
                             }
                         });
                     } <span class="kw">else</span> {
                         <span class="ident">reg_bounds</span>.<span class="ident">push</span>((<span class="ident">features</span>, <span class="macro">quote</span><span class="macro">!</span>(<span class="self">Self</span>: #<span class="ident">field_trait</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>)));
                         <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                            #(#<span class="ident">field_attrs</span>)<span class="op">*</span>
+                            #<span class="ident">field_attrs</span>
                             <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                             <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">field_trait</span><span class="op">&lt;</span><span class="ident">T</span>: #<span class="ident">trait_ident</span><span class="op">&gt;</span>: #<span class="ident">reg_trait</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-                                #(#<span class="ident">field_trait_items</span>)<span class="op">*</span>
+                                #<span class="ident">field_trait_items</span>
                             }
                         });
                     }
                     <span class="ident">u_fields_tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                        #(#<span class="ident">struct_attrs</span>)<span class="op">*</span>
+                        #<span class="ident">struct_attrs</span>
                         <span class="kw">pub</span> #<span class="ident">field_ident</span>: <span class="ident">T</span>::#<span class="ident">u_field</span>,
                     });
                     <span class="ident">s_fields_tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                        #(#<span class="ident">struct_attrs</span>)<span class="op">*</span>
+                        #<span class="ident">struct_attrs</span>
                         <span class="kw">pub</span> #<span class="ident">field_ident</span>: <span class="ident">T</span>::#<span class="ident">s_field</span>,
                     });
                     <span class="ident">c_fields_tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                        #(#<span class="ident">struct_attrs</span>)<span class="op">*</span>
+                        #<span class="ident">struct_attrs</span>
                         <span class="kw">pub</span> #<span class="ident">field_ident</span>: <span class="ident">T</span>::#<span class="ident">c_field</span>,
                     });
                     <span class="ident">u_methods</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                        #(#<span class="ident">struct_attrs</span>)<span class="op">*</span>
+                        #<span class="ident">struct_attrs</span>
                         <span class="kw">fn</span> #<span class="ident">field_ident</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">T</span>::#<span class="ident">u_field</span>;
                     });
                     <span class="ident">s_methods</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                        #(#<span class="ident">struct_attrs</span>)<span class="op">*</span>
+                        #<span class="ident">struct_attrs</span>
                         <span class="kw">fn</span> #<span class="ident">field_ident</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">T</span>::#<span class="ident">s_field</span>;
                     });
                     <span class="ident">c_methods</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                        #(#<span class="ident">struct_attrs</span>)<span class="op">*</span>
+                        #<span class="ident">struct_attrs</span>
                         <span class="kw">fn</span> #<span class="ident">field_ident</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">T</span>::#<span class="ident">c_field</span>;
                     });
                 }
@@ -1215,11 +1215,11 @@
                 <span class="ident">periph_bounds</span>.<span class="ident">push</span>((<span class="ident">reg_features</span>.<span class="ident">clone</span>(), <span class="macro">quote</span><span class="macro">!</span>(<span class="self">Self</span>: #<span class="ident">reg_trait_opt</span>)));
                 <span class="ident">periph_fields</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
-                    #(#<span class="ident">reg_attrs</span>)<span class="op">*</span>
+                    #<span class="ident">reg_attrs</span>
                     <span class="kw">pub</span> #<span class="ident">block_reg_snk</span>: <span class="ident">T</span>::#<span class="ident">s_reg_opt</span>,
                 });
                 <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                    #(#<span class="ident">reg_attrs</span>)<span class="op">*</span>
+                    #<span class="ident">reg_attrs</span>
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                     <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">reg_trait_opt</span> {
                         <span class="kw">type</span> #<span class="ident">u_reg_opt</span>: <span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>;
@@ -1228,7 +1228,7 @@
                     }
                 });
                 <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                    #(#<span class="ident">reg_attrs</span>)<span class="op">*</span>
+                    #<span class="ident">reg_attrs</span>
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                     <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">reg_trait_ext</span><span class="op">&lt;</span><span class="ident">T</span>: #<span class="ident">reg_trait</span><span class="op">&gt;</span> {
                         <span class="kw">type</span> #<span class="ident">val</span>: ::<span class="ident">drone_core</span>::<span class="ident">bitfield</span>::<span class="ident">Bitfield</span><span class="op">&lt;</span><span class="ident">Bits</span> <span class="op">=</span> #<span class="ident">val_ty</span><span class="op">&gt;</span>;
@@ -1256,7 +1256,7 @@
                     }
                 });
                 <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                    #(#<span class="ident">reg_attrs</span>)<span class="op">*</span>
+                    #<span class="ident">reg_attrs</span>
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                     <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">u_reg</span><span class="op">&lt;</span><span class="ident">T</span>: #<span class="ident">reg_trait</span><span class="op">&gt;</span>: #(#<span class="ident">u_traits</span>)<span class="op">+</span><span class="op">*</span> {
                         <span class="kw">fn</span> <span class="ident">from_fields</span>(<span class="ident">map</span>: #<span class="ident">u_fields</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>;
@@ -1265,7 +1265,7 @@
                     }
                 });
                 <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                    #(#<span class="ident">reg_attrs</span>)<span class="op">*</span>
+                    #<span class="ident">reg_attrs</span>
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                     <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">s_reg</span><span class="op">&lt;</span><span class="ident">T</span>: #<span class="ident">reg_trait</span><span class="op">&gt;</span>: #(#<span class="ident">s_traits</span>)<span class="op">+</span><span class="op">*</span> {
                         <span class="kw">fn</span> <span class="ident">from_fields</span>(<span class="ident">map</span>: #<span class="ident">s_fields</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>;
@@ -1274,7 +1274,7 @@
                     }
                 });
                 <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                    #(#<span class="ident">reg_attrs</span>)<span class="op">*</span>
+                    #<span class="ident">reg_attrs</span>
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                     <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">c_reg</span><span class="op">&lt;</span><span class="ident">T</span>: #<span class="ident">reg_trait</span><span class="op">&gt;</span>: #(#<span class="ident">c_traits</span>)<span class="op">+</span><span class="op">*</span> {
                         <span class="kw">fn</span> <span class="ident">from_fields</span>(<span class="ident">map</span>: #<span class="ident">c_fields</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>;
@@ -1283,31 +1283,31 @@
                     }
                 });
                 <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                    #(#<span class="ident">reg_attrs</span>)<span class="op">*</span>
+                    #<span class="ident">reg_attrs</span>
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                     <span class="kw">pub</span> <span class="kw">struct</span> #<span class="ident">u_fields</span><span class="op">&lt;</span><span class="ident">T</span>: #<span class="ident">reg_trait</span><span class="op">&gt;</span> {
                         #(#<span class="ident">u_fields_tokens</span>)<span class="op">*</span>
                     }
                 });
                 <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                    #(#<span class="ident">reg_attrs</span>)<span class="op">*</span>
+                    #<span class="ident">reg_attrs</span>
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                     <span class="kw">pub</span> <span class="kw">struct</span> #<span class="ident">s_fields</span><span class="op">&lt;</span><span class="ident">T</span>: #<span class="ident">reg_trait</span><span class="op">&gt;</span> {
                         #(#<span class="ident">s_fields_tokens</span>)<span class="op">*</span>
                     }
                 });
                 <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                    #(#<span class="ident">reg_attrs</span>)<span class="op">*</span>
+                    #<span class="ident">reg_attrs</span>
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                     <span class="kw">pub</span> <span class="kw">struct</span> #<span class="ident">c_fields</span><span class="op">&lt;</span><span class="ident">T</span>: #<span class="ident">reg_trait</span><span class="op">&gt;</span> {
                         #(#<span class="ident">c_fields_tokens</span>)<span class="op">*</span>
                     }
                 });
                 <span class="kw">for</span> (<span class="ident">features</span>, <span class="ident">bounds</span>) <span class="kw">in</span> <span class="ident">reg_bounds</span>.<span class="ident">as_slice</span>().<span class="ident">transpose</span>() {
-                    <span class="kw">let</span> <span class="ident">attrs</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">features</span>.<span class="ident">attrs</span>();
+                    <span class="kw">let</span> <span class="ident">attrs</span> <span class="op">=</span> <span class="ident">features</span>.<span class="ident">attrs</span>();
                     <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                        #(#<span class="ident">reg_attrs</span>)<span class="op">*</span>
-                        #(#<span class="ident">attrs</span>)<span class="op">*</span>
+                        #<span class="ident">reg_attrs</span>
+                        #<span class="ident">attrs</span>
                         <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                         <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">reg_trait</span>: #<span class="ident">trait_ident</span>
                         <span class="kw">where</span>
@@ -1325,7 +1325,7 @@
             } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">reg_shared</span> {
                 <span class="ident">periph_bounds</span>.<span class="ident">append</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">reg_bounds</span>);
                 <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                    #(#<span class="ident">reg_attrs</span>)<span class="op">*</span>
+                    #<span class="ident">reg_attrs</span>
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                     <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">reg_trait</span> {
                         <span class="kw">type</span> #<span class="ident">val</span>: ::<span class="ident">drone_core</span>::<span class="ident">bitfield</span>::<span class="ident">Bitfield</span><span class="op">&lt;</span><span class="ident">Bits</span> <span class="op">=</span> #<span class="ident">val_ty</span><span class="op">&gt;</span>;
@@ -1360,11 +1360,11 @@
                 <span class="ident">periph_bounds</span>.<span class="ident">append</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">reg_bounds</span>);
                 <span class="ident">periph_fields</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
-                    #(#<span class="ident">reg_attrs</span>)<span class="op">*</span>
+                    #<span class="ident">reg_attrs</span>
                     <span class="kw">pub</span> #<span class="ident">block_reg_snk</span>: <span class="ident">T</span>::#<span class="ident">s_reg</span>,
                 });
                 <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                    #(#<span class="ident">reg_attrs</span>)<span class="op">*</span>
+                    #<span class="ident">reg_attrs</span>
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                     <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">reg_trait</span><span class="op">&lt;</span><span class="ident">T</span>: #<span class="ident">trait_ident</span><span class="op">&gt;</span> {
                         <span class="kw">type</span> #<span class="ident">val</span>: ::<span class="ident">drone_core</span>::<span class="ident">bitfield</span>::<span class="ident">Bitfield</span><span class="op">&lt;</span><span class="ident">Bits</span> <span class="op">=</span> #<span class="ident">val_ty</span><span class="op">&gt;</span>;
@@ -1392,7 +1392,7 @@
                     }
                 });
                 <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                    #(#<span class="ident">reg_attrs</span>)<span class="op">*</span>
+                    #<span class="ident">reg_attrs</span>
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                     <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">u_reg</span><span class="op">&lt;</span><span class="ident">T</span>: #<span class="ident">trait_ident</span><span class="op">&gt;</span>: #(#<span class="ident">u_traits</span>)<span class="op">+</span><span class="op">*</span> {
                         <span class="kw">fn</span> <span class="ident">from_fields</span>(<span class="ident">map</span>: #<span class="ident">u_fields</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>;
@@ -1401,7 +1401,7 @@
                     }
                 });
                 <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                    #(#<span class="ident">reg_attrs</span>)<span class="op">*</span>
+                    #<span class="ident">reg_attrs</span>
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                     <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">s_reg</span><span class="op">&lt;</span><span class="ident">T</span>: #<span class="ident">trait_ident</span><span class="op">&gt;</span>: #(#<span class="ident">s_traits</span>)<span class="op">+</span><span class="op">*</span> {
                         <span class="kw">fn</span> <span class="ident">from_fields</span>(<span class="ident">map</span>: #<span class="ident">s_fields</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>;
@@ -1410,7 +1410,7 @@
                     }
                 });
                 <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                    #(#<span class="ident">reg_attrs</span>)<span class="op">*</span>
+                    #<span class="ident">reg_attrs</span>
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                     <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">c_reg</span><span class="op">&lt;</span><span class="ident">T</span>: #<span class="ident">trait_ident</span><span class="op">&gt;</span>: #(#<span class="ident">c_traits</span>)<span class="op">+</span><span class="op">*</span> {
                         <span class="kw">fn</span> <span class="ident">from_fields</span>(<span class="ident">map</span>: #<span class="ident">c_fields</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>;
@@ -1419,21 +1419,21 @@
                     }
                 });
                 <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                    #(#<span class="ident">reg_attrs</span>)<span class="op">*</span>
+                    #<span class="ident">reg_attrs</span>
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                     <span class="kw">pub</span> <span class="kw">struct</span> #<span class="ident">u_fields</span><span class="op">&lt;</span><span class="ident">T</span>: #<span class="ident">trait_ident</span><span class="op">&gt;</span> {
                         #(#<span class="ident">u_fields_tokens</span>)<span class="op">*</span>
                     }
                 });
                 <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                    #(#<span class="ident">reg_attrs</span>)<span class="op">*</span>
+                    #<span class="ident">reg_attrs</span>
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                     <span class="kw">pub</span> <span class="kw">struct</span> #<span class="ident">s_fields</span><span class="op">&lt;</span><span class="ident">T</span>: #<span class="ident">trait_ident</span><span class="op">&gt;</span> {
                         #(#<span class="ident">s_fields_tokens</span>)<span class="op">*</span>
                     }
                 });
                 <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                    #(#<span class="ident">reg_attrs</span>)<span class="op">*</span>
+                    #<span class="ident">reg_attrs</span>
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
                     <span class="kw">pub</span> <span class="kw">struct</span> #<span class="ident">c_fields</span><span class="op">&lt;</span><span class="ident">T</span>: #<span class="ident">trait_ident</span><span class="op">&gt;</span> {
                         #(#<span class="ident">c_fields_tokens</span>)<span class="op">*</span>
@@ -1443,10 +1443,10 @@
         }
     }
     <span class="kw">for</span> (<span class="ident">features</span>, <span class="ident">bounds</span>) <span class="kw">in</span> <span class="ident">periph_bounds</span>.<span class="ident">as_slice</span>().<span class="ident">transpose</span>() {
-        <span class="kw">let</span> <span class="ident">attrs</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">features</span>.<span class="ident">attrs</span>();
+        <span class="kw">let</span> <span class="ident">attrs</span> <span class="op">=</span> <span class="ident">features</span>.<span class="ident">attrs</span>();
         <span class="ident">tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
             #(#<span class="ident">trait_attrs</span>)<span class="op">*</span>
-            #(#<span class="ident">attrs</span>)<span class="op">*</span>
+            #<span class="ident">attrs</span>
             <span class="kw">pub</span> <span class="kw">trait</span> #<span class="ident">trait_ident</span>
             <span class="kw">where</span>
                 <span class="self">Self</span>: <span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
@@ -1460,7 +1460,7 @@
         .<span class="ident">into_iter</span>()
         .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">attrs</span>, <span class="ident">ident</span>)<span class="op">|</span> {
             <span class="macro">quote</span><span class="macro">!</span> {
-                #(#<span class="ident">attrs</span>)<span class="op">*</span>
+                #<span class="ident">attrs</span>
                 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">super</span>::#<span class="ident">ident</span> <span class="kw">as</span> <span class="kw">_</span>;
             }
         })
