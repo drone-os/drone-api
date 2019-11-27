@@ -424,6 +424,15 @@
 <span id="424">424</span>
 <span id="425">425</span>
 <span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! STM32 SVD to bindings for Drone, an Embedded Operating System.</span>
 
@@ -526,10 +535,13 @@
 
 <span class="kw">fn</span> <span class="ident">patch_stm32f401</span>(<span class="kw-2">mut</span> <span class="ident">dev</span>: <span class="ident">Device</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Device</span><span class="op">&gt;</span> {
     <span class="ident">rcc</span>::<span class="ident">fix_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
+    <span class="ident">dma</span>::<span class="ident">fix_dma1_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">dma</span>::<span class="ident">fix_dma2_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
+    <span class="ident">dma</span>::<span class="ident">fix_dma2_3</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim1_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim2_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim2_3</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
+    <span class="ident">tim</span>::<span class="ident">fix_tim2_4</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim3_3</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim5_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim9_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
@@ -622,7 +634,7 @@
 }
 
 <span class="kw">fn</span> <span class="ident">patch_stm32f413</span>(<span class="kw-2">mut</span> <span class="ident">dev</span>: <span class="ident">Device</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Device</span><span class="op">&gt;</span> {
-    <span class="ident">dma</span>::<span class="ident">fix_dma1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
+    <span class="ident">dma</span>::<span class="ident">fix_dma1_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">exti</span>::<span class="ident">fix_exti_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim1_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim2_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
@@ -724,7 +736,8 @@
     <span class="ident">tim</span>::<span class="ident">fix_tim3_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim3_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">uart</span>::<span class="ident">fix_uart4</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
-    <span class="ident">uart</span>::<span class="ident">fix_usart1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
+    <span class="ident">uart</span>::<span class="ident">fix_usart1_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
+    <span class="ident">uart</span>::<span class="ident">fix_usart1_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">uart</span>::<span class="ident">fix_usart3</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(<span class="ident">dev</span>)
 }
@@ -747,7 +760,8 @@
     <span class="ident">tim</span>::<span class="ident">fix_tim3_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim3_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">uart</span>::<span class="ident">fix_uart4</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
-    <span class="ident">uart</span>::<span class="ident">fix_usart1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
+    <span class="ident">uart</span>::<span class="ident">fix_usart1_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
+    <span class="ident">uart</span>::<span class="ident">fix_usart1_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">uart</span>::<span class="ident">fix_usart3</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(<span class="ident">dev</span>)
 }
@@ -767,6 +781,7 @@
     <span class="ident">tim</span>::<span class="ident">fix_tim15</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim3_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim3_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
+    <span class="ident">uart</span>::<span class="ident">fix_usart1_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(<span class="ident">dev</span>)
 }
 
@@ -787,6 +802,7 @@
     <span class="ident">tim</span>::<span class="ident">fix_tim3_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim8</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">gpio</span>::<span class="ident">add_ascr</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
+    <span class="ident">uart</span>::<span class="ident">fix_usart1_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(<span class="ident">dev</span>)
 }
 
@@ -805,6 +821,7 @@
     <span class="ident">tim</span>::<span class="ident">fix_tim15</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim3_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim8</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
+    <span class="ident">uart</span>::<span class="ident">fix_usart1_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(<span class="ident">dev</span>)
 }
 
@@ -825,6 +842,7 @@
     <span class="ident">tim</span>::<span class="ident">fix_tim3_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim8</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">adc</span>::<span class="ident">fix_adc_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
+    <span class="ident">uart</span>::<span class="ident">fix_usart1_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(<span class="ident">dev</span>)
 }
 

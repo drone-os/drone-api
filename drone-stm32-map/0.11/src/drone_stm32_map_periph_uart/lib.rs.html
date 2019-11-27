@@ -814,31 +814,6 @@
 <span id="814">814</span>
 <span id="815">815</span>
 <span id="816">816</span>
-<span id="817">817</span>
-<span id="818">818</span>
-<span id="819">819</span>
-<span id="820">820</span>
-<span id="821">821</span>
-<span id="822">822</span>
-<span id="823">823</span>
-<span id="824">824</span>
-<span id="825">825</span>
-<span id="826">826</span>
-<span id="827">827</span>
-<span id="828">828</span>
-<span id="829">829</span>
-<span id="830">830</span>
-<span id="831">831</span>
-<span id="832">832</span>
-<span id="833">833</span>
-<span id="834">834</span>
-<span id="835">835</span>
-<span id="836">836</span>
-<span id="837">837</span>
-<span id="838">838</span>
-<span id="839">839</span>
-<span id="840">840</span>
-<span id="841">841</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Universal Asynchronous Receiver/Transmitter.</span>
 
@@ -967,9 +942,7 @@
         }
         <span class="ident">BRR</span> {
             <span class="number">0x20</span> <span class="ident">RwRegBitBand</span>;
-            <span class="ident">BRR</span> { <span class="ident">RwRwRegFieldBits</span> <span class="prelude-ty">Option</span> }
-            <span class="ident">DIV_Fraction</span> { <span class="ident">RwRwRegFieldBits</span> <span class="prelude-ty">Option</span> }
-            <span class="ident">DIV_Mantissa</span> { <span class="ident">RwRwRegFieldBits</span> <span class="prelude-ty">Option</span> }
+            <span class="ident">BRR</span> { <span class="ident">RwRwRegFieldBits</span> }
         }
         <span class="ident">GTPR</span> {
             <span class="number">0x20</span> <span class="ident">RwRegBitBand</span> <span class="prelude-ty">Option</span>;
@@ -1080,9 +1053,6 @@
         ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">scarcnt</span>:<span class="ident">ident</span>)<span class="question-mark">?</span>),
         ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">scen</span>:<span class="ident">ident</span>)<span class="question-mark">?</span>),
         ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tcbgtie</span>:<span class="ident">ident</span>)<span class="question-mark">?</span>),
-        ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">brr</span>:<span class="ident">ident</span>)<span class="question-mark">?</span>),
-        ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">div_fraction</span>:<span class="ident">ident</span>)<span class="question-mark">?</span>),
-        ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">div_mantissa</span>:<span class="ident">ident</span>)<span class="question-mark">?</span>),
         ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">gtpr</span>:<span class="ident">ident</span>)<span class="question-mark">?</span>),
         ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rtor</span>:<span class="ident">ident</span>)<span class="question-mark">?</span>),
         ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">abrrq</span>:<span class="ident">ident</span>)<span class="question-mark">?</span>),
@@ -1218,9 +1188,7 @@
                 }
                 <span class="ident">BRR</span> {
                     <span class="ident">BRR</span>;
-                    <span class="ident">BRR</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">brr</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
-                    <span class="ident">DIV_Fraction</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">div_fraction</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
-                    <span class="ident">DIV_Mantissa</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">div_mantissa</span> <span class="prelude-ty">Option</span>)<span class="op">*</span> }
+                    <span class="ident">BRR</span> { <span class="ident">BRR</span> }
                 }
                 <span class="ident">GTPR</span> {
                     $(
@@ -1348,9 +1316,6 @@
     (<span class="ident">SCARCNT</span>),
     (<span class="ident">SCEN</span>),
     (),
-    (),
-    (<span class="ident">DIV_Fraction</span>),
-    (<span class="ident">DIV_Mantissa</span>),
     (<span class="ident">GTPR</span>),
     (<span class="ident">RTOR</span>),
     (<span class="ident">ABRRQ</span>),
@@ -1412,9 +1377,6 @@
     (<span class="ident">SCARCNT</span>),
     (<span class="ident">SCEN</span>),
     (),
-    (),
-    (<span class="ident">DIV_Fraction</span>),
-    (<span class="ident">DIV_Mantissa</span>),
     (<span class="ident">GTPR</span>),
     (<span class="ident">RTOR</span>),
     (<span class="ident">ABRRQ</span>),
@@ -1476,9 +1438,6 @@
     (<span class="ident">SCARCNT</span>),
     (<span class="ident">SCEN</span>),
     (<span class="ident">TCBGTIE</span>),
-    (),
-    (<span class="ident">DIV_Fraction</span>),
-    (<span class="ident">DIV_Mantissa</span>),
     (<span class="ident">GTPR</span>),
     (<span class="ident">RTOR</span>),
     (<span class="ident">ABRRQ</span>),
@@ -1539,9 +1498,6 @@
     (<span class="ident">SCARCNT</span>),
     (<span class="ident">SCEN</span>),
     (),
-    (),
-    (<span class="ident">DIV_Fraction</span>),
-    (<span class="ident">DIV_Mantissa</span>),
     (<span class="ident">GTPR</span>),
     (<span class="ident">RTOR</span>),
     (<span class="ident">ABRRQ</span>),
@@ -1600,9 +1556,6 @@
     (<span class="ident">SCARCNT</span>),
     (<span class="ident">SCEN</span>),
     (),
-    (),
-    (<span class="ident">DIV_Fraction</span>),
-    (<span class="ident">DIV_Mantissa</span>),
     (<span class="ident">GTPR</span>),
     (<span class="ident">RTOR</span>),
     (<span class="ident">ABRRQ</span>),
@@ -1662,9 +1615,6 @@
     (),
     (),
     (),
-    (),
-    (),
-    (<span class="ident">BRR</span>),
     (),
     (),
     (),

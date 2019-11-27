@@ -440,14 +440,12 @@
 <span id="440">440</span>
 <span id="441">441</span>
 <span id="442">442</span>
-<span id="443">443</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">drone_macros_core</span>::<span class="ident">new_ident</span>;
 <span class="kw">use</span> <span class="ident">inflector</span>::<span class="ident">Inflector</span>;
 <span class="kw">use</span> <span class="ident">proc_macro</span>::<span class="ident">TokenStream</span>;
 <span class="kw">use</span> <span class="ident">proc_macro2</span>::<span class="ident">TokenStream</span> <span class="kw">as</span> <span class="ident">TokenStream2</span>;
-<span class="kw">use</span> <span class="ident">quote</span>::<span class="ident">quote</span>;
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">collections</span>::<span class="ident">HashSet</span>, <span class="ident">convert</span>::<span class="ident">TryFrom</span>};
+<span class="kw">use</span> <span class="ident">quote</span>::{<span class="ident">format_ident</span>, <span class="ident">quote</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashSet</span>;
 <span class="kw">use</span> <span class="ident">syn</span>::{
     <span class="ident">parse</span>::{<span class="ident">Parse</span>, <span class="ident">ParseStream</span>, <span class="prelude-ty">Result</span>},
     <span class="ident">parse_macro_input</span>, <span class="ident">Attribute</span>, <span class="ident">ExprPath</span>, <span class="ident">Ident</span>, <span class="ident">LitInt</span>, <span class="ident">Token</span>, <span class="ident">Visibility</span>,
@@ -614,7 +612,7 @@
     } <span class="op">=</span> <span class="macro">parse_macro_input</span><span class="macro">!</span>(<span class="ident">input</span> <span class="kw">as</span> <span class="ident">Vtable</span>);
     <span class="kw">let</span> <span class="ident">int_len</span> <span class="op">=</span> <span class="ident">ints</span>
         .<span class="ident">iter</span>()
-        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">int</span><span class="op">|</span> <span class="ident">usize</span>::<span class="ident">try_from</span>(<span class="ident">int</span>.<span class="ident">num</span>.<span class="ident">value</span>()).<span class="ident">unwrap</span>() <span class="op">+</span> <span class="number">1</span>)
+        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">int</span><span class="op">|</span> <span class="ident">int</span>.<span class="ident">num</span>.<span class="ident">base10_parse</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>() <span class="op">+</span> <span class="number">1</span>)
         .<span class="ident">max</span>()
         .<span class="ident">unwrap_or</span>(<span class="number">0</span>);
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">exc_holes</span> <span class="op">=</span> <span class="ident">exc_set</span>();
@@ -640,7 +638,7 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">thr_tokens</span>,
         );
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">struct_ident</span>) <span class="op">=</span> <span class="ident">struct_ident</span> {
-            <span class="kw">let</span> <span class="ident">int_trait</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;Int{}&quot;</span>, <span class="ident">struct_ident</span>);
+            <span class="kw">let</span> <span class="ident">int_trait</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;Int{}&quot;</span>, <span class="ident">struct_ident</span>);
             <span class="ident">thr_tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
                 <span class="kw">impl</span> #<span class="ident">int_trait</span> <span class="kw">for</span> #<span class="ident">struct_ident</span> {}
             });
@@ -665,8 +663,8 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">thr_tokens</span>,
         );
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">struct_ident</span>) <span class="op">=</span> <span class="ident">struct_ident</span> {
-            <span class="kw">let</span> <span class="ident">int_trait</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;Int{}&quot;</span>, <span class="ident">num</span>.<span class="ident">value</span>());
-            <span class="kw">let</span> <span class="ident">bundle</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;IntBundle{}&quot;</span>, <span class="ident">num</span>.<span class="ident">value</span>() <span class="op">/</span> <span class="number">32</span>);
+            <span class="kw">let</span> <span class="ident">int_trait</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;Int{}&quot;</span>, <span class="ident">num</span>.<span class="ident">base10_digits</span>());
+            <span class="kw">let</span> <span class="ident">bundle</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;IntBundle{}&quot;</span>, <span class="ident">num</span>.<span class="ident">base10_parse</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>() <span class="op">/</span> <span class="number">32</span>);
             <span class="ident">thr_tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {
                 <span class="kw">impl</span> ::<span class="ident">drone_cortex_m</span>::<span class="ident">thr</span>::<span class="ident">IntToken</span> <span class="kw">for</span> #<span class="ident">struct_ident</span> {
                     <span class="kw">type</span> <span class="ident">Bundle</span> <span class="op">=</span> ::<span class="ident">drone_cortex_m</span>::<span class="ident">map</span>::<span class="ident">thr</span>::#<span class="ident">bundle</span>;
@@ -677,12 +675,12 @@
                 <span class="kw">impl</span> #<span class="ident">int_trait</span> <span class="kw">for</span> #<span class="ident">struct_ident</span> {}
             });
         }
-        <span class="ident">vtable_tokens</span>[<span class="ident">usize</span>::<span class="ident">try_from</span>(<span class="ident">num</span>.<span class="ident">value</span>()).<span class="ident">unwrap</span>()] <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="macro">quote</span><span class="macro">!</span> {
+        <span class="ident">vtable_tokens</span>[<span class="ident">num</span>.<span class="ident">base10_parse</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>()] <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="macro">quote</span><span class="macro">!</span> {
             #<span class="ident">field_ident</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>::<span class="ident">drone_cortex_m</span>::<span class="ident">thr</span>::<span class="ident">vtable</span>::<span class="ident">Handler</span><span class="op">&gt;</span>
         });
     }
     <span class="kw">for</span> <span class="ident">exc_ident</span> <span class="kw">in</span> <span class="ident">exc_holes</span> {
-        <span class="kw">let</span> <span class="ident">exc_ident</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">exc_ident</span>);
+        <span class="kw">let</span> <span class="ident">exc_ident</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">exc_ident</span>);
         <span class="ident">vtable_ctor_tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span>(#<span class="ident">exc_ident</span>: <span class="prelude-val">None</span>));
     }
     <span class="kw">let</span> <span class="ident">vtable_tokens</span> <span class="op">=</span> <span class="ident">vtable_tokens</span>
@@ -690,7 +688,7 @@
         .<span class="ident">enumerate</span>()
         .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">i</span>, <span class="ident">tokens</span>)<span class="op">|</span> {
             <span class="ident">tokens</span>.<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> {
-                <span class="kw">let</span> <span class="ident">int_ident</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;_int{}&quot;</span>, <span class="ident">i</span>);
+                <span class="kw">let</span> <span class="ident">int_ident</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;_int{}&quot;</span>, <span class="ident">i</span>);
                 <span class="ident">vtable_ctor_tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span>(#<span class="ident">int_ident</span>: <span class="prelude-val">None</span>));
                 <span class="macro">quote</span><span class="macro">!</span>(#<span class="ident">int_ident</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>::<span class="ident">drone_cortex_m</span>::<span class="ident">thr</span>::<span class="ident">vtable</span>::<span class="ident">Handler</span><span class="op">&gt;</span>)
             })
@@ -809,8 +807,8 @@
         <span class="kw-2">ref</span> <span class="ident">ident</span>,
     } <span class="op">=</span> <span class="ident">exc</span>;
     <span class="kw">let</span> <span class="ident">field_ident</span> <span class="op">=</span> <span class="ident">ident</span>.<span class="ident">to_string</span>().<span class="ident">to_snake_case</span>();
-    <span class="kw">let</span> <span class="ident">field_ident</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">field_ident</span>);
-    <span class="kw">let</span> <span class="ident">struct_ident</span> <span class="op">=</span> <span class="macro">new_ident</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">ident</span>.<span class="ident">to_string</span>().<span class="ident">to_pascal_case</span>());
+    <span class="kw">let</span> <span class="ident">field_ident</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">field_ident</span>);
+    <span class="kw">let</span> <span class="ident">struct_ident</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">ident</span>.<span class="ident">to_string</span>().<span class="ident">to_pascal_case</span>());
     <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">mode</span> {
         <span class="ident">Mode</span>::<span class="ident">Thread</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
             <span class="ident">vtable_ctor_tokens</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span> {

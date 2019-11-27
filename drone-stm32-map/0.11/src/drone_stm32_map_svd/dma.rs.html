@@ -22,15 +22,54 @@
 <span id="22">22</span>
 <span id="23">23</span>
 <span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! DMA peripheral patches.</span>
 
 <span class="kw">use</span> <span class="ident">anyhow</span>::<span class="prelude-ty">Result</span>;
-<span class="kw">use</span> <span class="ident">drone_svd</span>::{<span class="ident">Access</span>, <span class="ident">Device</span>};
+<span class="kw">use</span> <span class="ident">drone_svd</span>::{<span class="ident">Access</span>, <span class="ident">Device</span>, <span class="ident">Interrupt</span>};
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fix_dma1</span>(<span class="ident">dev</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Device</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fix_dma1_1</span>(<span class="ident">dev</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Device</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="kw">for</span> <span class="ident">reg_name</span> <span class="kw">in</span> <span class="kw-2">&amp;</span>[<span class="string">&quot;S1CR&quot;</span>, <span class="string">&quot;S2CR&quot;</span>, <span class="string">&quot;S3CR&quot;</span>, <span class="string">&quot;S4CR&quot;</span>, <span class="string">&quot;S5CR&quot;</span>, <span class="string">&quot;S6CR&quot;</span>, <span class="string">&quot;S7CR&quot;</span>] {
         <span class="ident">dev</span>.<span class="ident">periph</span>(<span class="string">&quot;DMA1&quot;</span>).<span class="ident">reg</span>(<span class="ident">reg_name</span>).<span class="ident">remove_field</span>(<span class="string">&quot;ACK&quot;</span>);
+    }
+    <span class="prelude-val">Ok</span>(())
+}
+
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fix_dma1_2</span>(<span class="ident">dev</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Device</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">for</span> (<span class="ident">number</span>, <span class="kw-2">&amp;</span><span class="ident">position</span>) <span class="kw">in</span> [<span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>, <span class="number">14</span>, <span class="number">15</span>, <span class="number">16</span>, <span class="number">17</span>, <span class="number">47</span>].<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
+        <span class="ident">dev</span>.<span class="ident">periph</span>(<span class="string">&quot;DMA1&quot;</span>).<span class="ident">interrupt</span>.<span class="ident">push</span>({
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">interrupt</span> <span class="op">=</span> <span class="ident">Interrupt</span>::<span class="ident">default</span>();
+            <span class="ident">interrupt</span>.<span class="ident">name</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;DMA1_Stream{}&quot;</span>, <span class="ident">number</span>);
+            <span class="ident">interrupt</span>.<span class="ident">description</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;DMA1 Stream{} global interrupt&quot;</span>, <span class="ident">number</span>);
+            <span class="ident">interrupt</span>.<span class="ident">value</span> <span class="op">=</span> <span class="ident">position</span>;
+            <span class="ident">interrupt</span>
+        });
     }
     <span class="prelude-val">Ok</span>(())
 }
@@ -45,6 +84,19 @@
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fix_dma2_2</span>(<span class="ident">dev</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Device</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="ident">dev</span>.<span class="ident">periph</span>(<span class="string">&quot;DMA2&quot;</span>).<span class="ident">reg</span>(<span class="string">&quot;LIFCR&quot;</span>).<span class="ident">access</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">Access</span>::<span class="ident">WriteOnly</span>);
     <span class="ident">dev</span>.<span class="ident">periph</span>(<span class="string">&quot;DMA2&quot;</span>).<span class="ident">reg</span>(<span class="string">&quot;HIFCR&quot;</span>).<span class="ident">access</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">Access</span>::<span class="ident">WriteOnly</span>);
+    <span class="prelude-val">Ok</span>(())
+}
+
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fix_dma2_3</span>(<span class="ident">dev</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Device</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">for</span> (<span class="ident">number</span>, <span class="kw-2">&amp;</span><span class="ident">position</span>) <span class="kw">in</span> [<span class="number">56</span>, <span class="number">57</span>, <span class="number">58</span>, <span class="number">59</span>, <span class="number">60</span>, <span class="number">68</span>, <span class="number">69</span>, <span class="number">70</span>].<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
+        <span class="ident">dev</span>.<span class="ident">periph</span>(<span class="string">&quot;DMA2&quot;</span>).<span class="ident">interrupt</span>.<span class="ident">push</span>({
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">interrupt</span> <span class="op">=</span> <span class="ident">Interrupt</span>::<span class="ident">default</span>();
+            <span class="ident">interrupt</span>.<span class="ident">name</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;DMA2_Stream{}&quot;</span>, <span class="ident">number</span>);
+            <span class="ident">interrupt</span>.<span class="ident">description</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;DMA2 Stream{} global interrupt&quot;</span>, <span class="ident">number</span>);
+            <span class="ident">interrupt</span>.<span class="ident">value</span> <span class="op">=</span> <span class="ident">position</span>;
+            <span class="ident">interrupt</span>
+        });
+    }
     <span class="prelude-val">Ok</span>(())
 }
 </pre></div>
