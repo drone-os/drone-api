@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Fiber","A wrapper for [`fib::FiberProc`] that runs the command loop `T`."],["Yielder","Yielder for [`Fiber`]'s [`fib::FiberProc`]."]]});

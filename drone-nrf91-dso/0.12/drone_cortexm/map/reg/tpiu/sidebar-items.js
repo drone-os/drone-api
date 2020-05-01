@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["acpr","Asynchronous Clock Prescaler Register."],["ffcr","Formatter and Flush Control Register."],["sppr","Selected Pin Protocol Register."]],"struct":[["Acpr","Asynchronous Clock Prescaler Register."],["Ffcr","Formatter and Flush Control Register."],["Sppr","Selected Pin Protocol Register."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"macro":[["nrf_reg_tokens","Defines an index of nrf9160 register tokens."]]});
