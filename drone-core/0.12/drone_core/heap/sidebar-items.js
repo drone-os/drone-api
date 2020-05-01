@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["HEAPTRACE_KEY","XOR pattern for heap trace output."]],"fn":[["binary_search","Does a binary search for the pool with the smallest block size to fit `value`."]],"struct":[["Pool","The set of free memory blocks."]],"trait":[["Allocator","Allocator for a generic memory pools layout."]]});
