@@ -1,0 +1,139 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `fib` mod in crate `drone_core`."><meta name="keywords" content="rust, rustlang, rust-lang, fib"><title>drone_core::fib - Rust</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../drone_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a><p class='location'>Module fib</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#reexports">Re-exports</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'><a href='../index.html'>drone_core</a></p><script>window.sidebarCurrent = {name: 'fib', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../../src/drone_core/fib/mod.rs.html#1-277' title='goto source code'>[src]</a></span><span class='in-band'>Module <a href='../index.html'>drone_core</a>::<wbr><a class="mod" href=''>fib</a></span></h1><div class='docblock'><p>The Fibers module.</p>
+<p><strong>NOTE</strong> A Drone platform crate may re-export this module with its own
+additions under the same name, in which case it should be used instead.</p>
+<p>A fiber is a task unit of Drone. It is a stack-less co-routine programmed
+with async/await, generator, or closure Rust syntaxes. Any number of fibers
+can be added to a particular thread. A thread executes its fibers in LIFO
+order. When a fiber yields, the thread keeps it for the next time it resumes
+and proceeds to the next fiber. When a fiber returns, the thread drops it
+and proceeds to the next fiber. When there are no fibers left, the thread
+suspends.</p>
+<h1 id="basic-fibers" class="section-header"><a href="#basic-fibers">Basic Fibers</a></h1>
+<p>A basic fiber can be created with <a href="../../drone_core/fib/fn.new.html"><code>fib::new</code></a>,
+<a href="../../drone_core/fib/fn.new_fn.html"><code>fib::new_fn</code></a>, or <a href="../../drone_core/fib/fn.new_once.html"><code>fib::new_once</code></a>:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">drone_core</span>::<span class="ident">fib</span>;
+
+<span class="comment">// A fiber based on a generator.</span>
+<span class="comment">// This is `impl Fiber&lt;Input = (), Yield = i32, Return = i32&gt;`</span>
+<span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">fib</span>::<span class="ident">new</span>(<span class="op">|</span><span class="op">|</span> {
+    <span class="comment">// do some work and yield</span>
+    <span class="kw">yield</span> <span class="number">1</span>;
+    <span class="comment">// do some work and yield</span>
+    <span class="kw">yield</span> <span class="number">2</span>;
+    <span class="comment">// do some work and return</span>
+    <span class="number">3</span>
+});
+
+<span class="comment">// A fiber based on an `FnMut` closure.</span>
+<span class="comment">// This is `impl Fiber&lt;Input = (), Yield = i32, Return = i32&gt;`</span>
+<span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">fib</span>::<span class="ident">new_fn</span>(<span class="op">|</span><span class="op">|</span> {
+    <span class="comment">// check some condition</span>
+    <span class="kw">if</span> <span class="bool-val">true</span> {
+        <span class="comment">// do some work and yield</span>
+        <span class="ident">fib</span>::<span class="ident">Yielded</span>(<span class="number">1</span>)
+    } <span class="kw">else</span> {
+        <span class="comment">// do some work and return</span>
+        <span class="ident">fib</span>::<span class="ident">Complete</span>(<span class="number">2</span>)
+    }
+});
+
+<span class="comment">// A fiber based on an `FnOnce` closure.</span>
+<span class="comment">// This is `impl Fiber&lt;Input = (), Yield = !, Return = i32&gt;`</span>
+<span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">fib</span>::<span class="ident">new_once</span>(<span class="op">|</span><span class="op">|</span> {
+    <span class="comment">// do some work and immediately return</span>
+    <span class="number">4</span>
+});</pre></div>
+<p>A basic fiber can be attached to a thread with
+<a href="../../drone_core/fib/trait.ThrFiberGen.html#method.add"><code>token.add(...)</code></a>,
+<a href="../../drone_core/fib/trait.ThrFiberClosure.html#method.add_fn"><code>token.add_fn(...)</code></a>, or
+<a href="../../drone_core/fib/trait.ThrFiberClosure.html#method.add_once"><code>token.add_once(...)</code></a>. Note that fibers that
+are directly attached to threads can't have yield and return values other
+than <code>()</code> or <code>!</code>.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">drone_core</span>::{<span class="ident">fib</span>, <span class="ident">thr</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>};
+
+<span class="comment">// A fiber based on a generator.</span>
+<span class="comment">// This is `impl Fiber&lt;Input = (), Yield = (), Return = ()&gt;`</span>
+<span class="ident">thr</span>.<span class="ident">sys_tick</span>.<span class="ident">add</span>(<span class="op">|</span><span class="op">|</span> {
+    <span class="comment">// do some work and yield</span>
+    <span class="kw">yield</span>;
+    <span class="comment">// do some work and yield</span>
+    <span class="kw">yield</span>;
+    <span class="comment">// do some work and return</span>
+});
+
+<span class="comment">// A fiber based on an `FnMut` closure.</span>
+<span class="comment">// This is `impl Fiber&lt;Input = (), Yield = (), Return = !&gt;`</span>
+<span class="ident">thr</span>.<span class="ident">sys_tick</span>.<span class="ident">add_fn</span>(<span class="op">|</span><span class="op">|</span> {
+    <span class="comment">// do some work and yield</span>
+    <span class="ident">fib</span>::<span class="ident">Yielded</span>::<span class="op">&lt;</span>(), <span class="op">!</span><span class="op">&gt;</span>(())
+});
+
+<span class="comment">// A fiber based on an `FnOnce` closure.</span>
+<span class="comment">// This is `impl Fiber&lt;Input = (), Yield = !, Return = ()&gt;`</span>
+<span class="ident">thr</span>.<span class="ident">sys_tick</span>.<span class="ident">add_once</span>(<span class="op">|</span><span class="op">|</span> {
+    <span class="comment">// do some work and immediately return</span>
+});</pre></div>
+<h1 id="compound-fibers" class="section-header"><a href="#compound-fibers">Compound Fibers</a></h1>
+<p>There is a number of useful compound fibers implemented in this module:</p>
+<table><thead><tr><th>Method</th><th>Input / Output</th></tr></thead><tbody>
+<tr><td><a href="../../drone_core/fib/trait.ThrFiberFuture.html#method.add_future"><code>token.add_future(...)</code></a></td><td><code>Fiber&lt;Input = (), Yield = ()/!, Return = T&gt;</code></td></tr>
+<tr><td><code>-&gt;</code></td><td><code>Future&lt;Output = T&gt;</code></td></tr>
+<tr><td><a href="../../drone_core/fib/trait.ThrFiberStreamPulse.html#method.add_stream_pulse"><code>token.add_stream_pulse(...)</code></a></td><td><code>Fiber&lt;Input = (), Yield = Option&lt;usize&gt;, Return = Result&lt;Option&lt;usize&gt;, E&gt;&gt;</code></td></tr>
+<tr><td><code>-&gt;</code></td><td><code>Stream&lt;Item = Result&lt;NonZeroUsize, E&gt;&gt;</code></td></tr>
+<tr><td><a href="../../drone_core/fib/trait.ThrFiberStreamPulse.html#method.add_stream_pulse_skip"><code>token.add_stream_pulse_skip(...)</code></a></td><td><code>Fiber&lt;Input = (), Yield = Option&lt;usize&gt;, Return = Option&lt;usize&gt;&gt;</code></td></tr>
+<tr><td><code>-&gt;</code></td><td><code>Stream&lt;Item = NonZeroUsize&gt;</code></td></tr>
+<tr><td><a href="../../drone_core/fib/trait.ThrFiberStreamRing.html#method.add_stream_ring"><code>token.add_stream_ring(...)</code></a></td><td><code>Fiber&lt;Input = (), Yield = Option&lt;T&gt;, Return = Result&lt;Option&lt;T&gt;, E&gt;&gt;</code></td></tr>
+<tr><td><code>-&gt;</code></td><td><code>Stream&lt;Item = Result&lt;T, E&gt;&gt;</code></td></tr>
+<tr><td><a href="../../drone_core/fib/trait.ThrFiberStreamRing.html#method.add_stream_ring_skip"><code>token.add_stream_ring_skip(...)</code></a></td><td><code>Fiber&lt;Input = (), Yield = Option&lt;T&gt;, Return = Option&lt;T&gt;&gt;</code></td></tr>
+<tr><td><code>-&gt;</code></td><td><code>Stream&lt;Item = T&gt;</code></td></tr>
+<tr><td><a href="../../drone_core/fib/trait.ThrFiberStreamRing.html#method.add_stream_ring_overwrite"><code>token.add_stream_ring_overwrite(...)</code></a></td><td><code>Fiber&lt;Input = (), Yield = Option&lt;T&gt;, Return = Option&lt;T&gt;&gt;</code></td></tr>
+<tr><td><code>-&gt;</code></td><td><code>Stream&lt;Item = T&gt;</code></td></tr>
+<tr><td><a href="../../drone_core/fib/trait.ThrFiberStreamRing.html#method.add_try_stream_ring_overwrite"><code>token.add_try_stream_ring_overwrite(...)</code></a></td><td><code>Fiber&lt;Input = (), Yield = Option&lt;T&gt;, Return = Result&lt;Option&lt;T&gt;, E&gt;&gt;</code></td></tr>
+<tr><td><code>-&gt;</code></td><td><code>Stream&lt;Item = Result&lt;T, E&gt;&gt;</code></td></tr>
+</tbody></table>
+<h2 id="examples" class="section-header"><a href="#examples">Examples</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">drone_core</span>::{<span class="ident">fib</span>, <span class="ident">thr</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>};
+
+<span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">thr</span>.<span class="ident">sys_tick</span>.<span class="ident">add_future</span>(<span class="ident">fib</span>::<span class="ident">new</span>(<span class="op">|</span><span class="op">|</span> {
+    <span class="kw">yield</span>;
+    <span class="kw">yield</span>;
+    <span class="number">123</span>
+}));
+
+<span class="comment">// `b` will have the value of 123 after the SYS_TICK thread has triggered 3</span>
+<span class="comment">// times.</span>
+<span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">a</span>.<span class="kw">await</span>;</pre></div>
+</div><h2 id='reexports' class='section-header'><a href="#reexports">Re-exports</a></h2>
+<table><tr><td><code>pub use <a class="enum" href="../../drone_core/fib/enum.FiberState.html" title="enum drone_core::fib::FiberState">FiberState</a>::*;</code></td></tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table><tr class='module-item'><td><a class="struct" href="struct.Chain.html" title='drone_core::fib::Chain struct'>Chain</a></td><td class='docblock-short'><p>A lock-free stack of fibers.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.FiberFn.html" title='drone_core::fib::FiberFn struct'>FiberFn</a></td><td class='docblock-short'><p>Fiber for <a href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="`FnMut`"><code>FnMut</code></a> closure.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.FiberFuture.html" title='drone_core::fib::FiberFuture struct'>FiberFuture</a></td><td class='docblock-short'><p>A future that resolves on completion of the fiber from another thread.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.FiberGen.html" title='drone_core::fib::FiberGen struct'>FiberGen</a></td><td class='docblock-short'><p>Fiber for <a href="https://doc.rust-lang.org/nightly/core/ops/generator/trait.Generator.html" title="`Generator`"><code>Generator</code></a>.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.FiberOnce.html" title='drone_core::fib::FiberOnce struct'>FiberOnce</a></td><td class='docblock-short'><p>Fiber for <a href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="`FnOnce`"><code>FnOnce</code></a> closure.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.FiberStreamPulse.html" title='drone_core::fib::FiberStreamPulse struct'>FiberStreamPulse</a></td><td class='docblock-short'><p>A stream of pulses from the fiber in another thread.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.FiberStreamRing.html" title='drone_core::fib::FiberStreamRing struct'>FiberStreamRing</a></td><td class='docblock-short'><p>A stream of <code>T</code> from the fiber in another thread.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.TryFiberStreamPulse.html" title='drone_core::fib::TryFiberStreamPulse struct'>TryFiberStreamPulse</a></td><td class='docblock-short'><p>A fallible stream of pulses from the fiber in another thread.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.TryFiberStreamRing.html" title='drone_core::fib::TryFiberStreamRing struct'>TryFiberStreamRing</a></td><td class='docblock-short'><p>A stream of <code>Result&lt;T, E&gt;</code> from the fiber in another thread.</p>
+</td></tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table><tr class='module-item'><td><a class="enum" href="enum.FiberState.html" title='drone_core::fib::FiberState enum'>FiberState</a></td><td class='docblock-short'><p>The result of a fiber resumption.</p>
+</td></tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table><tr class='module-item'><td><a class="trait" href="trait.Fiber.html" title='drone_core::fib::Fiber trait'>Fiber</a></td><td class='docblock-short'><p>The main task unit of Drone.</p>
+</td></tr><tr class='module-item'><td><a class="trait" href="trait.FiberRoot.html" title='drone_core::fib::FiberRoot trait'>FiberRoot</a></td><td class='docblock-short'><p>The root fiber trait.</p>
+</td></tr><tr class='module-item'><td><a class="trait" href="trait.ThrFiberClosure.html" title='drone_core::fib::ThrFiberClosure trait'>ThrFiberClosure</a></td><td class='docblock-short'><p>Extends <a href="../../drone_core/thr/trait.ThrToken.html"><code>ThrToken</code></a> types with <code>add_fn</code> and
+<code>add_once</code> methods.</p>
+</td></tr><tr class='module-item'><td><a class="trait" href="trait.ThrFiberFuture.html" title='drone_core::fib::ThrFiberFuture trait'>ThrFiberFuture</a></td><td class='docblock-short'><p>Extends <a href="../../drone_core/thr/trait.ThrToken.html"><code>ThrToken</code></a> types with <code>add_future</code> method.</p>
+</td></tr><tr class='module-item'><td><a class="trait" href="trait.ThrFiberGen.html" title='drone_core::fib::ThrFiberGen trait'>ThrFiberGen</a></td><td class='docblock-short'><p>Extends <a href="../../drone_core/thr/trait.ThrToken.html"><code>ThrToken</code></a> types with <code>add</code> method.</p>
+</td></tr><tr class='module-item'><td><a class="trait" href="trait.ThrFiberStreamPulse.html" title='drone_core::fib::ThrFiberStreamPulse trait'>ThrFiberStreamPulse</a></td><td class='docblock-short'><p>Extends <a href="../../drone_core/thr/trait.ThrToken.html"><code>ThrToken</code></a> types with <code>add_stream_pulse</code>
+methods.</p>
+</td></tr><tr class='module-item'><td><a class="trait" href="trait.ThrFiberStreamRing.html" title='drone_core::fib::ThrFiberStreamRing trait'>ThrFiberStreamRing</a></td><td class='docblock-short'><p>Extends <a href="../../drone_core/thr/trait.ThrToken.html"><code>ThrToken</code></a> types with <code>add_stream_ring</code>
+methods.</p>
+</td></tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table><tr class='module-item'><td><a class="fn" href="fn.new.html" title='drone_core::fib::new fn'>new</a></td><td class='docblock-short'><p>Creates a fiber from the generator <code>gen</code>.</p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.new_fn.html" title='drone_core::fib::new_fn fn'>new_fn</a></td><td class='docblock-short'><p>Creates a fiber from the closure <code>f</code>.</p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.new_once.html" title='drone_core::fib::new_once fn'>new_once</a></td><td class='docblock-short'><p>Creates a fiber from the closure <code>f</code>.</p>
+</td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "drone_core";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>
