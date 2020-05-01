@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["dwt","Data watchpoint and trace."],["fpu","Floating point unit."],["itm","Instrumentation trace macrocell."],["mpu","Memory protection unit."],["scb","System control block."],["stk","SysTick timer."],["tpiu","Trace port interface unit."]]});

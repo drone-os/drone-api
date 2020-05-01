@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["EnFCont","Enable continuous formatting."],["Hold","Formatter and Flush Control Register."],["Reg","Formatter and Flush Control Register."],["TrigIn","This bit Reads-As-One (RAO), specifying that triggers are inserted when a trigger pin is asserted."],["Val","Formatter and Flush Control Register."]]});

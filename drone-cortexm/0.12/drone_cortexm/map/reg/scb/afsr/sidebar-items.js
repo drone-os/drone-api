@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Hold","Auxiliary Fault Status Register."],["Impdef","Implementation defined."],["Reg","Auxiliary Fault Status Register."],["Val","Auxiliary Fault Status Register."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Hold","Holds the vector table address."],["Reg","Holds the vector table address."],["Tbloff","Vector table base offset field."],["Val","Holds the vector table address."]]});

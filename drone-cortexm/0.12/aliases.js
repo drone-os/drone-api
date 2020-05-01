@@ -1,0 +1,13 @@
+var ALIASES = {};
+ALIASES["drone_core"] = {};
+ALIASES["drone_cortexm"] = {};
+ALIASES["drone_ctypes"] = {};
+ALIASES["futures"] = {};
+ALIASES["futures_channel"] = {};
+ALIASES["futures_core"] = {};
+ALIASES["futures_io"] = {};
+ALIASES["futures_sink"] = {};
+ALIASES["futures_task"] = {};
+ALIASES["futures_util"] = {};
+ALIASES["pin_utils"] = {};
+ALIASES["proc_macro_nested"] = {};

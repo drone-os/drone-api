@@ -1,0 +1,144 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `token` mod in crate `drone_core`."><meta name="keywords" content="rust, rustlang, rust-lang, token"><title>drone_core::token - Rust</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../drone_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a><p class='location'>Module token</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#macros">Macros</a></li><li><a href="#traits">Traits</a></li></ul></div><p class='location'><a href='../index.html'>drone_core</a></p><script>window.sidebarCurrent = {name: 'token', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../../src/drone_core/token.rs.html#1-253' title='goto source code'>[src]</a></span><span class='in-band'>Module <a href='../index.html'>drone_core</a>::<wbr><a class="mod" href=''>token</a></span></h1><div class='docblock'><p>The <a href="../../drone_core/token/trait.Token.html" title="`Token`"><code>Token</code></a> trait and its common patterns.</p>
+<p>A token is a zero-sized type, at most one instance of which ever exists.
+This concept is ubiquitous in Drone. It is used for representing
+memory-mapped registers, threads, one-time initializers, mutable statics
+ownership. While affinity (also called move-semantics in Rust) could be
+represented by Rust type-system, the other properties couldn't. Therefore
+the concept relies on the two <code>unsafe</code> contracts below.</p>
+<ol>
+<li>
+<p><em>Implementing</em> the trait is <code>unsafe</code>, and it is the implementer
+responsibility to ensure the following:</p>
+<ul>
+<li>The type must not implement <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="`Clone`"><code>Clone</code></a>.</li>
+<li>The type must be instantiated only inside <a href="../../drone_core/token/trait.Token.html#tymethod.take" title="`Token::take`"><code>Token::take</code></a> method.</li>
+<li>The type must be zero-sized.</li>
+</ul>
+</li>
+<li>
+<p><em>Calling</em> <a href="../../drone_core/token/trait.Token.html#tymethod.take" title="`Token::take`"><code>Token::take</code></a> is <code>unsafe</code>, and it is the caller
+responsibility to ensure that at most one instance of the type ever exists.</p>
+</li>
+</ol>
+<p>Tokens are often nested to minimize the usage of <code>unsafe</code> <a href="../../drone_core/token/trait.Token.html#tymethod.take" title="`Token::take`"><code>Token::take</code></a>
+constructor. It is supposed to instantiate all needed tokens at the very
+beginning of the program and pass the instances further to the code.</p>
+<p>Since tokens are zero-sized, <a href="../../drone_core/token/trait.Token.html#tymethod.take" title="`Token::take`"><code>Token::take</code></a> is no-op from the assembly
+perspective. Likewise passing the instance around doesn't consume the stack,
+and storing the instance inside other types doesn't consume the memory.</p>
+<h1 id="simple-tokens" class="section-header"><a href="#simple-tokens">Simple Tokens</a></h1>
+<p>Here is a usage example of tokens of their simplest form - <code>simple_token!</code>
+macro. In this example we implement one-timer initializers.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">drone_core</span>::<span class="ident">token</span>::{<span class="ident">simple_token</span>, <span class="ident">unsafe_simple_tokens</span>, <span class="ident">Token</span>};
+
+<span class="macro">simple_token</span><span class="macro">!</span> {
+    <span class="doccomment">/// The token for Foo initializer.</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FooInitToken</span>;
+}
+
+<span class="macro">simple_token</span><span class="macro">!</span> {
+    <span class="doccomment">/// The token for Bar initializer.</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BarInitToken</span>;
+}
+
+<span class="comment">// Here is `unsafe`, we need to ensure that `FooInitToken` and `BarInitToken`</span>
+<span class="comment">// are not used anywhere else.</span>
+<span class="macro">unsafe_simple_tokens</span><span class="macro">!</span> {
+    <span class="doccomment">/// The group token for all initializers.</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Inits</span> {
+        <span class="ident">FooInitToken</span>,
+        <span class="ident">BarInitToken</span>,
+    }
+}
+
+<span class="comment">// Define one-time initializers. They should accept tokens by-value and</span>
+<span class="comment">// shouldn&#39;t return them.</span>
+
+<span class="kw">fn</span> <span class="ident">init_foo</span>(<span class="ident">token</span>: <span class="ident">FooInitToken</span>) {
+    <span class="comment">// Initialize Foo.</span>
+}
+
+<span class="kw">fn</span> <span class="ident">init_bar</span>(<span class="ident">token</span>: <span class="ident">BarInitToken</span>) {
+    <span class="comment">// Initialize Bar.</span>
+}
+
+<span class="comment">// Your entry point.</span>
+<span class="kw">fn</span> <span class="ident">main</span>() {
+    <span class="comment">// Various unsafe initializations goes here.</span>
+    <span class="kw">unsafe</span> {
+        <span class="comment">// Calling unsafe `take()`, we need to ensure that it is the only place</span>
+        <span class="comment">// we call it and we are not in a cycle or recursion.</span>
+        <span class="kw">let</span> <span class="ident">ini</span> <span class="op">=</span> <span class="ident">Inits</span>::<span class="ident">take</span>();
+        <span class="comment">// Pass the token instance to your safe entry point.</span>
+        <span class="ident">trunk</span>(<span class="ident">ini</span>);
+    }
+}
+
+<span class="kw">fn</span> <span class="ident">trunk</span>(<span class="ident">ini</span>: <span class="ident">Inits</span>) {
+    <span class="ident">init_foo</span>(<span class="ident">ini</span>.<span class="ident">foo_init</span>);
+    <span class="ident">init_bar</span>(<span class="ident">ini</span>.<span class="ident">bar_init</span>);
+    <span class="comment">// Calling them again won&#39;t compile, because the tokens were consumed.</span>
+    <span class="comment">// init_foo(ini.foo_init);</span>
+    <span class="comment">// init_bar(ini.bar_init);</span>
+}</pre></div>
+<h1 id="static-tokens" class="section-header"><a href="#static-tokens">Static Tokens</a></h1>
+<p>Mutable statics are unsafe in Rust. One way to make them safe is to use
+interior-mutability. For example <a href="../../drone_core/sync/struct.Mutex.html"><code>Mutex</code></a>
+ensures that concurrent access to the data is safe. If you don't need
+simultaneous access to the static but still need other static
+characteristics like known and stable address, you can use static tokens:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">drone_core</span>::<span class="ident">token</span>::{<span class="ident">unsafe_static_tokens</span>, <span class="ident">StaticToken</span>, <span class="ident">Token</span>};
+
+<span class="comment">// Define some statics.</span>
+<span class="kw">static</span> <span class="kw-2">mut</span> <span class="ident">FOO</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0</span>;
+<span class="kw">static</span> <span class="kw-2">mut</span> <span class="ident">BAR</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;data&quot;</span>;
+
+<span class="comment">// Here is `unsafe`, we need to ensure that `FOO` and `BAR` are not used</span>
+<span class="comment">// anywhere else.</span>
+<span class="macro">unsafe_static_tokens</span><span class="macro">!</span> {
+    <span class="doccomment">/// The group token for all statics.</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Statics</span> {
+        <span class="ident">FOO</span>: <span class="ident">usize</span>,
+        <span class="ident">BAR</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>,
+    }
+}
+
+<span class="comment">// Your entry point.</span>
+<span class="kw">fn</span> <span class="ident">main</span>() {
+    <span class="comment">// Various unsafe initializations goes here.</span>
+    <span class="kw">unsafe</span> {
+        <span class="comment">// Calling unsafe `take()`, we need to ensure that it is the only place</span>
+        <span class="comment">// we call it and we are not in a cycle or recursion.</span>
+        <span class="kw">let</span> <span class="ident">stc</span> <span class="op">=</span> <span class="ident">Statics</span>::<span class="ident">take</span>();
+        <span class="comment">// Pass the token instance to your safe entry point.</span>
+        <span class="ident">trunk</span>(<span class="ident">stc</span>);
+    }
+}
+
+<span class="kw">fn</span> <span class="ident">trunk</span>(<span class="kw-2">mut</span> <span class="ident">stc</span>: <span class="ident">Statics</span>) {
+    <span class="comment">// Borrow a mutable reference.</span>
+    <span class="ident">add_one</span>(<span class="ident">stc</span>.<span class="ident">foo</span>.<span class="ident">get</span>());
+    <span class="ident">add_one</span>(<span class="ident">stc</span>.<span class="ident">foo</span>.<span class="ident">get</span>());
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">stc</span>.<span class="ident">foo</span>.<span class="ident">get</span>(), <span class="number">2</span>);
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">size_of_val</span>(<span class="kw-2">&amp;</span><span class="ident">stc</span>), <span class="number">0</span>);
+    <span class="comment">// Permanently convert to `&amp;&#39;static usize`. Note that `foo` is no longer a ZST.</span>
+    <span class="kw">let</span> <span class="ident">foo</span> <span class="op">=</span> <span class="ident">stc</span>.<span class="ident">foo</span>.<span class="ident">into_static</span>();
+    <span class="comment">// Calling it again won&#39;t compile, because the token was consumed.</span>
+    <span class="comment">// let foo = stc.foo.into_static();</span>
+}
+
+<span class="kw">fn</span> <span class="ident">add_one</span>(<span class="ident">foo</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">usize</span>) {
+    <span class="kw-2">*</span><span class="ident">foo</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+}</pre></div>
+</div><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
+<table><tr class='module-item'><td><a class="macro" href="macro.simple_token.html" title='drone_core::token::simple_token macro'>simple_token</a></td><td class='docblock-short'><p>Defines a new simple <a href="../../drone_core/token/trait.Token.html" title="`Token`"><code>Token</code></a>.</p>
+</td></tr><tr class='module-item'><td><a class="macro" href="macro.unsafe_simple_tokens.html" title='drone_core::token::unsafe_simple_tokens macro'>unsafe_simple_tokens</a></td><td class='docblock-short'><p>Defines a new token for the set of simple <a href="../../drone_core/token/trait.Token.html" title="`Token`"><code>Token</code></a>s.</p>
+</td></tr><tr class='module-item'><td><a class="macro" href="macro.unsafe_static_tokens.html" title='drone_core::token::unsafe_static_tokens macro'>unsafe_static_tokens</a></td><td class='docblock-short'><p>Defines a new token for the set of <a href="../../drone_core/token/trait.StaticToken.html" title="`StaticToken`"><code>StaticToken</code></a>s.</p>
+</td></tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table><tr class='module-item'><td><a class="trait" href="trait.StaticToken.html" title='drone_core::token::StaticToken trait'>StaticToken</a></td><td class='docblock-short'><p>A token for a mutable static variable.</p>
+</td></tr><tr class='module-item'><td><a class="trait" href="trait.Token.html" title='drone_core::token::Token trait'>Token</a></td><td class='docblock-short'><p>A zero-sized affine type, at most one instance of which ever exists.</p>
+</td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "drone_core";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>
