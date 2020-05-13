@@ -388,22 +388,22 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! There is a number of useful compound fibers implemented in this module:</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! | Method                                                                                          | Input / Output                                                                |</span>
-<span class="doccomment">//! |-------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|</span>
-<span class="doccomment">//! | [`token.add_future(...)`](ThrFiberFuture::add_future)                                           | `Fiber&lt;Input = (), Yield = ()/!, Return = T&gt;`                                 |</span>
-<span class="doccomment">//! | `-&gt;`                                                                                            | `Future&lt;Output = T&gt;`                                                          |</span>
-<span class="doccomment">//! | [`token.add_stream_pulse(...)`](ThrFiberStreamPulse::add_stream_pulse)                          | `Fiber&lt;Input = (), Yield = Option&lt;usize&gt;, Return = Result&lt;Option&lt;usize&gt;, E&gt;&gt;` |</span>
-<span class="doccomment">//! | `-&gt;`                                                                                            | `Stream&lt;Item = Result&lt;NonZeroUsize, E&gt;&gt;`                                      |</span>
-<span class="doccomment">//! | [`token.add_stream_pulse_skip(...)`](ThrFiberStreamPulse::add_stream_pulse_skip)                | `Fiber&lt;Input = (), Yield = Option&lt;usize&gt;, Return = Option&lt;usize&gt;&gt;`            |</span>
-<span class="doccomment">//! | `-&gt;`                                                                                            | `Stream&lt;Item = NonZeroUsize&gt;`                                                 |</span>
-<span class="doccomment">//! | [`token.add_stream_ring(...)`](ThrFiberStreamRing::add_stream_ring)                             | `Fiber&lt;Input = (), Yield = Option&lt;T&gt;, Return = Result&lt;Option&lt;T&gt;, E&gt;&gt;`         |</span>
-<span class="doccomment">//! | `-&gt;`                                                                                            | `Stream&lt;Item = Result&lt;T, E&gt;&gt;`                                                 |</span>
-<span class="doccomment">//! | [`token.add_stream_ring_skip(...)`](ThrFiberStreamRing::add_stream_ring_skip)                   | `Fiber&lt;Input = (), Yield = Option&lt;T&gt;, Return = Option&lt;T&gt;&gt;`                    |</span>
-<span class="doccomment">//! | `-&gt;`                                                                                            | `Stream&lt;Item = T&gt;`                                                            |</span>
-<span class="doccomment">//! | [`token.add_stream_ring_overwrite(...)`](ThrFiberStreamRing::add_stream_ring_overwrite)         | `Fiber&lt;Input = (), Yield = Option&lt;T&gt;, Return = Option&lt;T&gt;&gt;`                    |</span>
-<span class="doccomment">//! | `-&gt;`                                                                                            | `Stream&lt;Item = T&gt;`                                                            |</span>
-<span class="doccomment">//! | [`token.add_try_stream_ring_overwrite(...)`](ThrFiberStreamRing::add_try_stream_ring_overwrite) | `Fiber&lt;Input = (), Yield = Option&lt;T&gt;, Return = Result&lt;Option&lt;T&gt;, E&gt;&gt;`         |</span>
-<span class="doccomment">//! | `-&gt;`                                                                                            | `Stream&lt;Item = Result&lt;T, E&gt;&gt;`                                                 |</span>
+<span class="doccomment">//! | Method                                                                                       | Input / Output                                                                |</span>
+<span class="doccomment">//! |----------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|</span>
+<span class="doccomment">//! | [`token.add_future(...)`](ThrFiberFuture::add_future)                                        | `Fiber&lt;Input = (), Yield = ()/!, Return = T&gt;`                                 |</span>
+<span class="doccomment">//! | `-&gt;`                                                                                         | `Future&lt;Output = T&gt;`                                                          |</span>
+<span class="doccomment">//! | [`token.add_saturating_pulse_stream(...)`](ThrFiberStreamPulse::add_saturating_pulse_stream) | `Fiber&lt;Input = (), Yield = Option&lt;usize&gt;, Return = Option&lt;usize&gt;&gt;`            |</span>
+<span class="doccomment">//! | `-&gt;`                                                                                         | `Stream&lt;Item = NonZeroUsize&gt;`                                                 |</span>
+<span class="doccomment">//! | [`token.add_pulse_try_stream(...)`](ThrFiberStreamPulse::add_pulse_try_stream)               | `Fiber&lt;Input = (), Yield = Option&lt;usize&gt;, Return = Result&lt;Option&lt;usize&gt;, E&gt;&gt;` |</span>
+<span class="doccomment">//! | `-&gt;`                                                                                         | `Stream&lt;Item = Result&lt;NonZeroUsize, E&gt;&gt;`                                      |</span>
+<span class="doccomment">//! | [`token.add_saturating_stream(...)`](ThrFiberStreamRing::add_saturating_stream)              | `Fiber&lt;Input = (), Yield = Option&lt;T&gt;, Return = Option&lt;T&gt;&gt;`                    |</span>
+<span class="doccomment">//! | `-&gt;`                                                                                         | `Stream&lt;Item = T&gt;`                                                            |</span>
+<span class="doccomment">//! | [`token.add_try_stream(...)`](ThrFiberStreamRing::add_try_stream)                            | `Fiber&lt;Input = (), Yield = Option&lt;T&gt;, Return = Result&lt;Option&lt;T&gt;, E&gt;&gt;`         |</span>
+<span class="doccomment">//! | `-&gt;`                                                                                         | `Stream&lt;Item = Result&lt;T, E&gt;&gt;`                                                 |</span>
+<span class="doccomment">//! | [`token.add_overwriting_stream(...)`](ThrFiberStreamRing::add_overwriting_stream)            | `Fiber&lt;Input = (), Yield = Option&lt;T&gt;, Return = Option&lt;T&gt;&gt;`                    |</span>
+<span class="doccomment">//! | `-&gt;`                                                                                         | `Stream&lt;Item = T&gt;`                                                            |</span>
+<span class="doccomment">//! | [`token.add_overwriting_try_stream(...)`](ThrFiberStreamRing::add_overwriting_try_stream)    | `Fiber&lt;Input = (), Yield = Option&lt;T&gt;, Return = Result&lt;Option&lt;T&gt;, E&gt;&gt;`         |</span>
+<span class="doccomment">//! | `-&gt;`                                                                                         | `Stream&lt;Item = Result&lt;T, E&gt;&gt;`                                                 |</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ## Examples</span>
 <span class="doccomment">//!</span>

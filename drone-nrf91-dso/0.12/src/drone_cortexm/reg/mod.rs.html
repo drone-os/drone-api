@@ -45,6 +45,7 @@
 <span id="45">45</span>
 <span id="46">46</span>
 <span id="47">47</span>
+<span id="48">48</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! The Memory-Mapped Registers module.</span>
 <span class="doccomment">//!</span>
@@ -75,9 +76,10 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ## Register Token</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! |                                      | Mode       | Tag      |</span>
-<span class="doccomment">//! |--------------------------------------|------------|----------|</span>
-<span class="doccomment">//! | [`modify`](RwRegAtomic::modify)      | read-write | Srt, Crt |</span>
+<span class="doccomment">//! |                                         | Mode       | Tag      |</span>
+<span class="doccomment">//! |-----------------------------------------|------------|----------|</span>
+<span class="doccomment">//! | [`modify`](RwRegAtomic::modify)         | read-write | Srt, Crt |</span>
+<span class="doccomment">//! | [`modify_reg`](RwRegAtomic::modify_reg) | read-write | Srt, Crt |</span>
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">field</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">marker</span>;
