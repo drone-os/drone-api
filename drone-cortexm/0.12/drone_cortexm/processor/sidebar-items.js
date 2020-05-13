@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["self_reset","Requests system reset."],["send_event","Send event."],["spin","Spins the `cycles` number of processor cycles in a loop."],["wait_for_event","Wait for event."],["wait_for_int","Wait for interrupt."]]});
+initSidebarItems({"fn":[["fpu_init","Enables the FPU."],["self_reset","Requests system reset."],["send_event","Sends event."],["spin","Spins the `cycles` number of processor cycles in a loop."],["wait_for_event","Waits for event."],["wait_for_int","Waits for interrupt."]]});

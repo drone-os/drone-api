@@ -250,13 +250,13 @@
         <span class="ident">duration</span>: <span class="ident">u32</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TimerInterval</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="self">Self</span>, <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">NonZeroUsize</span>, <span class="ident">TimerOverflow</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">interval_stream</span>(<span class="ident">duration</span>, <span class="op">|</span><span class="ident">int</span>, <span class="ident">ctrl</span><span class="op">|</span> {
-            <span class="ident">Box</span>::<span class="ident">pin</span>(<span class="ident">int</span>.<span class="ident">add_stream_pulse</span>(<span class="op">|</span><span class="op">|</span> <span class="prelude-val">Err</span>(<span class="ident">TimerOverflow</span>), <span class="self">Self</span>::<span class="ident">interval_fib</span>(<span class="ident">ctrl</span>)))
+            <span class="ident">Box</span>::<span class="ident">pin</span>(<span class="ident">int</span>.<span class="ident">add_pulse_try_stream</span>(<span class="op">|</span><span class="op">|</span> <span class="prelude-val">Err</span>(<span class="ident">TimerOverflow</span>), <span class="self">Self</span>::<span class="ident">interval_fib</span>(<span class="ident">ctrl</span>)))
         })
     }
 
     <span class="kw">fn</span> <span class="ident">interval_skip</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">duration</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TimerInterval</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="self">Self</span>, <span class="ident">NonZeroUsize</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">interval_stream</span>(<span class="ident">duration</span>, <span class="op">|</span><span class="ident">int</span>, <span class="ident">ctrl</span><span class="op">|</span> {
-            <span class="ident">Box</span>::<span class="ident">pin</span>(<span class="ident">int</span>.<span class="ident">add_stream_pulse_skip</span>(<span class="self">Self</span>::<span class="ident">interval_fib</span>(<span class="ident">ctrl</span>)))
+            <span class="ident">Box</span>::<span class="ident">pin</span>(<span class="ident">int</span>.<span class="ident">add_saturating_pulse_stream</span>(<span class="self">Self</span>::<span class="ident">interval_fib</span>(<span class="ident">ctrl</span>)))
         })
     }
 }
