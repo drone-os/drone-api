@@ -265,6 +265,80 @@
 <span id="265">265</span>
 <span id="266">266</span>
 <span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">fib</span>::{<span class="self">self</span>, <span class="ident">Fiber</span>},
@@ -340,15 +414,14 @@
     }
 }
 
-<span class="doccomment">/// Extends [`ThrToken`](crate::thr::ThrToken) types with `add_stream_ring`</span>
-<span class="doccomment">/// methods.</span>
+<span class="doccomment">/// Extends [`ThrToken`](crate::thr::ThrToken) types with ring stream methods.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ThrFiberStreamRing</span>: <span class="ident">ThrToken</span> {
     <span class="doccomment">/// Adds the fiber `fib` to the fiber chain and returns a stream of `T`</span>
     <span class="doccomment">/// yielded from the fiber.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// When the underlying ring buffer overflows, new items will be skipped.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">add_stream_ring_skip</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">capacity</span>: <span class="ident">usize</span>, <span class="ident">fib</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FiberStreamRing</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">add_saturating_stream</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">capacity</span>: <span class="ident">usize</span>, <span class="ident">fib</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FiberStreamRing</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">F</span>: <span class="ident">Fiber</span><span class="op">&lt;</span><span class="ident">Input</span> <span class="op">=</span> (), <span class="ident">Yield</span> <span class="op">=</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">Return</span> <span class="op">=</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>,
         <span class="ident">F</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
@@ -363,7 +436,7 @@
     <span class="doccomment">/// When the underlying ring buffer overflows, new items will overwrite</span>
     <span class="doccomment">/// existing ones.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">add_stream_ring_overwrite</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">capacity</span>: <span class="ident">usize</span>, <span class="ident">fib</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FiberStreamRing</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">add_overwriting_stream</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">capacity</span>: <span class="ident">usize</span>, <span class="ident">fib</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FiberStreamRing</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">F</span>: <span class="ident">Fiber</span><span class="op">&lt;</span><span class="ident">Input</span> <span class="op">=</span> (), <span class="ident">Yield</span> <span class="op">=</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">Return</span> <span class="op">=</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>,
         <span class="ident">F</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
@@ -377,7 +450,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// When the underlying ring buffer overflows, new items will be skipped.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">add_stream_ring</span><span class="op">&lt;</span><span class="ident">O</span>, <span class="ident">F</span>, <span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span>(
+    <span class="kw">fn</span> <span class="ident">add_try_stream</span><span class="op">&lt;</span><span class="ident">O</span>, <span class="ident">F</span>, <span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span>(
         <span class="self">self</span>,
         <span class="ident">capacity</span>: <span class="ident">usize</span>,
         <span class="ident">overflow</span>: <span class="ident">O</span>,
@@ -400,7 +473,7 @@
     <span class="doccomment">/// When the underlying ring buffer overflows, new items will overwrite</span>
     <span class="doccomment">/// existing ones.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">add_try_stream_ring_overwrite</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span>(
+    <span class="kw">fn</span> <span class="ident">add_overwriting_try_stream</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span>(
         <span class="self">self</span>,
         <span class="ident">capacity</span>: <span class="ident">usize</span>,
         <span class="ident">fib</span>: <span class="ident">F</span>,
@@ -412,6 +485,81 @@
         <span class="ident">E</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
     {
         <span class="ident">TryFiberStreamRing</span> { <span class="ident">rx</span>: <span class="ident">add_rx_overwrite</span>(<span class="self">self</span>, <span class="ident">capacity</span>, <span class="ident">fib</span>, <span class="ident">identity</span>) }
+    }
+
+    <span class="doccomment">/// Adds the fiber `fib` to the fiber chain and returns a stream of `T`</span>
+    <span class="doccomment">/// yielded from the fiber.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// When the underlying ring buffer overflows, new items will be skipped.</span>
+    <span class="attribute">#[<span class="ident">deprecated</span> <span class="op">=</span> <span class="string">&quot;please use &#39;add_saturating_stream&#39; instead&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">fn</span> <span class="ident">add_stream_ring_skip</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">capacity</span>: <span class="ident">usize</span>, <span class="ident">fib</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FiberStreamRing</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">F</span>: <span class="ident">Fiber</span><span class="op">&lt;</span><span class="ident">Input</span> <span class="op">=</span> (), <span class="ident">Yield</span> <span class="op">=</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">Return</span> <span class="op">=</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="ident">F</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    {
+        <span class="self">self</span>.<span class="ident">add_saturating_stream</span>(<span class="ident">capacity</span>, <span class="ident">fib</span>)
+    }
+
+    <span class="doccomment">/// Adds the fiber `fib` to the fiber chain and returns a stream of `T`</span>
+    <span class="doccomment">/// yielded from the fiber.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// When the underlying ring buffer overflows, new items will overwrite</span>
+    <span class="doccomment">/// existing ones.</span>
+    <span class="attribute">#[<span class="ident">deprecated</span> <span class="op">=</span> <span class="string">&quot;please use &#39;add_overwriting_stream&#39; instead&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">fn</span> <span class="ident">add_stream_ring_overwrite</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">capacity</span>: <span class="ident">usize</span>, <span class="ident">fib</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FiberStreamRing</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">F</span>: <span class="ident">Fiber</span><span class="op">&lt;</span><span class="ident">Input</span> <span class="op">=</span> (), <span class="ident">Yield</span> <span class="op">=</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">Return</span> <span class="op">=</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="ident">F</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    {
+        <span class="self">self</span>.<span class="ident">add_overwriting_stream</span>(<span class="ident">capacity</span>, <span class="ident">fib</span>)
+    }
+
+    <span class="doccomment">/// Adds the fiber `fib` to the fiber chain and returns a stream of</span>
+    <span class="doccomment">/// `Result&lt;T, E&gt;` yielded from the fiber.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// When the underlying ring buffer overflows, new items will be skipped.</span>
+    <span class="attribute">#[<span class="ident">deprecated</span> <span class="op">=</span> <span class="string">&quot;please use &#39;add_try_stream&#39; instead&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">fn</span> <span class="ident">add_stream_ring</span><span class="op">&lt;</span><span class="ident">O</span>, <span class="ident">F</span>, <span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span>(
+        <span class="self">self</span>,
+        <span class="ident">capacity</span>: <span class="ident">usize</span>,
+        <span class="ident">overflow</span>: <span class="ident">O</span>,
+        <span class="ident">fib</span>: <span class="ident">F</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TryFiberStreamRing</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">O</span>: <span class="ident">Fn</span>(<span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">E</span><span class="op">&gt;</span>,
+        <span class="ident">F</span>: <span class="ident">Fiber</span><span class="op">&lt;</span><span class="ident">Input</span> <span class="op">=</span> (), <span class="ident">Yield</span> <span class="op">=</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">Return</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">E</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="ident">O</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">F</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">E</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    {
+        <span class="self">self</span>.<span class="ident">add_try_stream</span>(<span class="ident">capacity</span>, <span class="ident">overflow</span>, <span class="ident">fib</span>)
+    }
+
+    <span class="doccomment">/// Adds the fiber `fib` to the fiber chain and returns a stream of</span>
+    <span class="doccomment">/// `Result&lt;T, E&gt;` yielded from the fiber.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// When the underlying ring buffer overflows, new items will overwrite</span>
+    <span class="doccomment">/// existing ones.</span>
+    <span class="attribute">#[<span class="ident">deprecated</span> <span class="op">=</span> <span class="string">&quot;please use &#39;add_overwriting_try_stream&#39; instead&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">fn</span> <span class="ident">add_try_stream_ring_overwrite</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span>(
+        <span class="self">self</span>,
+        <span class="ident">capacity</span>: <span class="ident">usize</span>,
+        <span class="ident">fib</span>: <span class="ident">F</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TryFiberStreamRing</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">F</span>: <span class="ident">Fiber</span><span class="op">&lt;</span><span class="ident">Input</span> <span class="op">=</span> (), <span class="ident">Yield</span> <span class="op">=</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">Return</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">E</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="ident">F</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">E</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    {
+        <span class="self">self</span>.<span class="ident">add_overwriting_try_stream</span>(<span class="ident">capacity</span>, <span class="ident">fib</span>)
     }
 }
 

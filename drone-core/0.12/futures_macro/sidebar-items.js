@@ -1,1 +1,1 @@
-initSidebarItems({"derive":[["proc_macro_hack_join","The `join!` macro."],["proc_macro_hack_select","The `select!` macro."],["proc_macro_hack_select_biased","The `select_biased!` macro."],["proc_macro_hack_try_join","The `try_join!` macro."]]});
+initSidebarItems({"derive":[["proc_macro_hack_join_internal","The `join!` macro."],["proc_macro_hack_select_biased_internal","The `select_biased!` macro."],["proc_macro_hack_select_internal","The `select!` macro."],["proc_macro_hack_try_join_internal","The `try_join!` macro."]]});
