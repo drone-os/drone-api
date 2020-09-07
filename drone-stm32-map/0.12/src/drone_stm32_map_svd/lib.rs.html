@@ -432,6 +432,16 @@
 <span id="432">432</span>
 <span id="433">433</span>
 <span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! STM32 SVD to bindings for Drone, an Embedded Operating System.</span>
 
@@ -490,6 +500,7 @@
         <span class="string">&quot;stm32f102&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">patch_stm32f102</span>(<span class="ident">parse_svd</span>(<span class="string">&quot;STM32F102.svd&quot;</span>)<span class="question-mark">?</span>),
         <span class="string">&quot;stm32f103&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">parse_svd</span>(<span class="string">&quot;STM32F103.svd&quot;</span>),
         <span class="string">&quot;stm32f107&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">parse_svd</span>(<span class="string">&quot;STM32F107.svd&quot;</span>),
+        <span class="string">&quot;stm32f303&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">parse_svd</span>(<span class="string">&quot;STM32F303.svd&quot;</span>),
         <span class="string">&quot;stm32f401&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">patch_stm32f401</span>(<span class="ident">parse_svd</span>(<span class="string">&quot;STM32F401.svd&quot;</span>)<span class="question-mark">?</span>),
         <span class="string">&quot;stm32f405&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">patch_stm32f405</span>(<span class="ident">parse_svd</span>(<span class="string">&quot;STM32F405.svd&quot;</span>)<span class="question-mark">?</span>),
         <span class="string">&quot;stm32f407&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">patch_stm32f407</span>(<span class="ident">parse_svd</span>(<span class="string">&quot;STM32F407.svd&quot;</span>)<span class="question-mark">?</span>),
@@ -543,6 +554,7 @@
 }
 
 <span class="kw">fn</span> <span class="ident">patch_stm32f405</span>(<span class="kw-2">mut</span> <span class="ident">dev</span>: <span class="ident">Device</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Device</span><span class="op">&gt;</span> {
+    <span class="ident">rcc</span>::<span class="ident">fix_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">rcc</span>::<span class="ident">fix_3</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">dma</span>::<span class="ident">fix_dma2_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">dma</span>::<span class="ident">fix_dma2_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
@@ -563,6 +575,7 @@
 }
 
 <span class="kw">fn</span> <span class="ident">patch_stm32f407</span>(<span class="kw-2">mut</span> <span class="ident">dev</span>: <span class="ident">Device</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Device</span><span class="op">&gt;</span> {
+    <span class="ident">rcc</span>::<span class="ident">fix_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">rcc</span>::<span class="ident">fix_3</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">dma</span>::<span class="ident">fix_dma2_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">dma</span>::<span class="ident">fix_dma2_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
@@ -583,6 +596,7 @@
 }
 
 <span class="kw">fn</span> <span class="ident">patch_stm32f410</span>(<span class="kw-2">mut</span> <span class="ident">dev</span>: <span class="ident">Device</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Device</span><span class="op">&gt;</span> {
+    <span class="ident">rcc</span>::<span class="ident">fix_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">dma</span>::<span class="ident">fix_dma2_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim1_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim5_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
@@ -596,6 +610,7 @@
 }
 
 <span class="kw">fn</span> <span class="ident">patch_stm32f411</span>(<span class="kw-2">mut</span> <span class="ident">dev</span>: <span class="ident">Device</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Device</span><span class="op">&gt;</span> {
+    <span class="ident">rcc</span>::<span class="ident">fix_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">dma</span>::<span class="ident">fix_dma2_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim1_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim2_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
@@ -613,6 +628,7 @@
 }
 
 <span class="kw">fn</span> <span class="ident">patch_stm32f412</span>(<span class="kw-2">mut</span> <span class="ident">dev</span>: <span class="ident">Device</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Device</span><span class="op">&gt;</span> {
+    <span class="ident">rcc</span>::<span class="ident">fix_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">dma</span>::<span class="ident">fix_dma2_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim1_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim2_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
@@ -633,6 +649,7 @@
 }
 
 <span class="kw">fn</span> <span class="ident">patch_stm32f413</span>(<span class="kw-2">mut</span> <span class="ident">dev</span>: <span class="ident">Device</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Device</span><span class="op">&gt;</span> {
+    <span class="ident">rcc</span>::<span class="ident">fix_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">dma</span>::<span class="ident">fix_dma1_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">exti</span>::<span class="ident">fix_exti_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim1_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
@@ -652,6 +669,7 @@
 }
 
 <span class="kw">fn</span> <span class="ident">patch_stm32f427</span>(<span class="kw-2">mut</span> <span class="ident">dev</span>: <span class="ident">Device</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Device</span><span class="op">&gt;</span> {
+    <span class="ident">rcc</span>::<span class="ident">fix_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">rcc</span>::<span class="ident">fix_3</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">dma</span>::<span class="ident">fix_dma2_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">dma</span>::<span class="ident">fix_dma2_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
@@ -671,6 +689,7 @@
 }
 
 <span class="kw">fn</span> <span class="ident">patch_stm32f429</span>(<span class="kw-2">mut</span> <span class="ident">dev</span>: <span class="ident">Device</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Device</span><span class="op">&gt;</span> {
+    <span class="ident">rcc</span>::<span class="ident">fix_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">rcc</span>::<span class="ident">fix_3</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">dma</span>::<span class="ident">fix_dma2_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">dma</span>::<span class="ident">fix_dma2_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
@@ -690,6 +709,7 @@
 }
 
 <span class="kw">fn</span> <span class="ident">patch_stm32f446</span>(<span class="kw-2">mut</span> <span class="ident">dev</span>: <span class="ident">Device</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Device</span><span class="op">&gt;</span> {
+    <span class="ident">rcc</span>::<span class="ident">fix_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">dma</span>::<span class="ident">fix_dma2_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">dma</span>::<span class="ident">fix_dma2_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;
     <span class="ident">tim</span>::<span class="ident">fix_tim1_1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dev</span>)<span class="question-mark">?</span>;

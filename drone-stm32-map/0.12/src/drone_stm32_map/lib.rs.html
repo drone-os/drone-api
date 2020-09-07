@@ -83,6 +83,7 @@
 <span id="83">83</span>
 <span id="84">84</span>
 <span id="85">85</span>
+<span id="86">86</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! STM32 peripheral mappings for Drone, an Embedded Operating System.</span>
 <span class="doccomment">//!</span>
@@ -106,6 +107,7 @@
 <span class="doccomment">//! | `stm32f102` | ARM® Cortex®-M3 r1p1  | [RM0008](https://www.st.com/resource/en/reference_manual/cd00171190.pdf) | `dma` `gpio` `spi` `tim`                                 |</span>
 <span class="doccomment">//! | `stm32f103` | ARM® Cortex®-M3 r1p1  | [RM0008](https://www.st.com/resource/en/reference_manual/cd00171190.pdf) | `dma` `gpio` `spi` `tim`                                 |</span>
 <span class="doccomment">//! | `stm32f107` | ARM® Cortex®-M3 r1p1  | [RM0008](https://www.st.com/resource/en/reference_manual/cd00171190.pdf) | `dma` `gpio` `spi` `tim`                                 |</span>
+<span class="doccomment">//! | `stm32f303` | ARM® Cortex®-M4F r0p1 | [RM0316](https://www.st.com/resource/en/reference_manual/dm00043574.pdf) | `adc` `dma` `exti` `gpio` `i2c` `tim`                    |</span>
 <span class="doccomment">//! | `stm32f401` | ARM® Cortex®-M4F r0p1 | [RM0368](https://www.st.com/resource/en/reference_manual/dm00096844.pdf) | `adc` `dma` `exti` `gpio` `i2c` `tim`                    |</span>
 <span class="doccomment">//! | `stm32f405` | ARM® Cortex®-M4F r0p1 | [RM0090](https://www.st.com/resource/en/reference_manual/dm00031020.pdf) | `adc` `dma` `exti` `gpio` `i2c` `tim`                    |</span>
 <span class="doccomment">//! | `stm32f407` | ARM® Cortex®-M4F r0p1 | [RM0090](https://www.st.com/resource/en/reference_manual/dm00031020.pdf) | `adc` `dma` `exti` `gpio` `i2c` `tim`                    |</span>
@@ -149,7 +151,7 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ```toml</span>
 <span class="doccomment">//! [dependencies]</span>
-<span class="doccomment">//! drone-stm32-map = { version = &quot;0.12.0&quot;, features = [...] }</span>
+<span class="doccomment">//! drone-stm32-map = { version = &quot;0.12.3&quot;, features = [...] }</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Add or extend `std` feature as follows:</span>

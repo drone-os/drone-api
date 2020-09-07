@@ -82,17 +82,17 @@ than <code>()</code> or <code>!</code>.</p>
 <table><thead><tr><th>Method</th><th>Input / Output</th></tr></thead><tbody>
 <tr><td><a href="../../drone_core/fib/trait.ThrFiberFuture.html#method.add_future"><code>token.add_future(...)</code></a></td><td><code>Fiber&lt;Input = (), Yield = ()/!, Return = T&gt;</code></td></tr>
 <tr><td><code>-&gt;</code></td><td><code>Future&lt;Output = T&gt;</code></td></tr>
-<tr><td><a href="../../drone_core/fib/trait.ThrFiberStreamPulse.html#method.add_stream_pulse"><code>token.add_stream_pulse(...)</code></a></td><td><code>Fiber&lt;Input = (), Yield = Option&lt;usize&gt;, Return = Result&lt;Option&lt;usize&gt;, E&gt;&gt;</code></td></tr>
-<tr><td><code>-&gt;</code></td><td><code>Stream&lt;Item = Result&lt;NonZeroUsize, E&gt;&gt;</code></td></tr>
-<tr><td><a href="../../drone_core/fib/trait.ThrFiberStreamPulse.html#method.add_stream_pulse_skip"><code>token.add_stream_pulse_skip(...)</code></a></td><td><code>Fiber&lt;Input = (), Yield = Option&lt;usize&gt;, Return = Option&lt;usize&gt;&gt;</code></td></tr>
+<tr><td><a href="../../drone_core/fib/trait.ThrFiberStreamPulse.html#method.add_saturating_pulse_stream"><code>token.add_saturating_pulse_stream(...)</code></a></td><td><code>Fiber&lt;Input = (), Yield = Option&lt;usize&gt;, Return = Option&lt;usize&gt;&gt;</code></td></tr>
 <tr><td><code>-&gt;</code></td><td><code>Stream&lt;Item = NonZeroUsize&gt;</code></td></tr>
-<tr><td><a href="../../drone_core/fib/trait.ThrFiberStreamRing.html#method.add_stream_ring"><code>token.add_stream_ring(...)</code></a></td><td><code>Fiber&lt;Input = (), Yield = Option&lt;T&gt;, Return = Result&lt;Option&lt;T&gt;, E&gt;&gt;</code></td></tr>
+<tr><td><a href="../../drone_core/fib/trait.ThrFiberStreamPulse.html#method.add_pulse_try_stream"><code>token.add_pulse_try_stream(...)</code></a></td><td><code>Fiber&lt;Input = (), Yield = Option&lt;usize&gt;, Return = Result&lt;Option&lt;usize&gt;, E&gt;&gt;</code></td></tr>
+<tr><td><code>-&gt;</code></td><td><code>Stream&lt;Item = Result&lt;NonZeroUsize, E&gt;&gt;</code></td></tr>
+<tr><td><a href="../../drone_core/fib/trait.ThrFiberStreamRing.html#method.add_saturating_stream"><code>token.add_saturating_stream(...)</code></a></td><td><code>Fiber&lt;Input = (), Yield = Option&lt;T&gt;, Return = Option&lt;T&gt;&gt;</code></td></tr>
+<tr><td><code>-&gt;</code></td><td><code>Stream&lt;Item = T&gt;</code></td></tr>
+<tr><td><a href="../../drone_core/fib/trait.ThrFiberStreamRing.html#method.add_try_stream"><code>token.add_try_stream(...)</code></a></td><td><code>Fiber&lt;Input = (), Yield = Option&lt;T&gt;, Return = Result&lt;Option&lt;T&gt;, E&gt;&gt;</code></td></tr>
 <tr><td><code>-&gt;</code></td><td><code>Stream&lt;Item = Result&lt;T, E&gt;&gt;</code></td></tr>
-<tr><td><a href="../../drone_core/fib/trait.ThrFiberStreamRing.html#method.add_stream_ring_skip"><code>token.add_stream_ring_skip(...)</code></a></td><td><code>Fiber&lt;Input = (), Yield = Option&lt;T&gt;, Return = Option&lt;T&gt;&gt;</code></td></tr>
+<tr><td><a href="../../drone_core/fib/trait.ThrFiberStreamRing.html#method.add_overwriting_stream"><code>token.add_overwriting_stream(...)</code></a></td><td><code>Fiber&lt;Input = (), Yield = Option&lt;T&gt;, Return = Option&lt;T&gt;&gt;</code></td></tr>
 <tr><td><code>-&gt;</code></td><td><code>Stream&lt;Item = T&gt;</code></td></tr>
-<tr><td><a href="../../drone_core/fib/trait.ThrFiberStreamRing.html#method.add_stream_ring_overwrite"><code>token.add_stream_ring_overwrite(...)</code></a></td><td><code>Fiber&lt;Input = (), Yield = Option&lt;T&gt;, Return = Option&lt;T&gt;&gt;</code></td></tr>
-<tr><td><code>-&gt;</code></td><td><code>Stream&lt;Item = T&gt;</code></td></tr>
-<tr><td><a href="../../drone_core/fib/trait.ThrFiberStreamRing.html#method.add_try_stream_ring_overwrite"><code>token.add_try_stream_ring_overwrite(...)</code></a></td><td><code>Fiber&lt;Input = (), Yield = Option&lt;T&gt;, Return = Result&lt;Option&lt;T&gt;, E&gt;&gt;</code></td></tr>
+<tr><td><a href="../../drone_core/fib/trait.ThrFiberStreamRing.html#method.add_overwriting_try_stream"><code>token.add_overwriting_try_stream(...)</code></a></td><td><code>Fiber&lt;Input = (), Yield = Option&lt;T&gt;, Return = Result&lt;Option&lt;T&gt;, E&gt;&gt;</code></td></tr>
 <tr><td><code>-&gt;</code></td><td><code>Stream&lt;Item = Result&lt;T, E&gt;&gt;</code></td></tr>
 </tbody></table>
 <h2 id="examples" class="section-header"><a href="#examples">Examples</a></h2>
@@ -128,10 +128,8 @@ than <code>()</code> or <code>!</code>.</p>
 <code>add_once</code> methods.</p>
 </td></tr><tr class='module-item'><td><a class="trait" href="trait.ThrFiberFuture.html" title='drone_core::fib::ThrFiberFuture trait'>ThrFiberFuture</a></td><td class='docblock-short'><p>Extends <a href="../../drone_core/thr/trait.ThrToken.html"><code>ThrToken</code></a> types with <code>add_future</code> method.</p>
 </td></tr><tr class='module-item'><td><a class="trait" href="trait.ThrFiberGen.html" title='drone_core::fib::ThrFiberGen trait'>ThrFiberGen</a></td><td class='docblock-short'><p>Extends <a href="../../drone_core/thr/trait.ThrToken.html"><code>ThrToken</code></a> types with <code>add</code> method.</p>
-</td></tr><tr class='module-item'><td><a class="trait" href="trait.ThrFiberStreamPulse.html" title='drone_core::fib::ThrFiberStreamPulse trait'>ThrFiberStreamPulse</a></td><td class='docblock-short'><p>Extends <a href="../../drone_core/thr/trait.ThrToken.html"><code>ThrToken</code></a> types with <code>add_stream_pulse</code>
-methods.</p>
-</td></tr><tr class='module-item'><td><a class="trait" href="trait.ThrFiberStreamRing.html" title='drone_core::fib::ThrFiberStreamRing trait'>ThrFiberStreamRing</a></td><td class='docblock-short'><p>Extends <a href="../../drone_core/thr/trait.ThrToken.html"><code>ThrToken</code></a> types with <code>add_stream_ring</code>
-methods.</p>
+</td></tr><tr class='module-item'><td><a class="trait" href="trait.ThrFiberStreamPulse.html" title='drone_core::fib::ThrFiberStreamPulse trait'>ThrFiberStreamPulse</a></td><td class='docblock-short'><p>Extends <a href="../../drone_core/thr/trait.ThrToken.html"><code>ThrToken</code></a> types with pulse stream methods.</p>
+</td></tr><tr class='module-item'><td><a class="trait" href="trait.ThrFiberStreamRing.html" title='drone_core::fib::ThrFiberStreamRing trait'>ThrFiberStreamRing</a></td><td class='docblock-short'><p>Extends <a href="../../drone_core/thr/trait.ThrToken.html"><code>ThrToken</code></a> types with ring stream methods.</p>
 </td></tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table><tr class='module-item'><td><a class="fn" href="fn.new.html" title='drone_core::fib::new fn'>new</a></td><td class='docblock-short'><p>Creates a fiber from the generator <code>gen</code>.</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.new_fn.html" title='drone_core::fib::new_fn fn'>new_fn</a></td><td class='docblock-short'><p>Creates a fiber from the closure <code>f</code>.</p>

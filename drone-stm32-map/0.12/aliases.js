@@ -32,5 +32,6 @@ ALIASES["futures_io"] = {};
 ALIASES["futures_sink"] = {};
 ALIASES["futures_task"] = {};
 ALIASES["futures_util"] = {};
+ALIASES["pin_project"] = {};
 ALIASES["pin_utils"] = {};
 ALIASES["proc_macro_nested"] = {};
