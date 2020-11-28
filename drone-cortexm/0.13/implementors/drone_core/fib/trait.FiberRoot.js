@@ -1,0 +1,4 @@
+(function() {var implementors = {};
+implementors["drone_core"] = [];
+implementors["drone_cortexm"] = [{"text":"impl&lt;Sv, F&gt; FiberRoot for FiberProc&lt;Sv, (), (), (), F&gt; <span class=\"where fmt-newline\">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Sv: Switch&lt;Data&lt;(), FiberState&lt;(), ()&gt;&gt;&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;F: FnMut((), Yielder&lt;Sv, (), (), ()&gt;),<br>&nbsp;&nbsp;&nbsp;&nbsp;F: Send + 'static,&nbsp;</span>","synthetic":false,"types":[]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
