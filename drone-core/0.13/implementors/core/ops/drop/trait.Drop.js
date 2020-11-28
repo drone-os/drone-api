@@ -1,0 +1,10 @@
+(function() {var implementors = {};
+implementors["anyhow"] = [{"text":"impl Drop for Error","synthetic":false,"types":[]}];
+implementors["drone_core"] = [{"text":"impl Drop for CString","synthetic":false,"types":[]},{"text":"impl&lt;T:&nbsp;Item, '_&gt; Drop for Guard&lt;'_, T&gt;","synthetic":false,"types":[]},{"text":"impl&lt;T&gt; Drop for Receiver&lt;T&gt;","synthetic":false,"types":[]},{"text":"impl&lt;T&gt; Drop for Sender&lt;T&gt;","synthetic":false,"types":[]},{"text":"impl&lt;E&gt; Drop for Receiver&lt;E&gt;","synthetic":false,"types":[]},{"text":"impl&lt;E&gt; Drop for Sender&lt;E&gt;","synthetic":false,"types":[]},{"text":"impl&lt;T, E&gt; Drop for Receiver&lt;T, E&gt;","synthetic":false,"types":[]},{"text":"impl&lt;T, E&gt; Drop for Sender&lt;T, E&gt;","synthetic":false,"types":[]},{"text":"impl&lt;T:&nbsp;?Sized, '_&gt; Drop for MutexGuard&lt;'_, T&gt;","synthetic":false,"types":[]},{"text":"impl&lt;T:&nbsp;?Sized, '_&gt; Drop for RwLockReadGuard&lt;'_, T&gt;","synthetic":false,"types":[]},{"text":"impl&lt;T:&nbsp;?Sized, '_&gt; Drop for RwLockWriteGuard&lt;'_, T&gt;","synthetic":false,"types":[]}];
+implementors["futures_channel"] = [{"text":"impl&lt;T&gt; Drop for Sender&lt;T&gt;","synthetic":false,"types":[]},{"text":"impl&lt;T&gt; Drop for Receiver&lt;T&gt;","synthetic":false,"types":[]}];
+implementors["futures_task"] = [{"text":"impl&lt;T, '_&gt; Drop for LocalFutureObj&lt;'_, T&gt;","synthetic":false,"types":[]}];
+implementors["futures_util"] = [{"text":"impl&lt;Fut&gt; Drop for FuturesUnordered&lt;Fut&gt;","synthetic":false,"types":[]}];
+implementors["regex_syntax"] = [{"text":"impl Drop for Ast","synthetic":false,"types":[]},{"text":"impl Drop for ClassSet","synthetic":false,"types":[]},{"text":"impl Drop for Hir","synthetic":false,"types":[]}];
+implementors["syn"] = [{"text":"impl&lt;'a&gt; Drop for ParseBuffer&lt;'a&gt;","synthetic":false,"types":[]}];
+implementors["thread_local"] = [{"text":"impl&lt;T:&nbsp;Send&gt; Drop for ThreadLocal&lt;T&gt;","synthetic":false,"types":[]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

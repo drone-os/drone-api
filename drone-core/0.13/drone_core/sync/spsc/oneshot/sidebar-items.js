@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["channel","Creates a new one-shot channel, returning the sender/receiver halves."]],"struct":[["Canceled","Error returned from a [`Receiver`] when the corresponding `Sender` is dropped."],["Receiver","The receiving-half of `oneshot::channel`."],["Sender","The sending-half of `oneshot::channel`."]]});
