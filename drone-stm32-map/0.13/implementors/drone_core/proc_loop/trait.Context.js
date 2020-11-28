@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["drone_cortexm"] = [{"text":"impl&lt;Sv, T&gt; Context&lt;&lt;T as ProcLoop&gt;::Req, &lt;T as ProcLoop&gt;::ReqRes&gt; for Yielder&lt;Sv, T&gt; <span class=\"where fmt-newline\">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Sv: SvCall&lt;SwitchBackService&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;Sv: SvCall&lt;SwitchContextService&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;T: ProcLoop&lt;Context = Self&gt;,&nbsp;</span>","synthetic":false,"types":[]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

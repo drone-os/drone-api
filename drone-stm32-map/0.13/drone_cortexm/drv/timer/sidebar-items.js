@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["TimerInterval","Stream created from [`Timer::interval`] or  [`Timer::interval_skip`]."],["TimerOverflow","Error returned from [`Timer::interval`] on overflow."],["TimerSleep","Future created from [`Timer::sleep`]."]],"trait":[["Timer","Generic timer driver."],["TimerStop","Timer stop handler."]]});

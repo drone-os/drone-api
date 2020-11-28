@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Crt","The copyable register token tag."],["Srt","The synchronized register token tag."],["Urt","The unsynchronized register token tag."]],"trait":[["RegAtomic","An atomic register token tag."],["RegOwned","An owned register token tag."],["RegTag","A register token tag."]]});

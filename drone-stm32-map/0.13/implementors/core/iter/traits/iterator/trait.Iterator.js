@@ -1,0 +1,4 @@
+(function() {var implementors = {};
+implementors["drone_cortexm"] = [{"text":"impl&lt;'a, T:&nbsp;Stream&gt; Iterator for StreamRootWait&lt;'a, T&gt;","synthetic":false,"types":[]}];
+implementors["futures_util"] = [{"text":"impl&lt;'a, Fut&gt; Iterator for IterPinMut&lt;'a, Fut&gt;","synthetic":false,"types":[]},{"text":"impl&lt;'a, Fut:&nbsp;Unpin&gt; Iterator for IterMut&lt;'a, Fut&gt;","synthetic":false,"types":[]},{"text":"impl&lt;'a, Fut&gt; Iterator for IterPinRef&lt;'a, Fut&gt;","synthetic":false,"types":[]},{"text":"impl&lt;'a, Fut:&nbsp;Unpin&gt; Iterator for Iter&lt;'a, Fut&gt;","synthetic":false,"types":[]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
