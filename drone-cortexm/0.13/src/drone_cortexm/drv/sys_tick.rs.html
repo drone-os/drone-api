@@ -196,12 +196,14 @@
 <span id="193">193</span>
 <span id="194">194</span>
 <span id="195">195</span>
+<span id="196">196</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! SysTick timer.</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">drv</span>::<span class="ident">timer</span>::{<span class="ident">Timer</span>, <span class="ident">TimerInterval</span>, <span class="ident">TimerOverflow</span>, <span class="ident">TimerSleep</span>, <span class="ident">TimerStop</span>},
-    <span class="ident">fib</span>::{<span class="self">self</span>, <span class="ident">Fiber</span>},
+    <span class="ident">fib</span>,
+    <span class="ident">fib</span>::<span class="ident">Fiber</span>,
     <span class="ident">map</span>::{
         <span class="ident">periph</span>::<span class="ident">sys_tick</span>::<span class="ident">SysTickPeriph</span>,
         <span class="ident">reg</span>::{<span class="ident">scb</span>, <span class="ident">stk</span>},
@@ -214,7 +216,7 @@
 <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">stream</span>::<span class="ident">Stream</span>;
 
 <span class="doccomment">/// SysTick driver.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SysTick</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">IntToken</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SysTick</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">ThrToken</span><span class="op">&gt;</span> {
     <span class="ident">periph</span>: <span class="ident">SysTickDiverged</span>,
     <span class="ident">int</span>: <span class="ident">I</span>,
 }
@@ -229,7 +231,7 @@
     <span class="kw">pub</span> <span class="ident">stk_val</span>: <span class="ident">stk</span>::<span class="ident">Val</span><span class="op">&lt;</span><span class="ident">Srt</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">IntToken</span><span class="op">&gt;</span> <span class="ident">Timer</span> <span class="kw">for</span> <span class="ident">SysTick</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">ThrToken</span><span class="op">&gt;</span> <span class="ident">Timer</span> <span class="kw">for</span> <span class="ident">SysTick</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Stop</span> <span class="op">=</span> <span class="self">Self</span>;
 
     <span class="kw">fn</span> <span class="ident">sleep</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">duration</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TimerSleep</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="self">Self</span><span class="op">&gt;</span> {
@@ -267,14 +269,14 @@
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">IntToken</span><span class="op">&gt;</span> <span class="ident">TimerStop</span> <span class="kw">for</span> <span class="ident">SysTick</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">ThrToken</span><span class="op">&gt;</span> <span class="ident">TimerStop</span> <span class="kw">for</span> <span class="ident">SysTick</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">stop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ctrl_val</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">periph</span>.<span class="ident">stk_ctrl</span>.<span class="ident">load</span>();
         <span class="self">self</span>.<span class="ident">periph</span>.<span class="ident">stk_ctrl</span>.<span class="ident">store_val</span>(<span class="ident">disable</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ctrl_val</span>).<span class="ident">val</span>());
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">IntToken</span><span class="op">&gt;</span> <span class="ident">SysTick</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">ThrToken</span><span class="op">&gt;</span> <span class="ident">SysTick</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Creates a new driver from the peripheral.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">periph</span>: <span class="ident">SysTickPeriph</span>, <span class="ident">int</span>: <span class="ident">I</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
@@ -342,7 +344,7 @@
 }
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">IntToken</span><span class="op">&gt;</span> <span class="ident">SysTick</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">ThrToken</span><span class="op">&gt;</span> <span class="ident">SysTick</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">int</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">I</span> {
         <span class="self">self</span>.<span class="ident">int</span>
