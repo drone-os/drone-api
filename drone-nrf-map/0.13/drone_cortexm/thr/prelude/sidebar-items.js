@@ -1,0 +1,1 @@
+initSidebarItems({"trait":[["ThrToken","The base trait for a thread token."],["_","Extends `ThrToken` types with `add_fn` and `add_once` methods."],["_","Extends `ThrToken` types with `add_future` method."],["_","Extends `ThrToken` types with `add` method."],["_","Extends `ThrToken` types with pulse stream methods."],["_","Extends `ThrToken` types with ring stream methods."]]});

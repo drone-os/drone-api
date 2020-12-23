@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["drone_core"] = [{"text":"impl AsRef&lt;CStr&gt; for CStr","synthetic":false,"types":[]},{"text":"impl AsRef&lt;CStr&gt; for CString","synthetic":false,"types":[]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

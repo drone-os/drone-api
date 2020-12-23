@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["generate_index","Generates code for register tokens struct."],["generate_regs","Generates code for register mappings."]],"macro":[["bail","Return early with an error."]],"type":[["Result","`Result<T, Error>`"]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["oneshot","A channel for sending a single message between asynchronous tasks."],["pulse","A single-producer, single-consumer queue for sending pulses across asynchronous tasks."],["ring","A single-producer, single-consumer queue for sending values across asynchronous tasks."]]});

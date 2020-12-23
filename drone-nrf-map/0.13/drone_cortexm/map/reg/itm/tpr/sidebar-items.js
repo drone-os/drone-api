@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Hold","Trace Privilege Register."],["Privmask","Bit mask to enable unprivileged access to ITM stimulus ports."],["Reg","Trace Privilege Register."],["Val","Trace Privilege Register."]]});
