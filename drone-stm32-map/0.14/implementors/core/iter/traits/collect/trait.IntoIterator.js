@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["drone_core"] = [{"text":"impl&lt;T&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/iter/traits/collect/trait.IntoIterator.html\" title=\"trait core::iter::traits::collect::IntoIterator\">IntoIterator</a> for <a class=\"struct\" href=\"drone_core/sync/linked_list/struct.LinkedList.html\" title=\"struct drone_core::sync::linked_list::LinkedList\">LinkedList</a>&lt;T&gt;","synthetic":false,"types":["drone_core::sync::linked_list::LinkedList"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

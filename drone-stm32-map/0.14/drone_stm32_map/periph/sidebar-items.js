@@ -1,0 +1,1 @@
+initSidebarItems({"externcrate":[["adc",""],["dma",""],["exti",""],["gpio",""],["i2c",""],["rtc",""],["spi",""],["tim",""],["uart",""]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["NvicBlock0","NVIC register block 0."],["NvicBlock1","NVIC register block 1."],["NvicBlock2","NVIC register block 2."],["NvicBlock3","NVIC register block 3."],["NvicBlock4","NVIC register block 4."],["NvicBlock5","NVIC register block 5."],["NvicBlock6","NVIC register block 6."],["NvicBlock7","NVIC register block 7."]]});

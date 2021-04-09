@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="ARM® Cortex®-M platform crate for Drone, an Embedded Operating System."><meta name="keywords" content="rust, rustlang, rust-lang, drone_cortexm"><title>drone_cortexm - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../ayu.css" disabled ><script id="default-settings"></script><script src="../storage.js"></script><script src="../crates.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="alternate icon" type="image/png" href="../favicon-16x16.png">
+<link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../drone_cortexm/index.html'><div class='logo-container rust-logo'><img src='../rust-logo.png' alt='logo'></div></a><p class="location">Crate drone_cortexm</p><div class="block version"><p>Version 0.14.0</p></div><div class="sidebar-elems"><a id="all-types" href="all.html"><p>See all drone_cortexm's items</p></a><div class="block items"><ul><li><a href="#modules">Modules</a></li><li><a href="#macros">Macros</a></li></ul></div><p class="location"></p><div id="sidebar-vars" data-name="drone_cortexm" data-ty="mod" data-relpath="../"></div></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
+                <a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class="fqn"><span class="in-band">Crate <a class="mod" href="">drone_cortexm</a></span><span class="out-of-band"><span id="render-detail"><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span><a class="srclink" href="../src/drone_cortexm/lib.rs.html#1-94" title="goto source code">[src]</a></span></h1><div class="docblock"><p>ARM® Cortex®-M platform crate for Drone, an Embedded Operating System.</p>
+<h1 id="supported-cores" class="section-header"><a href="#supported-cores">Supported Cores</a></h1><table><thead><tr><th>Architecture</th><th>Core name</th><th>Rust target</th><th><code>cortexm_core</code> config flag</th></tr></thead><tbody>
+<tr><td>ARMv7-M</td><td>ARM® Cortex®-M3 r0p0</td><td><code>thumbv7m-none-eabi</code></td><td><code>cortexm3_r0p0</code></td></tr>
+<tr><td>ARMv7-M</td><td>ARM® Cortex®-M3 r1p0</td><td><code>thumbv7m-none-eabi</code></td><td><code>cortexm3_r1p0</code></td></tr>
+<tr><td>ARMv7-M</td><td>ARM® Cortex®-M3 r1p1</td><td><code>thumbv7m-none-eabi</code></td><td><code>cortexm3_r1p1</code></td></tr>
+<tr><td>ARMv7-M</td><td>ARM® Cortex®-M3 r2p0</td><td><code>thumbv7m-none-eabi</code></td><td><code>cortexm3_r2p0</code></td></tr>
+<tr><td>ARMv7-M</td><td>ARM® Cortex®-M3 r2p1</td><td><code>thumbv7m-none-eabi</code></td><td><code>cortexm3_r2p1</code></td></tr>
+<tr><td>ARMv7E-M</td><td>ARM® Cortex®-M4 r0p0</td><td><code>thumbv7em-none-eabi</code></td><td><code>cortexm4_r0p0</code></td></tr>
+<tr><td>ARMv7E-M</td><td>ARM® Cortex®-M4 r0p1</td><td><code>thumbv7em-none-eabi</code></td><td><code>cortexm4_r0p1</code></td></tr>
+<tr><td>ARMv7E-M</td><td>ARM® Cortex®-M4F r0p0</td><td><code>thumbv7em-none-eabihf</code></td><td><code>cortexm4f_r0p0</code></td></tr>
+<tr><td>ARMv7E-M</td><td>ARM® Cortex®-M4F r0p1</td><td><code>thumbv7em-none-eabihf</code></td><td><code>cortexm4f_r0p1</code></td></tr>
+<tr><td>ARMv8-M</td><td>ARM® Cortex®-M33 r0p2</td><td><code>thumbv8m.main-none-eabi</code></td><td><code>cortexm33_r0p2</code></td></tr>
+<tr><td>ARMv8-M</td><td>ARM® Cortex®-M33 r0p3</td><td><code>thumbv8m.main-none-eabi</code></td><td><code>cortexm33_r0p3</code></td></tr>
+<tr><td>ARMv8-M</td><td>ARM® Cortex®-M33 r0p4</td><td><code>thumbv8m.main-none-eabi</code></td><td><code>cortexm33_r0p4</code></td></tr>
+<tr><td>ARMv8-M</td><td>ARM® Cortex®-M33F r0p2</td><td><code>thumbv8m.main-none-eabihf</code></td><td><code>cortexm33f_r0p2</code></td></tr>
+<tr><td>ARMv8-M</td><td>ARM® Cortex®-M33F r0p3</td><td><code>thumbv8m.main-none-eabihf</code></td><td><code>cortexm33f_r0p3</code></td></tr>
+<tr><td>ARMv8-M</td><td>ARM® Cortex®-M33F r0p4</td><td><code>thumbv8m.main-none-eabihf</code></td><td><code>cortexm33f_r0p4</code></td></tr>
+</tbody></table>
+<p>Rust target triple and <code>cortexm_core</code> config flag should be set at the
+application level according to this table.</p>
+<h1 id="documentation" class="section-header"><a href="#documentation">Documentation</a></h1>
+<ul>
+<li><a href="https://book.drone-os.com/">Drone Book</a></li>
+<li><a href="https://api.drone-os.com/drone-cortexm/0.14/">API documentation</a></li>
+</ul>
+<h1 id="usage" class="section-header"><a href="#usage">Usage</a></h1>
+<p>Add the crate to your <code>Cargo.toml</code> dependencies:</p>
+<pre><code class="language-toml">[dependencies]
+drone-cortexm = { version = &quot;0.14.0&quot;, features = [...] }
+</code></pre>
+<p>Add or extend <code>std</code> feature as follows:</p>
+<pre><code class="language-toml">[features]
+std = [&quot;drone-cortexm/std&quot;]
+</code></pre>
+</div><h2 id="modules" class="section-header"><a href="#modules">Modules</a></h2>
+<table><tr class="module-item"><td><a class="mod" href="drv/index.html" title="drone_cortexm::drv mod">drv</a></td><td class="docblock-short"><p>Drivers for core ARM Cortex-M peripherals.</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="fib/index.html" title="drone_cortexm::fib mod">fib</a></td><td class="docblock-short"><p>The Fibers module.</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="map/index.html" title="drone_cortexm::map mod">map</a></td><td class="docblock-short"><p>Core ARM Cortex-M register and exception mappings.</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="proc_loop/index.html" title="drone_cortexm::proc_loop mod">proc_loop</a></td><td class="docblock-short"><p>This module provides interface to wrap a stackful synchronous code into an
+asynchronous command loop.</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="processor/index.html" title="drone_cortexm::processor mod">processor</a></td><td class="docblock-short"><p>Common utility functions for working with ARM Cortex-M processors.</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="reg/index.html" title="drone_cortexm::reg mod">reg</a></td><td class="docblock-short"><p>The Memory-Mapped Registers module.</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="reg/index.html" title="drone_cortexm::reg mod">reg</a></td><td class="docblock-short"><p>The Memory-Mapped Registers module.</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="sv/index.html" title="drone_cortexm::sv mod">sv</a></td><td class="docblock-short"><p>The Supervisor module.</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="swo/index.html" title="drone_cortexm::swo mod">swo</a></td><td class="docblock-short"><p>Single Wire Output interface.</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="thr/index.html" title="drone_cortexm::thr mod">thr</a></td><td class="docblock-short"><p>The Threads module.</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="thr/index.html" title="drone_cortexm::thr mod">thr</a></td><td class="docblock-short"><p>The Threads module.</p>
+</td></tr></table><h2 id="macros" class="section-header"><a href="#macros">Macros</a></h2>
+<table><tr class="module-item"><td><a class="macro" href="macro.reg.html" title="drone_cortexm::reg macro">reg</a></td><td class="docblock-short"></td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../" data-current-crate="drone_cortexm" data-search-js="../search-index.js"></div>
+    <script src="../main.js"></script></body></html>
