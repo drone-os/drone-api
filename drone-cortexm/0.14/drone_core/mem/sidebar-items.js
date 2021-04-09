@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["bss_init","Initializes the BSS mutable memory segment."],["data_init","Initializes the DATA mutable memory segment."]]});

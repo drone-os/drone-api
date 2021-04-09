@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Cp10","Access privileges for coprocessor 10."],["Cp11","Access privileges for coprocessor 11."],["Hold","Coprocessor access control register."],["Reg","Coprocessor access control register."],["Val","Coprocessor access control register."]]});
