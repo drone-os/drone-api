@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Nordic Semi nRF91 DSO implementation for Drone, an Embedded Operating System."><meta name="keywords" content="rust, rustlang, rust-lang, drone_nrf91_dso"><title>drone_nrf91_dso - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../ayu.css" disabled ><script id="default-settings"></script><script src="../storage.js"></script><script src="../crates.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="alternate icon" type="image/png" href="../favicon-16x16.png">
+<link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../drone_nrf91_dso/index.html'><div class='logo-container rust-logo'><img src='../rust-logo.png' alt='logo'></div></a><p class="location">Crate drone_nrf91_dso</p><div class="block version"><p>Version 0.14.0</p></div><div class="sidebar-elems"><a id="all-types" href="all.html"><p>See all drone_nrf91_dso's items</p></a><div class="block items"><ul><li><a href="#macros">Macros</a></li></ul></div><p class="location"></p><div id="sidebar-vars" data-name="drone_nrf91_dso" data-ty="mod" data-relpath="../"></div></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
+                <a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class="fqn"><span class="in-band">Crate <a class="mod" href="">drone_nrf91_dso</a></span><span class="out-of-band"><span id="render-detail"><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span><a class="srclink" href="../src/drone_nrf91_dso/lib.rs.html#1-154" title="goto source code">[src]</a></span></h1><div class="docblock"><p>Nordic Semi nRF91 DSO implementation for Drone, an Embedded Operating System.</p>
+<p><strong>Warning</strong>: currently logging operations are wrapped in critical sections
+(temporarily disabling all interrupts.) This can impact the operation of
+your program, but only after you run <code>drone probe log</code>. It will be fixed in
+the future by using proper synchronization methods with minimal changes to
+the API.</p>
+<h1 id="documentation" class="section-header"><a href="#documentation">Documentation</a></h1>
+<ul>
+<li><a href="https://book.drone-os.com/">Drone Book</a></li>
+<li><a href="https://api.drone-os.com/drone-nrf91-dso/0.14/">API documentation</a></li>
+</ul>
+<h1 id="usage" class="section-header"><a href="#usage">Usage</a></h1>
+<p>Place the following to the Cargo.toml:</p>
+<pre><code class="language-toml">[dependencies]
+drone-nrf91-dso = &quot;0.14.0&quot;
+</code></pre>
+<p>Exclude the following tokens from your register token index (change “uarte0”
+if you choose a different peripheral):</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="macro">nrf_reg_tokens</span><span class="macro">!</span> {
+    <span class="ident">index</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">pub</span> <span class="ident">Regs</span>;
+    <span class="ident">exclude</span> <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="ident">uarte0_ns_tasks_startrx</span>, <span class="ident">uarte0_ns_tasks_stoprx</span>, <span class="ident">uarte0_ns_tasks_starttx</span>,
+        <span class="ident">uarte0_ns_tasks_stoptx</span>, <span class="ident">uarte0_ns_tasks_flushrx</span>,
+        <span class="ident">uarte0_ns_subscribe_startrx</span>, <span class="ident">uarte0_ns_subscribe_stoprx</span>,
+        <span class="ident">uarte0_ns_subscribe_starttx</span>, <span class="ident">uarte0_ns_subscribe_stoptx</span>,
+        <span class="ident">uarte0_ns_subscribe_flushrx</span>, <span class="ident">uarte0_ns_events_cts</span>, <span class="ident">uarte0_ns_events_ncts</span>,
+        <span class="ident">uarte0_ns_events_rxdrdy</span>, <span class="ident">uarte0_ns_events_endrx</span>, <span class="ident">uarte0_ns_events_txdrdy</span>,
+        <span class="ident">uarte0_ns_events_endtx</span>, <span class="ident">uarte0_ns_events_error</span>, <span class="ident">uarte0_ns_events_rxto</span>,
+        <span class="ident">uarte0_ns_events_rxstarted</span>, <span class="ident">uarte0_ns_events_txstarted</span>,
+        <span class="ident">uarte0_ns_events_txstopped</span>, <span class="ident">uarte0_ns_publish_cts</span>, <span class="ident">uarte0_ns_publish_ncts</span>,
+        <span class="ident">uarte0_ns_publish_rxdrdy</span>, <span class="ident">uarte0_ns_publish_endrx</span>, <span class="ident">uarte0_ns_publish_txdrdy</span>,
+        <span class="ident">uarte0_ns_publish_endtx</span>, <span class="ident">uarte0_ns_publish_error</span>, <span class="ident">uarte0_ns_publish_rxto</span>,
+        <span class="ident">uarte0_ns_publish_rxstarted</span>, <span class="ident">uarte0_ns_publish_txstarted</span>,
+        <span class="ident">uarte0_ns_publish_txstopped</span>, <span class="ident">uarte0_ns_shorts</span>, <span class="ident">uarte0_ns_inten</span>,
+        <span class="ident">uarte0_ns_intenset</span>, <span class="ident">uarte0_ns_intenclr</span>, <span class="ident">uarte0_ns_errorsrc</span>,
+        <span class="ident">uarte0_ns_enable</span>, <span class="ident">uarte0_ns_psel_rts</span>, <span class="ident">uarte0_ns_psel_txd</span>,
+        <span class="ident">uarte0_ns_psel_cts</span>, <span class="ident">uarte0_ns_psel_rxd</span>, <span class="ident">uarte0_ns_baudrate</span>,
+        <span class="ident">uarte0_ns_rxd_ptr</span>, <span class="ident">uarte0_ns_rxd_maxcnt</span>, <span class="ident">uarte0_ns_rxd_amount</span>,
+        <span class="ident">uarte0_ns_txd_ptr</span>, <span class="ident">uarte0_ns_txd_maxcnt</span>, <span class="ident">uarte0_ns_txd_amount</span>,
+        <span class="ident">uarte0_ns_config</span>
+    }
+}</pre></div>
+<p>Set up the logger:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="ident">drone_nrf91_dso</span>::<span class="macro">set_log</span><span class="macro">!</span> {
+    <span class="ident">periph</span>: <span class="ident">Uarte0S</span>, <span class="comment">// Peripheral from `drone_nrf_map::periph::uarte`</span>
+    <span class="ident">pin_number</span>: <span class="number">29</span>,  <span class="comment">// Output pin number</span>
+    <span class="ident">buf_size</span>: <span class="number">64</span>,    <span class="comment">// Output buffer size in bytes</span>
+}</pre></div>
+</div><h2 id="macros" class="section-header"><a href="#macros">Macros</a></h2>
+<table><tr class="module-item"><td><a class="macro" href="macro.set_log.html" title="drone_nrf91_dso::set_log macro">set_log</a></td><td class="docblock-short"><p>Sets DSO as default logger.</p>
+</td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../" data-current-crate="drone_nrf91_dso" data-search-js="../search-index.js"></div>
+    <script src="../main.js"></script></body></html>

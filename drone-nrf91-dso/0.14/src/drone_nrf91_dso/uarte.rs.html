@@ -1,0 +1,351 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/uarte.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>uarte.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
+<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../drone_nrf91_dso/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
+                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<span id="2">  2</span>
+<span id="3">  3</span>
+<span id="4">  4</span>
+<span id="5">  5</span>
+<span id="6">  6</span>
+<span id="7">  7</span>
+<span id="8">  8</span>
+<span id="9">  9</span>
+<span id="10"> 10</span>
+<span id="11"> 11</span>
+<span id="12"> 12</span>
+<span id="13"> 13</span>
+<span id="14"> 14</span>
+<span id="15"> 15</span>
+<span id="16"> 16</span>
+<span id="17"> 17</span>
+<span id="18"> 18</span>
+<span id="19"> 19</span>
+<span id="20"> 20</span>
+<span id="21"> 21</span>
+<span id="22"> 22</span>
+<span id="23"> 23</span>
+<span id="24"> 24</span>
+<span id="25"> 25</span>
+<span id="26"> 26</span>
+<span id="27"> 27</span>
+<span id="28"> 28</span>
+<span id="29"> 29</span>
+<span id="30"> 30</span>
+<span id="31"> 31</span>
+<span id="32"> 32</span>
+<span id="33"> 33</span>
+<span id="34"> 34</span>
+<span id="35"> 35</span>
+<span id="36"> 36</span>
+<span id="37"> 37</span>
+<span id="38"> 38</span>
+<span id="39"> 39</span>
+<span id="40"> 40</span>
+<span id="41"> 41</span>
+<span id="42"> 42</span>
+<span id="43"> 43</span>
+<span id="44"> 44</span>
+<span id="45"> 45</span>
+<span id="46"> 46</span>
+<span id="47"> 47</span>
+<span id="48"> 48</span>
+<span id="49"> 49</span>
+<span id="50"> 50</span>
+<span id="51"> 51</span>
+<span id="52"> 52</span>
+<span id="53"> 53</span>
+<span id="54"> 54</span>
+<span id="55"> 55</span>
+<span id="56"> 56</span>
+<span id="57"> 57</span>
+<span id="58"> 58</span>
+<span id="59"> 59</span>
+<span id="60"> 60</span>
+<span id="61"> 61</span>
+<span id="62"> 62</span>
+<span id="63"> 63</span>
+<span id="64"> 64</span>
+<span id="65"> 65</span>
+<span id="66"> 66</span>
+<span id="67"> 67</span>
+<span id="68"> 68</span>
+<span id="69"> 69</span>
+<span id="70"> 70</span>
+<span id="71"> 71</span>
+<span id="72"> 72</span>
+<span id="73"> 73</span>
+<span id="74"> 74</span>
+<span id="75"> 75</span>
+<span id="76"> 76</span>
+<span id="77"> 77</span>
+<span id="78"> 78</span>
+<span id="79"> 79</span>
+<span id="80"> 80</span>
+<span id="81"> 81</span>
+<span id="82"> 82</span>
+<span id="83"> 83</span>
+<span id="84"> 84</span>
+<span id="85"> 85</span>
+<span id="86"> 86</span>
+<span id="87"> 87</span>
+<span id="88"> 88</span>
+<span id="89"> 89</span>
+<span id="90"> 90</span>
+<span id="91"> 91</span>
+<span id="92"> 92</span>
+<span id="93"> 93</span>
+<span id="94"> 94</span>
+<span id="95"> 95</span>
+<span id="96"> 96</span>
+<span id="97"> 97</span>
+<span id="98"> 98</span>
+<span id="99"> 99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+</pre><div class="example-wrap"><pre class="rust ">
+<span class="kw">use</span> <span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>;
+<span class="kw">use</span> <span class="ident">drone_nrf_map</span>::<span class="ident">periph</span>::<span class="ident">uarte</span>::<span class="ident">UarteMap</span>;
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">Periph</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">UarteMap</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="ident">uarte_tasks_startrx</span>: <span class="ident">T</span>::<span class="ident">UUarteTasksStartrx</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_tasks_stoprx</span>: <span class="ident">T</span>::<span class="ident">UUarteTasksStoprx</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_tasks_starttx</span>: <span class="ident">T</span>::<span class="ident">UUarteTasksStarttx</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_tasks_stoptx</span>: <span class="ident">T</span>::<span class="ident">UUarteTasksStoptx</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_tasks_flushrx</span>: <span class="ident">T</span>::<span class="ident">UUarteTasksFlushrx</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_subscribe_startrx</span>: <span class="ident">T</span>::<span class="ident">UUarteSubscribeStartrx</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_subscribe_stoprx</span>: <span class="ident">T</span>::<span class="ident">UUarteSubscribeStoprx</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_subscribe_starttx</span>: <span class="ident">T</span>::<span class="ident">UUarteSubscribeStarttx</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_subscribe_stoptx</span>: <span class="ident">T</span>::<span class="ident">UUarteSubscribeStoptx</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_subscribe_flushrx</span>: <span class="ident">T</span>::<span class="ident">UUarteSubscribeFlushrx</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_events_cts</span>: <span class="ident">T</span>::<span class="ident">UUarteEventsCts</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_events_ncts</span>: <span class="ident">T</span>::<span class="ident">UUarteEventsNcts</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_events_rxdrdy</span>: <span class="ident">T</span>::<span class="ident">UUarteEventsRxdrdy</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_events_endrx</span>: <span class="ident">T</span>::<span class="ident">UUarteEventsEndrx</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_events_txdrdy</span>: <span class="ident">T</span>::<span class="ident">UUarteEventsTxdrdy</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_events_endtx</span>: <span class="ident">T</span>::<span class="ident">UUarteEventsEndtx</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_events_error</span>: <span class="ident">T</span>::<span class="ident">UUarteEventsError</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_events_rxto</span>: <span class="ident">T</span>::<span class="ident">UUarteEventsRxto</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_events_rxstarted</span>: <span class="ident">T</span>::<span class="ident">UUarteEventsRxstarted</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_events_txstarted</span>: <span class="ident">T</span>::<span class="ident">UUarteEventsTxstarted</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_events_txstopped</span>: <span class="ident">T</span>::<span class="ident">UUarteEventsTxstopped</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_publish_cts</span>: <span class="ident">T</span>::<span class="ident">UUartePublishCts</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_publish_ncts</span>: <span class="ident">T</span>::<span class="ident">UUartePublishNcts</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_publish_rxdrdy</span>: <span class="ident">T</span>::<span class="ident">UUartePublishRxdrdy</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_publish_endrx</span>: <span class="ident">T</span>::<span class="ident">UUartePublishEndrx</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_publish_txdrdy</span>: <span class="ident">T</span>::<span class="ident">UUartePublishTxdrdy</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_publish_endtx</span>: <span class="ident">T</span>::<span class="ident">UUartePublishEndtx</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_publish_error</span>: <span class="ident">T</span>::<span class="ident">UUartePublishError</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_publish_rxto</span>: <span class="ident">T</span>::<span class="ident">UUartePublishRxto</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_publish_rxstarted</span>: <span class="ident">T</span>::<span class="ident">UUartePublishRxstarted</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_publish_txstarted</span>: <span class="ident">T</span>::<span class="ident">UUartePublishTxstarted</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_publish_txstopped</span>: <span class="ident">T</span>::<span class="ident">UUartePublishTxstopped</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_shorts</span>: <span class="ident">T</span>::<span class="ident">UUarteShorts</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_inten</span>: <span class="ident">T</span>::<span class="ident">UUarteInten</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_intenset</span>: <span class="ident">T</span>::<span class="ident">UUarteIntenset</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_intenclr</span>: <span class="ident">T</span>::<span class="ident">UUarteIntenclr</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_errorsrc</span>: <span class="ident">T</span>::<span class="ident">UUarteErrorsrc</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_enable</span>: <span class="ident">T</span>::<span class="ident">UUarteEnable</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_psel_rts</span>: <span class="ident">T</span>::<span class="ident">UUartePselRts</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_psel_txd</span>: <span class="ident">T</span>::<span class="ident">UUartePselTxd</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_psel_cts</span>: <span class="ident">T</span>::<span class="ident">UUartePselCts</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_psel_rxd</span>: <span class="ident">T</span>::<span class="ident">UUartePselRxd</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_baudrate</span>: <span class="ident">T</span>::<span class="ident">UUarteBaudrate</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_rxd_ptr</span>: <span class="ident">T</span>::<span class="ident">UUarteRxdPtr</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_rxd_maxcnt</span>: <span class="ident">T</span>::<span class="ident">UUarteRxdMaxcnt</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_rxd_amount</span>: <span class="ident">T</span>::<span class="ident">UUarteRxdAmount</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_txd_ptr</span>: <span class="ident">T</span>::<span class="ident">UUarteTxdPtr</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_txd_maxcnt</span>: <span class="ident">T</span>::<span class="ident">UUarteTxdMaxcnt</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_txd_amount</span>: <span class="ident">T</span>::<span class="ident">UUarteTxdAmount</span>,
+    <span class="kw">pub</span> <span class="ident">uarte_config</span>: <span class="ident">T</span>::<span class="ident">UUarteConfig</span>,
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">UarteMap</span><span class="op">&gt;</span> <span class="ident">Periph</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">uninit_assumed_init</span>)]</span>
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">summon</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="kw">unsafe</span> { <span class="ident">MaybeUninit</span>::<span class="ident">uninit</span>().<span class="ident">assume_init</span>() }
+    }
+}
+
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="attribute">#[<span class="ident">must_use</span>]</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">baud_rate</span>(<span class="ident">baud_rate</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
+    <span class="kw">match</span> <span class="ident">baud_rate</span> {
+        <span class="number">1_200</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0x0004_F000</span>,
+        <span class="number">2_400</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0x0009_D000</span>,
+        <span class="number">4_800</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0x0013_B000</span>,
+        <span class="number">9_600</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0x0027_5000</span>,
+        <span class="number">14_400</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0x003A_F000</span>,
+        <span class="number">19_200</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0x004E_A000</span>,
+        <span class="number">28_800</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0x0075_C000</span>,
+        <span class="number">31_250</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0x0080_0000</span>,
+        <span class="number">38_400</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0x009D_0000</span>,
+        <span class="number">56_000</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0x00E5_0000</span>,
+        <span class="number">57_600</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0x00EB_0000</span>,
+        <span class="number">76_800</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0x013A_9000</span>,
+        <span class="number">115_200</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0x01D6_0000</span>,
+        <span class="number">230_400</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0x03B0_0000</span>,
+        <span class="number">250_000</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0x0400_0000</span>,
+        <span class="number">460_800</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0x0740_0000</span>,
+        <span class="number">921_600</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0x0F00_0000</span>,
+        <span class="number">1_000_000</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0x1000_0000</span>,
+        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Unsupported UARTE baud rate&quot;</span>),
+    }
+}
+
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="attribute">#[<span class="ident">macro_export</span>]</span>
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">uarte_assert_taken</span> {
+    (<span class="ident">Uarte0Ns</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro">uarte_assert_taken</span><span class="macro">!</span>(<span class="string">&quot;uarte0_ns&quot;</span>);
+    };
+    (<span class="macro-nonterminal">Uarte0S</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro">uarte_assert_taken</span><span class="macro">!</span>(<span class="string">&quot;uarte0_ns&quot;</span>);
+    };
+    (<span class="macro-nonterminal">Uarte1Ns</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro">uarte_assert_taken</span><span class="macro">!</span>(<span class="string">&quot;uarte1_ns&quot;</span>);
+    };
+    (<span class="macro-nonterminal">Uarte1S</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro">uarte_assert_taken</span><span class="macro">!</span>(<span class="string">&quot;uarte1_ns&quot;</span>);
+    };
+    (<span class="macro-nonterminal">Uarte2Ns</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro">uarte_assert_taken</span><span class="macro">!</span>(<span class="string">&quot;uarte2_ns&quot;</span>);
+    };
+    (<span class="macro-nonterminal">Uarte2S</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro">uarte_assert_taken</span><span class="macro">!</span>(<span class="string">&quot;uarte2_ns&quot;</span>);
+    };
+    (<span class="macro-nonterminal">Uarte3Ns</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro">uarte_assert_taken</span><span class="macro">!</span>(<span class="string">&quot;uarte3_ns&quot;</span>);
+    };
+    (<span class="macro-nonterminal">Uarte3S</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro">uarte_assert_taken</span><span class="macro">!</span>(<span class="string">&quot;uarte3_ns&quot;</span>);
+    };
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="macro">compile_error</span><span class="macro">!</span>(<span class="string">&quot;Unsupported peripheral&quot;</span>);
+    };
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>:<span class="ident">literal</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_tasks_startrx&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_tasks_stoprx&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_tasks_starttx&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_tasks_stoptx&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_tasks_flushrx&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_subscribe_startrx&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_subscribe_stoprx&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_subscribe_starttx&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_subscribe_stoptx&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_subscribe_flushrx&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_events_cts&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_events_ncts&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_events_rxdrdy&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_events_endrx&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_events_txdrdy&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_events_endtx&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_events_error&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_events_rxto&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_events_rxstarted&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_events_txstarted&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_events_txstopped&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_publish_cts&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_publish_ncts&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_publish_rxdrdy&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_publish_endrx&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_publish_txdrdy&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_publish_endtx&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_publish_error&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_publish_rxto&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_publish_rxstarted&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_publish_txstarted&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_publish_txstopped&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_shorts&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_inten&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_intenset&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_intenclr&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_errorsrc&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_enable&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_psel_rts&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_psel_txd&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_psel_cts&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_psel_rxd&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_baudrate&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_rxd_ptr&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_rxd_maxcnt&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_rxd_amount&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_txd_ptr&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_txd_maxcnt&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_txd_amount&quot;</span>));
+        <span class="ident">reg</span>::<span class="macro">assert_taken</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">uarte</span>, <span class="string">&quot;_config&quot;</span>));
+    };
+}
+</pre></div>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="drone_nrf91_dso" data-search-js="../../search-index.js"></div>
+    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script></body></html>

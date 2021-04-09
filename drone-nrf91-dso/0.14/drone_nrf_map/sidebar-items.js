@@ -1,0 +1,1 @@
+initSidebarItems({"macro":[["nrf_reg_tokens","Defines an index of nrf9160 register tokens."]],"mod":[["periph","nRFx peripheral mappings."],["reg","nRF register mappings."],["thr","nRF interrupt mappings."]]});

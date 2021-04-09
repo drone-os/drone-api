@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["field","Memory-mapped register fields module."],["marker","Marker traits representing properties of memory-mapped registers."],["prelude","The Memory-Mapped Registers prelude."]],"trait":[["RwRegAtomic","Atomic operations for read-write register."]]});
