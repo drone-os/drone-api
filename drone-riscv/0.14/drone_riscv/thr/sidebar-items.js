@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["init","Initializes the thread system and returns a set of thread tokens."]],"macro":[["clint","Defines a thread pool driven by CLINT (Core Local Interrupter)."]],"mod":[["prelude","The Threads prelude."]],"trait":[["ThrsInitToken","Threads initialization token."]]});
