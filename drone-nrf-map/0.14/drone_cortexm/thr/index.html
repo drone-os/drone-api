@@ -1,0 +1,117 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="The Threads module."><meta name="keywords" content="rust, rustlang, rust-lang, thr"><title>drone_cortexm::thr - Rust</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
+<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../drone_cortexm/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a><p class="location">Module thr</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#reexports">Re-exports</a></li><li><a href="#modules">Modules</a></li><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li></ul></div><p class="location"><a href="../index.html">drone_cortexm</a></p><div id="sidebar-vars" data-name="thr" data-ty="mod" data-relpath="../"></div><script defer src="../sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
+                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class="fqn"><span class="in-band">Module <a href="../index.html">drone_cortexm</a>::<wbr><a class="mod" href="">thr</a></span><span class="out-of-band"><span id="render-detail"><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span><a class="srclink" href="../../src/drone_cortexm/thr/mod.rs.html#1-124" title="goto source code">[src]</a></span></h1><div class="docblock"><p>The Threads module.</p>
+<p><strong>NOTE</strong> This module documentation should be viewed as a continuation of
+<a href="../../drone_cortexm/thr/index.html">the <code>drone_core</code> documentation</a>.</p>
+<h1 id="vector-table" class="section-header"><a href="#vector-table">Vector Table</a></h1>
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">drone_cortexm</span>::{<span class="ident">map</span>::<span class="ident">thr</span>::<span class="kw-2">*</span>, <span class="ident">thr</span>};
+
+<span class="ident">thr</span>::<span class="macro">nvic</span><span class="macro">!</span> {
+    <span class="comment">// See the `drone_core` documentation of `thr::pool!` macro for details.</span>
+    <span class="ident">thread</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">pub</span> <span class="ident">Thr</span> {};
+
+    <span class="comment">// See the `drone_core` documentation of `thr::pool!` macro for details.</span>
+    <span class="ident">local</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">pub</span> <span class="ident">ThrLocal</span> {};
+
+    <span class="comment">// See the `drone_core` documentation of `thr::pool!` macro for details.</span>
+    <span class="ident">index</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">pub</span> <span class="ident">Thrs</span>;
+
+    <span class="doccomment">/// The vector table type.</span>
+    <span class="ident">vtable</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">pub</span> <span class="ident">Vtable</span>;
+
+    <span class="doccomment">/// Threads initialization token.</span>
+    <span class="ident">init</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">pub</span> <span class="ident">ThrsInit</span>;
+
+    <span class="comment">// Threads configuration.</span>
+    <span class="ident">threads</span> <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="comment">// Threads for exceptions.</span>
+        <span class="ident">exceptions</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="comment">// Define a regular thread for the NMI exception. This creates a thread token</span>
+            <span class="comment">// structure `Nmi`, a field `nmi` in the `Thrs` structure, and an element in the</span>
+            <span class="comment">// array of `Thr`.</span>
+            <span class="doccomment">/// Non maskable interrupt.</span>
+            <span class="kw">pub</span> <span class="ident">nmi</span>;
+            <span class="doccomment">/// All classes of fault.</span>
+            <span class="kw">pub</span> <span class="ident">hard_fault</span>;
+            <span class="comment">// Define a naked handler for the SV_CALL exception. This inserts the function</span>
+            <span class="comment">// `sv_call_handler` directly to the vector table.</span>
+            <span class="doccomment">/// System service call.</span>
+            <span class="kw">pub</span> <span class="ident">naked</span>(<span class="ident">sv_call_handler</span>) <span class="ident">sv_call</span>;
+            <span class="doccomment">/// System tick timer.</span>
+            <span class="kw">pub</span> <span class="ident">sys_tick</span>;
+        };
+        <span class="comment">// Threads for interrupts.</span>
+        <span class="ident">interrupts</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="comment">// Define a regular thread for the interrupt #5 with name `rcc`.</span>
+            <span class="doccomment">/// RCC global interrupt.</span>
+            <span class="number">5</span>: <span class="kw">pub</span> <span class="ident">rcc</span>;
+            <span class="comment">// Define an outer thread for the interrupt #18 with name `adc1`. This creates a</span>
+            <span class="comment">// thread token structure `Adc1`, a field `adc1` in the `Thrs` structure, and an</span>
+            <span class="comment">// element in the array of `Thr`. But unlike a regular thread, this outer thread</span>
+            <span class="comment">// uses a custom handler `adc1_handler`.</span>
+            <span class="doccomment">/// ADC1 global interrupt.</span>
+            <span class="number">18</span>: <span class="kw">pub</span> <span class="ident">outer</span>(<span class="ident">adc1_handler</span>) <span class="ident">adc1</span>;
+        };
+    };
+}
+
+<span class="comment">// The reset handler should always be provided externally.</span>
+<span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">reset</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="op">!</span> {
+    <span class="kw">loop</span> {}
+}
+
+<span class="comment">// Define external handlers for the exceptions defined using `fn` or</span>
+<span class="comment">// `extern` keyword.</span>
+<span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">sv_call_handler</span>() {}
+<span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">adc1_handler</span>(<span class="ident">_thr</span>: <span class="kw-2">&amp;</span><span class="ident">Thr</span>) {}
+
+<span class="comment">// Define and export the actual vector table with all handlers attached.</span>
+<span class="attribute">#[<span class="ident">no_mangle</span>]</span>
+<span class="kw">pub</span> <span class="kw">static</span> <span class="ident">VTABLE</span>: <span class="ident">Vtable</span> <span class="op">=</span> <span class="ident">Vtable</span>::<span class="ident">new</span>(<span class="ident">reset</span>);</pre></div>
+<p>The list of all available non-interrupt exceptions:</p>
+<ul>
+<li><code>nmi</code> - Non maskable interrupt.</li>
+<li><code>hard_fault</code> - All classes of fault.</li>
+<li><code>mem_manage</code> - Memory management.</li>
+<li><code>bus_fault</code> - Pre-fetch fault, memory access fault.</li>
+<li><code>usage_fault</code> - Undefined instruction or illegal state.</li>
+<li><code>secure_fault</code> - Security check violation. (Available when
+<code>security-extension</code> feature is enabled)</li>
+<li><code>sv_call</code> - System service call via SWI instruction.</li>
+<li><code>debug</code> - Monitor.</li>
+<li><code>pend_sv</code> - Pendable request for system service.</li>
+<li><code>sys_tick</code> - System tick timer.</li>
+</ul>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+</pre></div>
+</div><h2 id="reexports" class="section-header"><a href="#reexports">Re-exports</a></h2>
+<table><tr><td><code>pub use drone_core::<a class="mod" href="../../drone_cortexm/thr/index.html" title="mod drone_cortexm::thr">thr</a>::*;</code></td></tr></table><h2 id="modules" class="section-header"><a href="#modules">Modules</a></h2>
+<table><tr class="module-item"><td><a class="mod" href="prelude/index.html" title="drone_cortexm::thr::prelude mod">prelude</a></td><td class="docblock-short"><p>The Threads prelude.</p>
+</td></tr></table><h2 id="macros" class="section-header"><a href="#macros">Macros</a></h2>
+<table><tr class="module-item"><td><a class="macro" href="macro.nvic.html" title="drone_cortexm::thr::nvic macro">nvic</a></td><td class="docblock-short"><p>Defines a thread pool driven by NVIC (Nested Vector Interrupt Controller).</p>
+</td></tr></table><h2 id="structs" class="section-header"><a href="#structs">Structs</a></h2>
+<table><tr class="module-item"><td><a class="struct" href="struct.NvicIabr.html" title="drone_cortexm::thr::NvicIabr struct">NvicIabr</a></td><td class="docblock-short"><p>Interrupt Active-Bit Register.</p>
+</td></tr><tr class="module-item"><td><a class="struct" href="struct.NvicIcer.html" title="drone_cortexm::thr::NvicIcer struct">NvicIcer</a></td><td class="docblock-short"><p>Interrupt Clear-Enable Register.</p>
+</td></tr><tr class="module-item"><td><a class="struct" href="struct.NvicIcpr.html" title="drone_cortexm::thr::NvicIcpr struct">NvicIcpr</a></td><td class="docblock-short"><p>Interrupt Clear-Pending Register.</p>
+</td></tr><tr class="module-item"><td><a class="struct" href="struct.NvicIser.html" title="drone_cortexm::thr::NvicIser struct">NvicIser</a></td><td class="docblock-short"><p>Interrupt Set-Enable Register.</p>
+</td></tr><tr class="module-item"><td><a class="struct" href="struct.NvicIspr.html" title="drone_cortexm::thr::NvicIspr struct">NvicIspr</a></td><td class="docblock-short"><p>Interrupt Set-Pending Register.</p>
+</td></tr><tr class="module-item"><td><a class="struct" href="struct.StreamRootWait.html" title="drone_cortexm::thr::StreamRootWait struct">StreamRootWait</a></td><td class="docblock-short"><p>An iterator that blocks on values from a stream until they become available.</p>
+</td></tr><tr class="module-item"><td><a class="struct" href="struct.ThrInitExtended.html" title="drone_cortexm::thr::ThrInitExtended struct">ThrInitExtended</a></td><td class="docblock-short"><p>A set of register tokens returned by <a href="../../drone_cortexm/thr/fn.init_extended.html" title="init_extended"><code>init_extended</code></a>.</p>
+</td></tr></table><h2 id="traits" class="section-header"><a href="#traits">Traits</a></h2>
+<table><tr class="module-item"><td><a class="trait" href="trait.FutureRootExt.html" title="drone_cortexm::thr::FutureRootExt trait">FutureRootExt</a></td><td class="docblock-short"><p>An extension trait for <a href="https://doc.rust-lang.org/nightly/core/future/future/trait.Future.html" title="Future"><code>Future</code></a> that provides
+<a href="../../drone_cortexm/thr/trait.FutureRootExt.html#tymethod.root_wait"><code>root_wait</code></a> method.</p>
+</td></tr><tr class="module-item"><td><a class="trait" href="trait.IntToken.html" title="drone_cortexm::thr::IntToken trait">IntToken</a></td><td class="docblock-short"><p>An interrupt token.</p>
+</td></tr><tr class="module-item"><td><a class="trait" href="trait.NvicBlock.html" title="drone_cortexm::thr::NvicBlock trait">NvicBlock</a></td><td class="docblock-short"><p>NVIC registers block.</p>
+</td></tr><tr class="module-item"><td><a class="trait" href="trait.StreamRootExt.html" title="drone_cortexm::thr::StreamRootExt trait">StreamRootExt</a></td><td class="docblock-short"><p>An extension trait for <a href="../../futures_core/stream/trait.Stream.html" title="Stream"><code>Stream</code></a> that provides
+<a href="../../drone_cortexm/thr/trait.StreamRootExt.html#tymethod.root_wait"><code>root_wait</code></a> method.</p>
+</td></tr><tr class="module-item"><td><a class="trait" href="trait.ThrNvic.html" title="drone_cortexm::thr::ThrNvic trait">ThrNvic</a></td><td class="docblock-short"><p>NVIC methods for interrupt tokens.</p>
+</td></tr><tr class="module-item"><td><a class="trait" href="trait.ThrSv.html" title="drone_cortexm::thr::ThrSv trait">ThrSv</a></td><td class="docblock-short"><p>A trait to assign a supervisor to threads.</p>
+</td></tr><tr class="module-item"><td><a class="trait" href="trait.ThrsInitToken.html" title="drone_cortexm::thr::ThrsInitToken trait">ThrsInitToken</a></td><td class="docblock-short"><p>Threads initialization token.</p>
+</td></tr></table><h2 id="functions" class="section-header"><a href="#functions">Functions</a></h2>
+<table><tr class="module-item"><td><a class="fn" href="fn.init.html" title="drone_cortexm::thr::init fn">init</a></td><td class="docblock-short"><p>Initializes the thread system and returns a set of thread tokens.</p>
+</td></tr><tr class="module-item"><td><a class="fn" href="fn.init_extended.html" title="drone_cortexm::thr::init_extended fn">init_extended</a></td><td class="docblock-short"><p>Initializes the thread system and returns a set of thread tokens.</p>
+</td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="drone_cortexm" data-search-js="../../search-index.js"></div>
+    <script src="../../main.js"></script></body></html>

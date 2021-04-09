@@ -1,0 +1,1 @@
+initSidebarItems({"derive":[["Bitfield","Defines a new [`Bitfield`]."]],"trait":[["Bitfield","An integer value treated as a sequence of bits, which can be toggled individually."],["Bits","An integer interface for `Bitfield`."]]});
